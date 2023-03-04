@@ -38,16 +38,12 @@ class LocationService {
       Response response = await get(Uri.parse(
           'https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=$lat&longitude=$lon&localityLanguage=id'));
       Map map = jsonDecode(response.body);
-      List result = [map['city'], map['locality'], lat, lon];
-      return result;
+      CoreData.kota = map['city'];
+      CoreData.wilayah = map['locality'];
+      CoreData.lat = lat;
+      CoreData.lon = lon;
     } catch (e) {
-      List result = [
-        CoreData.kota,
-        CoreData.wilayah,
-        CoreData.lat,
-        CoreData.lon
-      ];
-      return result;
+      return;
     }
   }
 }

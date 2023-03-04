@@ -1,6 +1,9 @@
 import 'package:amala/constants/my_strings.dart';
+import 'package:amala/constants/my_theme_data.dart';
+import 'package:amala/home/home.dart';
 import 'package:amala/pages/welcomePage/widget/page_body.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -46,12 +49,14 @@ class _WelcomePageState extends State<WelcomePage> {
               style: TextButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0.0)),
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue.shade700,
+                  foregroundColor: MyThemeData.accentColor,
+                  backgroundColor: MyThemeData.primaryColor,
                   minimumSize: const Size.fromHeight(80)),
-              onPressed: () {},
+              onPressed: () {
+                Get.off(() => const Home());
+              },
               child: const Text(
-                'Mulai',
+                MyStrings.mulai,
                 style: TextStyle(fontSize: 24.0),
               ))
           : Container(
@@ -70,10 +75,10 @@ class _WelcomePageState extends State<WelcomePage> {
                       child: SmoothPageIndicator(
                     controller: pageController,
                     count: 3,
-                    effect: WormEffect(
+                    effect: const WormEffect(
                         spacing: 16,
-                        dotColor: Colors.black38,
-                        activeDotColor: Colors.amber.shade700),
+                        dotColor: MyThemeData.primaryColor,
+                        activeDotColor: MyThemeData.alternativeColor),
                     onDotClicked: (index) => pageController.animateToPage(index,
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeIn),

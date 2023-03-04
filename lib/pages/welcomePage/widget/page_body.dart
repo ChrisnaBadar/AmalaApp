@@ -1,3 +1,4 @@
+import 'package:amala/constants/my_theme_data.dart';
 import 'package:flutter/material.dart';
 
 class PageBody extends StatelessWidget {
@@ -24,7 +25,7 @@ class PageBody extends StatelessWidget {
           style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 35.0,
-              color: Colors.blueGrey)),
+              color: MyThemeData.secondaryTextColor)),
       const SizedBox(
         height: 16.0,
       ),
@@ -32,10 +33,10 @@ class PageBody extends StatelessWidget {
       //Description
       Text(subtitle!,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 15.0,
-              color: Colors.blueGrey[900])),
+              color: MyThemeData.primaryTextColor)),
       const SizedBox(
         height: 16.0,
       ),

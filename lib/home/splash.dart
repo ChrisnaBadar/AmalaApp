@@ -1,3 +1,5 @@
+import 'package:amala/constants/my_text_styles.dart';
+import 'package:amala/constants/my_theme_data.dart';
 import 'package:amala/controllers/splash_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,9 +15,16 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
   final splashController = Get.put(SplashController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    splashController.toWelcomePage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    splashController.toWelcomePage();
     return Scaffold(
       body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -24,34 +33,27 @@ class _SplashState extends State<Splash> {
             SizedBox(
               width: MediaQuery.of(context).size.width,
             ),
-            const Text(MyStrings.appName,
-                style: TextStyle(
-                    fontSize: 50.0,
-                    color: Colors.amber,
-                    fontWeight: FontWeight.bold)),
+            Text(MyStrings.appName, style: MyTextStyles.logo()),
             Column(
-              children: const [
-                SpinKitDancingSquare(
-                  color: Colors.amber,
+              children: [
+                const SpinKitDancingSquare(
+                  color: MyThemeData.accentColor,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 6.0,
                 ),
                 Text(
                   MyStrings.checkingVersion,
-                  style: TextStyle(
-                      fontSize: 12.0,
-                      color: Color.fromARGB(255, 122, 122, 122)),
+                  style: MyTextStyles.smallText(),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 6.0,
                 ),
                 Text(
                   'V. ${MyStrings.appVersion}',
-                  style: TextStyle(
-                      fontSize: 12.0, color: Color.fromARGB(255, 7, 50, 160)),
+                  style: MyTextStyles.smallText(),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 6.0,
                 ),
               ],
