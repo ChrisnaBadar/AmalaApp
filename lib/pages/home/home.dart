@@ -1,10 +1,10 @@
 import 'package:amala/constants/core_data.dart';
 import 'package:amala/controllers/home_controller.dart';
-import 'package:amala/home/widgets/amala_list.dart';
-import 'package:amala/home/widgets/daily_dates.dart';
-import 'package:amala/home/widgets/date_location_header.dart';
-import 'package:amala/home/widgets/shalat_schedule.dart';
-import 'package:amala/home/widgets/user_bar.dart';
+import 'package:amala/pages/home/widgets/amala_list.dart';
+import 'package:amala/pages/home/widgets/daily_dates.dart';
+import 'package:amala/pages/home/widgets/date_location_header.dart';
+import 'package:amala/pages/home/widgets/shalat_schedule.dart';
+import 'package:amala/pages/home/widgets/user_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

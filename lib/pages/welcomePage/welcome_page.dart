@@ -1,6 +1,6 @@
 import 'package:amala/constants/my_strings.dart';
 import 'package:amala/constants/my_theme_data.dart';
-import 'package:amala/home/home.dart';
+import 'package:amala/pages/home/home.dart';
 import 'package:amala/pages/welcomePage/widget/page_body.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

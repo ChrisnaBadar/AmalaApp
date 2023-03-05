@@ -1,8 +1,10 @@
 import 'package:amala/constants/core_data.dart';
 import 'package:amala/constants/my_strings.dart';
 import 'package:amala/constants/my_theme_data.dart';
+import 'package:amala/pages/yaumi_setting/yaumi_setting.dart';
 import 'package:flutter/material.dart';
-import 'package:amala/home/widgets/amala_widgets/amala_category_tile.dart';
+import 'package:amala/pages/home/widgets/amala_widgets/amala_category_tile.dart';
+import 'package:get/get.dart';
 
 class AmalaList extends StatefulWidget {
   const AmalaList({super.key});
@@ -41,25 +43,23 @@ class _AmalaListState extends State<AmalaList> {
             children: [
               IconButton(
                   onPressed: () {},
-                  icon: Image.asset(
-                    MyStrings.docIconColor,
-                    scale: 2,
+                  icon: const Icon(
+                    Icons.list,
+                    color: MyThemeData.primaryColor,
                   )),
               Container(
-                width: 100.0,
+                width: 120.0,
                 height: 2.0,
                 color: MyThemeData.primaryColor,
               ),
               IconButton(
-                  onPressed: () {},
-                  icon: Image.asset(MyStrings.settingIconColor, scale: 2)),
+                  onPressed: () => Get.to(() => const YaumiSetting()),
+                  icon: const Icon(
+                    Icons.settings,
+                    color: MyThemeData.primaryColor,
+                  )),
             ],
           ),
-          ListView.builder(
-              itemCount: 10,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => amalaCategoryTile()),
         ],
       ),
     );

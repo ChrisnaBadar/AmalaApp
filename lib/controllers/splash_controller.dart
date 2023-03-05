@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:amala/home/home.dart';
+import 'package:amala/pages/home/home.dart';
 import 'package:amala/pages/welcomePage/welcome_page.dart';
 import 'package:get/get.dart';
 import 'package:amala/services/location_service.dart';
