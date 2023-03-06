@@ -15,6 +15,8 @@ class MyStrings {
   static const String readingQuran = 'assets/reading-quran.png';
   static const String startPlan = 'assets/start-plan.png';
   static const String content = 'assets/content.png';
+  static const String muslimPray = 'assets/muslim-pray.png';
+  static const String personSit = 'assets/person_sit.png';
 
   //iconsString
   static const String calenderIconColor = 'assets/icons/calendar.png';

@@ -1,29 +1,60 @@
 import 'dart:async';
-import 'package:amala/pages/home/home.dart';
-import 'package:amala/pages/welcomePage/welcome_page.dart';
+import 'dart:io';
+import 'package:amala/constants/core_data.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:amala/services/location_service.dart';
 
+import '../pages/home/homepage.dart';
+import '../pages/welcomePage/welcome_page.dart';
+import '../services/location_service.dart';
+
+//metoda masuk
 class SplashController extends GetxController {
-  void toHome() async {
+  var appTitle = CoreData.appName;
+  var appVersion = CoreData.appVersion;
+  bool goodInternet = false;
+  final User? _user = FirebaseAuth.instance.currentUser;
+
+  //to Homepage
+  void toHompageScreen() async {
     try {
-      await LocationService().getLocation();
-      Get.off(() => const Home());
+      List myLocation = await LocationService()
+          .getLocation()
+          .then((value) => value)
+          .timeout(Duration(seconds: 10));
+      CoreData.kota = myLocation[0];
+      CoreData.wilayah = myLocation[1];
+      CoreData.lat = myLocation[2];
+      CoreData.lon = myLocation[3];
+
+      Get.off(() => Homepage());
     } on TimeoutException catch (e) {
-      Get.off(() => const Home());
+      print('Yang Pertama: $e');
+      Get.off(() => Homepage());
     } catch (e) {
-      Get.off(() => const Home());
+      print('Yang kedua: $e');
+      Get.off(() => Homepage());
     }
   }
 
-  void toWelcomePage() async {
+  void toWelcomeScreen() async {
     try {
-      await LocationService().getLocation();
-      Get.off(() => const WelcomePage());
+      List myLocation = await LocationService()
+          .getLocation()
+          .then((value) => value)
+          .timeout(Duration(seconds: 10));
+      CoreData.kota = myLocation[0];
+      CoreData.wilayah = myLocation[1];
+      CoreData.lat = myLocation[2];
+      CoreData.lon = myLocation[3];
+
+      Get.off(() => WelcomePage());
     } on TimeoutException catch (e) {
-      Get.off(() => const WelcomePage());
+      print('Yang Pertama: $e');
+      Get.off(() => WelcomePage());
     } catch (e) {
-      Get.off(() => const WelcomePage());
+      print('Yang kedua: $e');
+      Get.off(() => WelcomePage());
     }
   }
 }

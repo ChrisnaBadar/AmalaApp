@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:adhan/adhan.dart';
-import 'package:amala/controllers/home_controller.dart';
+import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
-class ShalatSchedule extends StatelessWidget {
+import '../../../controllers/home_controller.dart';
+
+class AdhanTimes extends StatelessWidget {
   final Coordinates? coordinate;
   final AnimationController? animationController;
   final HomeController? homeController;
-  const ShalatSchedule(
-      {super.key,
-      this.coordinate,
-      this.animationController,
-      this.homeController});
+  AdhanTimes({this.coordinate, this.animationController, this.homeController});
 
   @override
   Widget build(BuildContext context) {
@@ -19,25 +17,20 @@ class ShalatSchedule extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: [
-          const SizedBox(
+          SizedBox(
             height: 16.0,
           ),
-          Obx(() => Text(
-                homeController!.shalatTitle.value,
-                style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Colors.blueGrey),
-              )),
-          const SizedBox(
+          Obx(() => Text(homeController!.shalatTitle.value,
+              style: TextStyle(
+                  fontStyle: FontStyle.italic, color: Colors.blueGrey))),
+          SizedBox(
             height: 4.0,
           ),
           Obx(
-            () => Text(
-              homeController!.shalatTimes.value,
-              style:
-                  const TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
-            ),
+            () => Text(homeController!.shalatTimes.value,
+                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold)),
           ),
-          const SizedBox(
+          SizedBox(
             height: 4.0,
           ),
           Obx(
@@ -47,7 +40,7 @@ class ShalatSchedule extends StatelessWidget {
                       .animate(animationController!),
             ),
           ),
-          const SizedBox(
+          SizedBox(
             height: 16.0,
           ),
         ],

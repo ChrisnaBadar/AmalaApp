@@ -3,13 +3,24 @@ import 'package:intl/intl.dart';
 import 'package:adhan/adhan.dart';
 
 class HomeController extends GetxController {
+  var checkListResult = [].obs;
+  var iconCheck = [].obs;
+  var activatedCategory = [].obs;
+  RxBool saveLoading = false.obs;
+
+  var selectedDate =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+          .obs;
+
+  var dailyProgressSelectedValue = {
+    'day': DateFormat('EEEE', "id_ID").format(DateTime.now()),
+    'date': DateFormat('dd').format(DateTime.now())
+  }.obs;
+  Rx<bool> isSaved = false.obs;
+
   var tanggal =
       DateFormat('EEEE, dd MMM yyyy', "id_ID").format(DateTime.now()).obs;
   var lokasi = 'Gegerkalong, Bandung'.obs;
-  //date control
-  static Rx<DateTime> selectedDate =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
-          .obs;
   //Amala kategori control
   static Rx<bool> fardhu = false.obs;
   static Rx<bool> tahajudCat = false.obs;

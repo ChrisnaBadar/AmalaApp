@@ -4,6 +4,7 @@ import 'package:adhan/adhan.dart';
 class CoreData {
   CoreData._();
 
+  static String appName = 'Amala';
   static String appVersion = 'v. 1.0.0';
   static String kota = '-';
   static String wilayah = '-';
@@ -16,4 +17,5 @@ class CoreData {
   static String tahunIni = DateFormat('yyyy', 'id_ID').format(DateTime.now());
   static String namaUser = '-';
   static const double cornerRadius = 10.0;
+  static bool isTestMode = true;
 }

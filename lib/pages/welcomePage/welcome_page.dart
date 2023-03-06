@@ -1,13 +1,22 @@
 import 'package:amala/constants/my_strings.dart';
 import 'package:amala/constants/my_theme_data.dart';
-import 'package:amala/pages/home/home.dart';
+import 'package:amala/models/hive/hive_user_model.dart';
+import 'package:amala/pages/home/homepage.dart';
+
 import 'package:amala/pages/welcomePage/widget/page_body.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../controllers/yaumi_setting_controller.dart';
+import '../../models/hive/boxes.dart';
+
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({super.key});
+  final String? kota;
+  final String? wilayah;
+  final double? lat;
+  final double? lon;
+  WelcomePage({this.kota, this.wilayah, this.lat, this.lon});
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();
@@ -15,6 +24,7 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   final pageController = PageController();
+  final settingsController = Get.put(YaumiSettingController());
   bool isLastPage = false;
   @override
   Widget build(BuildContext context) {
@@ -53,7 +63,10 @@ class _WelcomePageState extends State<WelcomePage> {
                   backgroundColor: MyThemeData.primaryColor,
                   minimumSize: const Size.fromHeight(80)),
               onPressed: () {
-                Get.off(() => const Home());
+                setFirstUserData();
+                settingsController.tilawah.value = true;
+                settingsController.updateData();
+                Get.off(() => Homepage());
               },
               child: const Text(
                 MyStrings.mulai,
@@ -95,5 +108,21 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ),
     );
+  }
+
+  void setFirstUserData() {
+    final userHiveModel = HiveUserModel()
+      ..uid = '-'
+      ..uidGroup = '-'
+      ..uidLeader = '-'
+      ..nama = '-'
+      ..email = '-'
+      ..password = '-'
+      ..group = '-'
+      ..lembaga = '-'
+      ..ponsel = '-'
+      ..amanah = '-';
+    final box = Boxes.getUserModel();
+    box.put('user', userHiveModel);
   }
 }
