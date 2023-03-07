@@ -1,24 +1,22 @@
 import 'package:amala/controllers/home_controller.dart';
-import 'package:amala/pages/home_habitChecklistDetails/widgets/checklistDetailsWidget.dart';
-import 'package:amala/pages/home_habitChecklistDetails/widgets/habitChecklistDetailsHeader.dart';
+import 'package:amala/pages/home_habitChecklistDetails/widgets/checklist_detail_widget.dart';
+import 'package:amala/pages/home_habitChecklistDetails/widgets/habit_checklist_detail_header.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../models/hive/boxes.dart';
 import '../../models/hive/hive_yaumi_active_model.dart';
 import '../../models/hive/hive_yaumi_model.dart';
-import 'controllers/habitChecklistController.dart';
-import 'data/habitChecklistDetailsData.dart';
+import 'controllers/habit_checklist_controller.dart';
 
 class HabitCheckslistDetails extends StatefulWidget {
-  String? category;
-  DateTime? tanggal;
-  HomeController? homeController;
-  HabitChecklistController? habitChecklistController;
-  HabitCheckslistDetails(
-      {this.category,
+  final String? category;
+  final DateTime? tanggal;
+  final HomeController? homeController;
+  final HabitChecklistController? habitChecklistController;
+  const HabitCheckslistDetails(
+      {super.key,
+      this.category,
       this.tanggal,
       this.homeController,
       this.habitChecklistController});
@@ -28,7 +26,6 @@ class HabitCheckslistDetails extends StatefulWidget {
 }
 
 class _HabitCheckslistDetailsState extends State<HabitCheckslistDetails> {
-  final _data = HabitChecklistDetailsData();
   @override
   Widget build(BuildContext context) {
     final habitChecklistController = widget.habitChecklistController;
@@ -42,7 +39,7 @@ class _HabitCheckslistDetailsState extends State<HabitCheckslistDetails> {
                 context: context,
                 habitChecklistController: habitChecklistController),
 
-            SizedBox(
+            const SizedBox(
               height: 16.0,
             ),
             //kategori widgets
@@ -83,7 +80,7 @@ class _HabitCheckslistDetailsState extends State<HabitCheckslistDetails> {
                 }
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16.0,
             )
           ],

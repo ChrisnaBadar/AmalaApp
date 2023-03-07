@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../auth/auth.dart';
-import '../../user_page/userPage.dart';
+import '../../user_page/user_page.dart';
 
 final today = DateTime.now();
 final hari = DateFormat('EEEE', "id_ID").format(today);
-final _tanggal = DateFormat('dd MMMM yyyy', "id_ID").format(today);
+final formatTanggal = DateFormat('dd MMMM yyyy', "id_ID").format(today);
 
 Widget profilesBar(BuildContext context, User? user, String kota,
     String wilayah, HiveUserModel userHiveModel) {
@@ -38,17 +38,18 @@ Widget profilesBar(BuildContext context, User? user, String kota,
                       MyStrings.calenderIconColor,
                       scale: 3,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 6.0,
                     ),
                     Text.rich(TextSpan(children: [
                       TextSpan(
                           text: '$hari, ',
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.blueGrey, fontSize: 12.5)),
                       TextSpan(
-                          text: '$_tanggal',
-                          style: TextStyle(color: Colors.blue, fontSize: 12.5))
+                          text: formatTanggal,
+                          style: const TextStyle(
+                              color: Colors.blue, fontSize: 12.5))
                     ])),
                   ],
                 ),
@@ -58,23 +59,23 @@ Widget profilesBar(BuildContext context, User? user, String kota,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * .35,
                       child: Text.rich(
                         TextSpan(children: [
                           TextSpan(
                               text: '$wilayah, ',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.blue, fontSize: 12.5)),
                           TextSpan(
-                              text: '$kota',
-                              style: TextStyle(
+                              text: kota,
+                              style: const TextStyle(
                                   color: Colors.blueGrey, fontSize: 12.5))
                         ]),
                         textAlign: TextAlign.end,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 6.0,
                     ),
                     Image.asset(
@@ -89,7 +90,7 @@ Widget profilesBar(BuildContext context, User? user, String kota,
         ),
         user != null
             ? Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10.0),
                         bottomRight: Radius.circular(10.0)),
@@ -102,7 +103,8 @@ Widget profilesBar(BuildContext context, User? user, String kota,
                     title: Text('${user.displayName}'),
                     subtitle: Text('${user.email}'),
                     trailing: IconButton(
-                      onPressed: () => Get.to(() => UserPage(), arguments: {
+                      onPressed: () =>
+                          Get.to(() => const UserPage(), arguments: {
                         'uid': user.uid,
                         'nama': user.displayName,
                         'group': group,
@@ -114,27 +116,27 @@ Widget profilesBar(BuildContext context, User? user, String kota,
                         'uidGroup': uidGroup,
                         'uidLeader': uidLeader
                       }),
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.person,
                         color: Colors.blue,
                       ),
                     )),
               )
             : Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10.0),
                         bottomRight: Radius.circular(10.0)),
                     color: Colors.white),
                 child: ListTile(
-                    leading: CircleAvatar(
+                    leading: const CircleAvatar(
                       child: Icon(Icons.person),
                     ),
-                    title: Text('New User'),
-                    subtitle: Text('Silahkan login untuk fitur lainnya'),
+                    title: const Text('New User'),
+                    subtitle: const Text('Silahkan login untuk fitur lainnya'),
                     trailing: IconButton(
-                      onPressed: () => Get.to(() => Auth()),
-                      icon: Icon(
+                      onPressed: () => Get.to(() => const Auth()),
+                      icon: const Icon(
                         Icons.login,
                         color: Colors.blue,
                       ),

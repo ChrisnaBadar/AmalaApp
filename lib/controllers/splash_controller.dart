@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:amala/constants/core_data.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../pages/home/homepage.dart';
@@ -13,7 +11,6 @@ class SplashController extends GetxController {
   var appTitle = CoreData.appName;
   var appVersion = CoreData.appVersion;
   bool goodInternet = false;
-  final User? _user = FirebaseAuth.instance.currentUser;
 
   //to Homepage
   void toHompageScreen() async {
@@ -21,19 +18,17 @@ class SplashController extends GetxController {
       List myLocation = await LocationService()
           .getLocation()
           .then((value) => value)
-          .timeout(Duration(seconds: 10));
+          .timeout(const Duration(seconds: 10));
       CoreData.kota = myLocation[0];
       CoreData.wilayah = myLocation[1];
       CoreData.lat = myLocation[2];
       CoreData.lon = myLocation[3];
 
-      Get.off(() => Homepage());
+      Get.off(() => const Homepage());
     } on TimeoutException catch (e) {
-      print('Yang Pertama: $e');
-      Get.off(() => Homepage());
+      Get.off(() => const Homepage());
     } catch (e) {
-      print('Yang kedua: $e');
-      Get.off(() => Homepage());
+      Get.off(() => const Homepage());
     }
   }
 
@@ -42,7 +37,7 @@ class SplashController extends GetxController {
       List myLocation = await LocationService()
           .getLocation()
           .then((value) => value)
-          .timeout(Duration(seconds: 10));
+          .timeout(const Duration(seconds: 10));
       CoreData.kota = myLocation[0];
       CoreData.wilayah = myLocation[1];
       CoreData.lat = myLocation[2];
@@ -50,10 +45,8 @@ class SplashController extends GetxController {
 
       Get.off(() => WelcomePage());
     } on TimeoutException catch (e) {
-      print('Yang Pertama: $e');
       Get.off(() => WelcomePage());
     } catch (e) {
-      print('Yang kedua: $e');
       Get.off(() => WelcomePage());
     }
   }

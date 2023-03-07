@@ -7,9 +7,12 @@ import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //admob init
+  MobileAds.instance.initialize();
   await Firebase.initializeApp();
   //hive init
   await Hive.initFlutter();

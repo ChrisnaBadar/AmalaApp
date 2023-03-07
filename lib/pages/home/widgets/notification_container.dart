@@ -6,7 +6,7 @@ Widget notificationsContainer({@required BuildContext? context}) {
     child: Container(
       decoration: BoxDecoration(
           color: Colors.blueGrey[800],
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
@@ -15,7 +15,7 @@ Widget notificationsContainer({@required BuildContext? context}) {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+                children: const [
                   //Title
                   Text('Dear Pengguna,',
                       textAlign: TextAlign.center,

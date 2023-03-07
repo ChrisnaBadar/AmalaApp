@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../controllers/splash_controller.dart';
 import '../../models/hive/boxes.dart';
 import '../../models/hive/hive_yaumi_active_model.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen();
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -27,11 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
             final yaumiActiveModel =
                 box.values.toList().cast<HiveYaumiActiveModel>();
             if (yaumiActiveModel.isEmpty) {
-              print('yaumiActiveModel is empty');
               c.toWelcomeScreen();
               return _mainBody();
             } else {
-              print('yaumiActiveModel is not empty');
               c.toHompageScreen();
               return _mainBody();
             }
@@ -48,24 +45,24 @@ class _SplashScreenState extends State<SplashScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             //Title of Apps
-            SizedBox(),
-            Text('${c.appTitle}',
-                style: TextStyle(
+            const SizedBox(),
+            Text(c.appTitle,
+                style: const TextStyle(
                     fontSize: 45.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.blueGrey)),
             Column(
               children: [
-                SpinKitFadingCube(
+                const SpinKitFadingCube(
                   color: Colors.amber,
                   size: 20.0,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Text('App Version v. ${c.appVersion}',
-                    style: TextStyle(color: Colors.blueGrey)),
-                SizedBox(
+                    style: const TextStyle(color: Colors.blueGrey)),
+                const SizedBox(
                   height: 8.0,
                 )
               ],

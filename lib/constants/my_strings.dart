@@ -3,7 +3,12 @@ class MyStrings {
 
   static const String appVersion = '1.0.0';
   static const String appName = 'Amala';
+  static const String allRights = 'all rights reserved';
   static const String checkingVersion = 'Checking Version';
+  static const String salamShort = 'Assalamu\'alaikum, ';
+  static const String loginNote =
+      'Selamat datang di aplikasi Yaumi. Silahkan melakukan login atau registrasi menggunakan akun Google melalui tombol di bawah ini.';
+  static const String google = 'Google';
 
   //universal Strings
   static const String mulai = 'Mulai';
@@ -41,6 +46,8 @@ class MyStrings {
   static const String imigrationIconColor = 'assets/icons/immigration.png';
   static const String settingIconColor = 'assets/icons/setting.png';
   static const String docIconColor = 'assets/icons/doc.png';
+  static const String checkedIconColor = 'assets/icons/checked.png';
+  static const String cancelIconColor = 'assets/icons/cancel.png';
 
   //welcomePage
   static const String page1Title = 'Selamat datang di aplikasi Amala';

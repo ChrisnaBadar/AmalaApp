@@ -10,7 +10,7 @@ Widget progressLevel(
     @required double? expPoint,
     @required double? totalExp,
     @required double? currentExp}) {
-  return Container(
+  return SizedBox(
     width: MediaQuery.of(context!).size.width,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,12 +56,12 @@ bodyDetails(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Level 1',
+        const Text('Level 1',
             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
         height(widgetSpacing),
-        Text('Beginner', style: TextStyle(fontStyle: FontStyle.italic)),
+        const Text('Beginner', style: TextStyle(fontStyle: FontStyle.italic)),
         height(widgetSpacing),
-        Text(
+        const Text(
           'Exp.',
           style: TextStyle(color: Colors.blue),
         ),
@@ -72,11 +72,11 @@ bodyDetails(
           children: [
             Text(
               '${currentExp.roundToDouble()}',
-              style: TextStyle(color: Colors.blue),
+              style: const TextStyle(color: Colors.blue),
             ),
             Text(
               '${totalExp.roundToDouble()}',
-              style: TextStyle(color: Colors.blue),
+              style: const TextStyle(color: Colors.blue),
             ),
           ],
         ),

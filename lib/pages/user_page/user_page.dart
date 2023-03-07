@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../services/admob_service.dart';
-import '../loading/Loading.dart';
+import '../loading/loading.dart';
 import '../splash/splash_screen.dart';
-import 'controller/userPageController.dart';
+import 'controller/user_page_controller.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -49,9 +49,9 @@ class _UserPageState extends State<UserPage> {
                 bottomNavigationBar: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      child: Text(
+                      child: const Text(
                         'LOGOUT',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -64,7 +64,7 @@ class _UserPageState extends State<UserPage> {
                       });
 
                       //await AuthService().signOut();
-                      Get.off(() => SplashScreen());
+                      Get.off(() => const SplashScreen());
                     },
                   ),
                 ),
@@ -83,7 +83,7 @@ class _UserPageState extends State<UserPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 50.0,
                                   ),
                                   CircleAvatar(
@@ -91,22 +91,22 @@ class _UserPageState extends State<UserPage> {
                                     child: CircleAvatar(
                                       radius: 72.5,
                                       backgroundColor: Colors.amber,
-                                      child: _user!.photoURL == null
-                                          ? Icon(Icons.person)
-                                          : null,
                                       backgroundImage: _user!.photoURL == null
                                           ? null
                                           : NetworkImage(_user!.photoURL!),
+                                      child: _user!.photoURL == null
+                                          ? const Icon(Icons.person)
+                                          : null,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 8.0,
                                   ),
                                   Column(
                                     children: [
                                       Text('${_user!.displayName}',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 25.0,
                                               fontWeight: FontWeight.bold)),
                                       TextButton(

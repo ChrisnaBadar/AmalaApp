@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:amala/models/hive/hive_user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +5,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
 import '../../../models/hive/boxes.dart';
-import '../../loading/Loading.dart';
+import '../../loading/loading.dart';
 import '../../splash/splash_screen.dart';
-import 'controller/editProfileController.dart';
+import 'controller/edit_profile_controller.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -21,10 +20,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final editController = Get.put(EditProfileController());
   final _formKey = GlobalKey<FormBuilderState>();
 
-  var updateNama;
-  var updateLembaga;
-  var updateAmanah;
-  var updatePonsel;
+  String? updateNama;
+  String? updateLembaga;
+  String? updateAmanah;
+  String? updatePonsel;
 
   final User? _user = FirebaseAuth.instance.currentUser;
   Map userDetail = {};
@@ -36,7 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         () => GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
           child: editController.loading.value
-              ? Loading()
+              ? const Loading()
               : Scaffold(
                   resizeToAvoidBottomInset: true,
                   body: SingleChildScrollView(
@@ -45,13 +44,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       child: Column(
                         children: [
                           //title
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height * .10,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Container(
+                              child: SizedBox(
                                 width: MediaQuery.of(context).size.width,
-                                child: Text('My Profile',
+                                child: const Text('My Profile',
                                     style: TextStyle(
                                         fontSize: 35.0,
                                         fontWeight: FontWeight.bold,
@@ -63,34 +62,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           //description
 
                           //Image
-                          Container(
+                          SizedBox(
                               height: MediaQuery.of(context).size.height * .30,
                               child: imageProfile()),
 
                           //nama
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height * .45,
                             child: FormBuilder(
                                 key: _formKey,
                                 child: Column(
                                   children: [
                                     Container(
-                                        padding: EdgeInsets.only(left: 8.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
                                         alignment: Alignment.centerLeft,
                                         child: Text('${_user!.displayName}',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20.0,
                                                 color: Colors.blueGrey))),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 16.0,
                                     ),
                                     EditForm(
                                       name: 'edit_lembaga',
                                       title: 'Edit Lembaga',
                                       initialValue: 'lembaga',
-                                      prefixIcon:
-                                          Icon(Icons.account_balance_outlined),
+                                      prefixIcon: const Icon(
+                                          Icons.account_balance_outlined),
                                       onChange: (val) {
                                         updateLembaga = val;
                                       },
@@ -99,7 +99,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       name: 'edit_amanah',
                                       title: 'Edit Amanah',
                                       initialValue: 'amanah',
-                                      prefixIcon: Icon(Icons.cases_outlined),
+                                      prefixIcon:
+                                          const Icon(Icons.cases_outlined),
                                       onChange: (val) {
                                         updateAmanah = val;
                                       },
@@ -129,14 +130,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                                             final box = Boxes.getUserModel();
                                             box.put('user', userHiveModel);
-                                            Get.off(() => SplashScreen());
+                                            Get.off(() => const SplashScreen());
                                           }
                                         },
                                         child: Container(
                                           width:
                                               MediaQuery.of(context).size.width,
                                           alignment: Alignment.center,
-                                          child: Text('SAVE',
+                                          child: const Text('SAVE',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold)),
                                         ))
@@ -161,9 +162,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: CircleAvatar(
             radius: 72.5,
             backgroundColor: Colors.amber,
-            child: _user!.photoURL == null ? Icon(Icons.person) : null,
             backgroundImage:
                 _user!.photoURL == null ? null : NetworkImage(_user!.photoURL!),
+            child: _user!.photoURL == null ? const Icon(Icons.person) : null,
           ),
         )
       ],
@@ -172,7 +173,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 }
 
 class EditForm extends StatelessWidget {
-  EditForm(
+  const EditForm(
       {Key? key,
       this.name,
       this.title,
@@ -199,7 +200,7 @@ class EditForm extends StatelessWidget {
             onChanged: onChange,
             decoration: InputDecoration(
               prefixIcon: prefixIcon,
-              border: OutlineInputBorder(
+              border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               label: Text(title!),
             ),

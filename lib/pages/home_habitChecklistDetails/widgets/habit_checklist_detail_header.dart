@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../controllers/habitChecklistController.dart';
+import '../controllers/habit_checklist_controller.dart';
 
 Widget habitChecklistDetailsHeader(
     {@required BuildContext? context,
@@ -11,7 +11,7 @@ Widget habitChecklistDetailsHeader(
   return Container(
     width: MediaQuery.of(context!).size.width,
     height: MediaQuery.of(context).size.width * 0.55,
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
         color: Colors.blueAccent,
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20.0),
@@ -43,34 +43,34 @@ Widget _detailsDescription({@required String? prosentasePenyelesaian}) {
       children: [
         prosentasePenyelesaian == '0.0%'
             ? Shimmer.fromColors(
+                baseColor: Colors.grey,
+                highlightColor: Colors.white,
                 child: Container(
                   width: 50,
                   height: 10.0,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                     color: Colors.white.withOpacity(.5),
                   ),
                 ),
-                baseColor: Colors.grey,
-                highlightColor: Colors.white,
               )
             : Text('$prosentasePenyelesaian',
                 style: const TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.white)),
-        SizedBox(
+        const SizedBox(
           height: 8.0,
         ),
-        Text('Penyelesaian ibadah hari ini.',
-            style: const TextStyle(
+        const Text('Penyelesaian ibadah hari ini.',
+            style: TextStyle(
                 fontSize: 15.0,
                 fontWeight: FontWeight.normal,
                 color: Colors.white)),
-        SizedBox(
+        const SizedBox(
           height: 8.0,
         ),
-        Text('Lakukan dari yang terkecil, lakukan mulai sekarang',
+        const Text('Lakukan dari yang terkecil, lakukan mulai sekarang',
             style: TextStyle(
                 fontSize: 15.0,
                 fontWeight: FontWeight.normal,
@@ -81,11 +81,9 @@ Widget _detailsDescription({@required String? prosentasePenyelesaian}) {
 }
 
 Widget _imageRepresentation() {
-  return Container(
-    child: Image.asset(
-      MyStrings.readingQuran,
-      scale: 2,
-      opacity: const AlwaysStoppedAnimation(.75),
-    ),
+  return Image.asset(
+    MyStrings.readingQuran,
+    scale: 2,
+    opacity: const AlwaysStoppedAnimation(.75),
   );
 }

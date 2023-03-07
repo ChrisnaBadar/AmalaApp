@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:adhan/adhan.dart';
-import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/home_controller.dart';
@@ -9,7 +8,11 @@ class AdhanTimes extends StatelessWidget {
   final Coordinates? coordinate;
   final AnimationController? animationController;
   final HomeController? homeController;
-  AdhanTimes({this.coordinate, this.animationController, this.homeController});
+  const AdhanTimes(
+      {super.key,
+      this.coordinate,
+      this.animationController,
+      this.homeController});
 
   @override
   Widget build(BuildContext context) {
@@ -17,20 +20,21 @@ class AdhanTimes extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 16.0,
           ),
           Obx(() => Text(homeController!.shalatTitle.value,
-              style: TextStyle(
+              style: const TextStyle(
                   fontStyle: FontStyle.italic, color: Colors.blueGrey))),
-          SizedBox(
+          const SizedBox(
             height: 4.0,
           ),
           Obx(
             () => Text(homeController!.shalatTimes.value,
-                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold)),
+                style: const TextStyle(
+                    fontSize: 22.0, fontWeight: FontWeight.bold)),
           ),
-          SizedBox(
+          const SizedBox(
             height: 4.0,
           ),
           Obx(
@@ -40,7 +44,7 @@ class AdhanTimes extends StatelessWidget {
                       .animate(animationController!),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 16.0,
           ),
         ],
@@ -52,7 +56,7 @@ class AdhanTimes extends StatelessWidget {
 class Countdown extends AnimatedWidget {
   Countdown({Key? key, this.animation})
       : super(key: key, listenable: animation!);
-  Animation<int>? animation;
+  final Animation<int>? animation;
 
   @override
   build(BuildContext context) {

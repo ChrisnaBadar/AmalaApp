@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/hive/hive_yaumi_active_model.dart';
-import '../controllers/habitChecklistController.dart';
-import '../data/habitChecklistDetailsData.dart';
+import '../controllers/habit_checklist_controller.dart';
+import '../data/habit_checklist_detail_data.dart';
 
 Map categoryParamData = HabitChecklistDetailsData().checklistParamData;
 
@@ -241,38 +241,38 @@ Widget checklistDetailsWidgets(
           : false;
   return Column(
     children: [
-      SizedBox(
+      const SizedBox(
         height: 8.0,
       ),
       _dateDetails(homeController: homeController),
-      SizedBox(
+      const SizedBox(
         height: 8.0,
       ),
       category == 'isFardhu'
           ? Column(
               children: [
                 Text(fardhuParamData['title']),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
+                const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Center(
                       child: Text(
                           '"Barang siapa pergi ke masjid pada awal dan akhir siang, maka Allah akan menyiapkan baginya tempat dan hidangan di surga setiap kali dia pergi." (HR Bukhari dan Muslim)'),
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Card(
                     child: Column(
                       children: [
                         ListView.builder(
                           itemCount: 5,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return ListTile(
                                 title: Text(
@@ -299,24 +299,24 @@ Widget checklistDetailsWidgets(
           ? Column(
               children: [
                 Text(tahajudParamData['title']),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                           '"Dan pada sebagian malam hari bersembahyang tahajudlah kamu sebagai suatu ibadah tambahan bagimu; mudah-mudahan Tuhan-mu mengangkat kamu ke tempat yang terpuji." Rasulullah juga bersabda: “Sholat yang paling utama setelah sholat wajib adalah qiyamul lail (sholat lail)," (HR. Muslim)'),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Card(
                       child: ListTile(
                           title: Text(tahajudParamData['title']),
@@ -351,24 +351,24 @@ Widget checklistDetailsWidgets(
           ? Column(
               children: [
                 Text(dhuhaParamData['title']),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                           '"Hendaklah masing-masingmu setiap pagi bersedekah untuk setiap ruas tulang badannya. Maka, tiap kali bacaan tasbih adalah sedekah, setiap tahmid adalah sedekah, setiap tahlil adalah sedekah, setiap takbir adalah sedekah, menyuruh kebaikan adalah sedekah, melarang keburukan adalah sedekah dan sebagai ganti dari semua itu, cukuplah mengerjakan dua rakaat shalat dhuha." (HR Ahmad, Muslim, dan Abu Daud)'),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Card(
                       child: ListTile(
                     title: Text(dhuhaParamData['title']),
@@ -404,24 +404,24 @@ Widget checklistDetailsWidgets(
           ? Column(
               children: [
                 Text(dhuhaParamData['title']),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                           '“Barangsiapa sehari semalam mengerjakan shalat 12 raka’at (sunnah rawatib), akan dibangunkan baginya rumah di surga, yaitu: 4 raka’at sebelum Zhuhur, 2 raka’at setelah Zhuhur, 2 raka’at setelah Maghrib, 2 raka’at setelah ‘Isya dan 2 raka’at sebelum Shubuh.” (HR. Tirmidzi)'),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Card(
                       child: ListTile(
                     title: Text(rawatibParamData['title']),
@@ -457,24 +457,24 @@ Widget checklistDetailsWidgets(
           ? Column(
               children: [
                 Text(tilawahParamData['title']),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                           '“Bacalah Al-Qur’an sesungguhnya ia akan menjadi penolong pembacanya di hari kiamat.” (Muslim dari Abu Umamah)'),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Card(
                       child: ListTile(
                     title: Text(tilawahParamData['title']),
@@ -510,24 +510,24 @@ Widget checklistDetailsWidgets(
           ? Column(
               children: [
                 Text(shaumParamData['title']),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                           '“Aku berkata pada Rasul –shallallahu ‘alaihi wa sallam, “Wahai Rasulullah, engkau terlihat berpuasa sampai-sampai dikira tidak ada waktu bagimu untuk tidak puasa. Engkau juga terlihat tidak puasa, sampai-sampai dikira engkau tidak pernah puasa. Kecuali dua hari yang engkau bertemu dengannya dan berpuasa ketika itu.” Nabi shallallahu ‘alaihi wa sallam bertanya, “Apa dua hari tersebut?” Usamah menjawab, “Senin dan Kamis.” Lalu beliau bersabda, “Dua hari tersebut adalah waktu dihadapkannya amalan pada Rabb semesta alam (pada Allah). Aku sangat suka ketika amalanku dihadapkan sedang aku dalam keadaan berpuasa.” (HR. An Nasai)'),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Card(
                       child: ListTile(
                     title: Text(shaumParamData['title']),
@@ -563,24 +563,24 @@ Widget checklistDetailsWidgets(
           ? Column(
               children: [
                 Text(sedekahParamData['title']),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                           '"Dari Abu Hurairah radhiyallahu\'anhu sesungguhnya Nabi Muhammad SAW bersabda: "Tidak ada satu subuh-pun yang dialami hamba-hamba Allah kecuali turun kepada mereka dua malaikat. Salah satu di antara keduanya berdoa: "Ya Allah, berilah ganti bagi orang yang berinfak", sedangkan yang satu lagi berdoa "Ya Allah, berilah kerusakan bagi orang yang menahan (hartanya)." (HR. Bukhari)'),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Card(
                       child: ListTile(
                     title: Text(sedekahParamData['title']),
@@ -616,31 +616,31 @@ Widget checklistDetailsWidgets(
           ? Column(
               children: [
                 Text(dzikirParamData['title']),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                           '"Barangsiapa mengucapkannya (sayyidul istighfar) di siang hari dengan meyakininya lalu dia mati pada hari itu sebelum sore hari, maka dia termasuk penghuni surga. Dan barangsiapa mengucapkannya di malam hari dengan meyakininya lalu dia mati pada malam itu sebelum pagi, maka dia termasuk penghuni surga," (HR Bukhari)'),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Card(
                     child: Column(
                       children: [
                         ListView.builder(
                           itemCount: 2,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return ListTile(
                                 title: Text(
@@ -667,24 +667,24 @@ Widget checklistDetailsWidgets(
           ? Column(
               children: [
                 Text(taklimParamData['title']),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                           '“Tidak berkumpul dalam satu rumah dari rumah-rumsh Allah,mereka membaca kitab Allah,saling mengajarkanya sesama mereka,kecuali diturunkan kepada mereka sakinah,rahmat menyirami mereka,para malaikat mengerumini mereka dan Allah akan menyebut-nyebut mereka di kalangan malaikat yang ada di sisi-Nya”(Hr.Muslim,Abu Daud)'),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Card(
                       child: ListTile(
                     title: Text(taklimParamData['title']),
@@ -720,24 +720,24 @@ Widget checklistDetailsWidgets(
           ? Column(
               children: [
                 Text(istighfarParamData['title']),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                           '“Tidaklah aku berada di pagi hari (antara terbit fajar hingga terbit matahari) kecuali aku beristigfar pada Allah sebanyak 100 kali.” (HR. An Nasa’i)'),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Card(
                       child: ListTile(
                     title: Text(istighfarParamData['title']),
@@ -773,24 +773,24 @@ Widget checklistDetailsWidgets(
           ? Column(
               children: [
                 Text(shalawatParamData['title']),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                           '“Barangsiapa bersholawat kepadaku satu kali, niscaya Allah bersholawat kepadanya sepuluh kali” (HR. Muslim)'),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Card(
                       child: ListTile(
                     title: Text(shalawatParamData['title']),

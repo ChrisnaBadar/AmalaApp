@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import '../../../controllers/home_controller.dart';
 import '../../../models/hive/hive_yaumi_active_model.dart';
 import '../../../models/hive/hive_yaumi_model.dart';
-import '../../home_habitChecklistDetails/controllers/habitChecklistController.dart';
-import '../data/habitChecklistData.dart';
-import 'habitChecklistTile.dart';
+import '../../home_habitChecklistDetails/controllers/habit_checklist_controller.dart';
+import '../data/habit_checklist_data.dart';
+import 'habit_checklist_tile.dart';
 
 final checklistData = HabitCheckListData().listTileDataParameter();
 
@@ -22,7 +22,7 @@ Widget habitChecklist(
     @required List<HiveYaumiActiveModel>? yaumiActiveModel,
     @required List<HiveYaumiModel>? hiveYaumiModel}) {
   return Container(
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
         color: Colors.white),
@@ -70,11 +70,8 @@ progressBarTarget(spaceGap, progressValue) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             progress == 0.0
-                ? Container(
-                    child:
-                        Text('Login lalu Tap Save untuk merekam pencapaian.'),
-                  )
-                : Text('Progress pencapaian target habit hari ini:'),
+                ? const Text('Login lalu Tap Save untuk merekam pencapaian.')
+                : const Text('Progress pencapaian target habit hari ini:'),
             progress == 0.0
                 ? Container(
                     height: 15.0,
@@ -99,11 +96,11 @@ habitTrackerSettings(context, toYaumiSettings, toYaumiLog) {
       children: [
         TextButton.icon(
           onPressed: toYaumiLog,
-          icon: Icon(
+          icon: const Icon(
             Icons.list,
             color: Colors.blue,
           ),
-          label: Text('Log Yaumi'),
+          label: const Text('Log Yaumi'),
         ),
         Container(
           width: MediaQuery.of(context).size.width * 0.20,
@@ -112,11 +109,11 @@ habitTrackerSettings(context, toYaumiSettings, toYaumiLog) {
         ),
         TextButton.icon(
           onPressed: toYaumiSettings,
-          icon: Icon(
+          icon: const Icon(
             Icons.settings,
             color: Colors.blue,
           ),
-          label: Text('Settings'),
+          label: const Text('Settings'),
         )
       ],
     ),
@@ -138,7 +135,7 @@ listTileHabitTracker(
         width: MediaQuery.of(context).size.width,
         child: ListView.builder(
           itemCount: checklistData.length,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (context, index) {
             return habitChecklistTile(

@@ -1,10 +1,9 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../controllers/home_controller.dart';
 import '../../../models/hive/hive_yaumi_model.dart';
-import '../../home_habitChecklistDetails/controllers/habitChecklistController.dart';
+import '../../home_habitChecklistDetails/controllers/habit_checklist_controller.dart';
 
 Widget dailyProgressBar(
     {@required BuildContext? context,
@@ -13,9 +12,9 @@ Widget dailyProgressBar(
     @required List<HiveYaumiModel>? hiveYaumiModel}) {
   return hiveYaumiModel!.isEmpty
       ? DatePicker(
-          DateTime.now().subtract(Duration(days: 5)),
+          DateTime.now().subtract(const Duration(days: 5)),
           initialSelectedDate: DateTime.now(),
-          selectionColor: Color.fromARGB(255, 14, 76, 170),
+          selectionColor: const Color.fromARGB(255, 14, 76, 170),
           selectedTextColor: Colors.white,
           onDateChange: (date) {
             habitController!.shownPoint.value = 0.0;
@@ -27,9 +26,9 @@ Widget dailyProgressBar(
               2, (index) => DateTime.now().add(Duration(days: index + 1))),
         )
       : DatePicker(
-          DateTime.now().subtract(Duration(days: 5)),
+          DateTime.now().subtract(const Duration(days: 5)),
           initialSelectedDate: DateTime.now(),
-          selectionColor: Color.fromARGB(255, 13, 74, 164),
+          selectionColor: const Color.fromARGB(255, 13, 74, 164),
           selectedTextColor: Colors.white,
           onDateChange: (date) {
             habitController!.shownPoint.value = 0.0;
@@ -37,7 +36,7 @@ Widget dailyProgressBar(
             var hiveYaumiModelSingleDate = hiveYaumiModel
                 .where((element) => element.tanggal == date)
                 .toList();
-            var _result = hiveYaumiModelSingleDate
+            var savedListResult = hiveYaumiModelSingleDate
                 .map(
                   (e) => e.isSaved,
                 )
@@ -48,7 +47,7 @@ Widget dailyProgressBar(
                   List.generate(11, (index) => false);
               return;
             } else {
-              homeController.isSaved.value = _result.first!;
+              homeController.isSaved.value = savedListResult.first!;
               homeController.checkListResult.value = hiveYaumiModelSingleDate;
               habitController.shubuh.value =
                   hiveYaumiModelSingleDate.first.shubuh!;

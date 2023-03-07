@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../../../controllers/home_controller.dart';
 import '../../../models/hive/hive_yaumi_active_model.dart';
 import '../../../models/hive/hive_yaumi_model.dart';
-import '../../home_habitChecklistDetails/controllers/habitChecklistController.dart';
-import '../../home_habitChecklistDetails/habitChecklistDetails.dart';
-import '../data/habitChecklistData.dart';
+import '../../home_habitChecklistDetails/controllers/habit_checklist_controller.dart';
+import '../../home_habitChecklistDetails/habit_checklist_detail.dart';
+import '../data/habit_checklist_data.dart';
 
 final checklistData = HabitCheckListData();
 
@@ -45,18 +44,19 @@ Widget habitChecklistTile(
                 ));
           },
           leading: Obx(() => homeController.iconCheck[index]
-              ? Icon(
+              ? const Icon(
                   Icons.check_box,
                   color: Colors.green,
                 )
-              : Icon(Icons.check_box_outline_blank)),
+              : const Icon(Icons.check_box_outline_blank)),
           title: Text(
               HabitCheckListData().listTileDataParameter()[index]['title'],
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              style:
+                  const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
           subtitle: Text(
               HabitCheckListData().listTileDataParameter()[index]
                   ['description'],
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.normal,
                   color: Colors.blueGrey)),

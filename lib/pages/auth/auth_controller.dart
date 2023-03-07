@@ -38,6 +38,6 @@ class AuthController {
   }
 
   InputDecoration authInputDecoration() {
-    return InputDecoration();
+    return const InputDecoration();
   }
 }

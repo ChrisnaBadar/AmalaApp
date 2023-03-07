@@ -23,72 +23,82 @@ class HabitChecklistController extends GetxController {
   RxDouble point = 0.0.obs;
   RxDouble shownPoint = 0.0.obs;
 
-  void calculateTodayPoint(bool _fardhu, _tahajud, _dhuha, _rawatib, _tilawah,
-      _shaum, _sedekah, _dzikir, _taklim, _istighfar, _shalawat, seninKamis) {
+  void calculateTodayPoint(
+      bool fardhuBool,
+      tahajudBool,
+      dhuhaBool,
+      rawatibBool,
+      tilawahBool,
+      shaumBool,
+      sedekahBool,
+      dzikirBoold,
+      taklimBoold,
+      istighfarBool,
+      shalawatBool,
+      seninKamis) {
     var activatedCategory = [
-      _fardhu,
-      _fardhu,
-      _fardhu,
-      _fardhu,
-      _fardhu,
-      _tahajud,
-      _dhuha,
-      _rawatib,
-      _tilawah,
-      _shaum,
-      _sedekah,
-      _dzikir,
-      _dzikir,
-      _taklim,
-      _istighfar,
-      _shalawat
+      fardhuBool,
+      fardhuBool,
+      fardhuBool,
+      fardhuBool,
+      fardhuBool,
+      tahajudBool,
+      dhuhaBool,
+      rawatibBool,
+      tilawahBool,
+      shaumBool,
+      sedekahBool,
+      dzikirBoold,
+      dzikirBoold,
+      taklimBoold,
+      istighfarBool,
+      shalawatBool
     ].where((e) => e == true).length;
-    point.value = ((((_fardhu ? (shubuh.value ? 1.0 : 0.0) : 0) +
-                    (_fardhu ? (dhuhur.value ? 1.0 : 0.0) : 0) +
-                    (_fardhu ? (ashar.value ? 1.0 : 0.0) : 0) +
-                    (_fardhu ? (maghrib.value ? 1.0 : 0.0) : 0) +
-                    (_fardhu ? (isya.value ? 1.0 : 0.0) : 0) +
-                    (_tahajud ? (tahajud.value ? 1.0 : 0.0) : 0) +
-                    (_dhuha ? (dhuha.value ? 1.0 : 0.0) : 0) +
-                    (_rawatib ? (rawatib.value ? 1.0 : 0.0) : 0) +
-                    (_tilawah ? (tilawah.value ? 1.0 : 0.0) : 0) +
-                    (_shaum
+    point.value = ((((fardhuBool ? (shubuh.value ? 1.0 : 0.0) : 0) +
+                    (fardhuBool ? (dhuhur.value ? 1.0 : 0.0) : 0) +
+                    (fardhuBool ? (ashar.value ? 1.0 : 0.0) : 0) +
+                    (fardhuBool ? (maghrib.value ? 1.0 : 0.0) : 0) +
+                    (fardhuBool ? (isya.value ? 1.0 : 0.0) : 0) +
+                    (tahajudBool ? (tahajud.value ? 1.0 : 0.0) : 0) +
+                    (dhuhaBool ? (dhuha.value ? 1.0 : 0.0) : 0) +
+                    (rawatibBool ? (rawatib.value ? 1.0 : 0.0) : 0) +
+                    (tilawahBool ? (tilawah.value ? 1.0 : 0.0) : 0) +
+                    (shaumBool
                         ? (seninKamis ? (shaum.value ? 1.0 : 0.0) : 1.0)
                         : 0) +
-                    (_sedekah ? (sedekah.value ? 1.0 : 0.0) : 0) +
-                    (_dzikir ? (dzikirPagi.value ? 1.0 : 0.0) : 0) +
-                    (_dzikir ? (dzikirPetang.value ? 1.0 : 0.0) : 0) +
-                    (_taklim ? (taklim.value ? 1.0 : 0.0) : 0) +
-                    (_istighfar ? (istighfar.value ? 1.0 : 0.0) : 0) +
-                    (_shalawat ? (shalawat.value ? 1.0 : 0.0) : 0)) /
+                    (sedekahBool ? (sedekah.value ? 1.0 : 0.0) : 0) +
+                    (dzikirBoold ? (dzikirPagi.value ? 1.0 : 0.0) : 0) +
+                    (dzikirBoold ? (dzikirPetang.value ? 1.0 : 0.0) : 0) +
+                    (taklimBoold ? (taklim.value ? 1.0 : 0.0) : 0) +
+                    (istighfarBool ? (istighfar.value ? 1.0 : 0.0) : 0) +
+                    (shalawatBool ? (shalawat.value ? 1.0 : 0.0) : 0)) /
                 activatedCategory) *
             100)
         .roundToDouble();
-    print('point.value: $point.value');
     shownPoint.value = point.value;
   }
 
   void setHiveData(List<HiveYaumiModel> hiveYaumiModel, DateTime tanggal) {
-    final _result =
+    final tanggalResult =
         hiveYaumiModel.where((element) => element.tanggal == tanggal);
-    shubuh.value = _result.first.shubuh!;
-    dhuhur.value = _result.first.dhuhur!;
-    ashar.value = _result.first.ashar!;
-    maghrib.value = _result.first.maghrib!;
-    isya.value = _result.first.isya!;
-    tahajud.value = _result.first.tahajud!;
-    dhuha.value = _result.first.dhuha!;
-    rawatib.value = _result.first.rawatib!;
-    tilawah.value = _result.first.tilawah!;
-    shaum.value = _result.first.shaum!;
-    sedekah.value = _result.first.sedekah!;
-    dzikirPagi.value = _result.first.dzikirPagi!;
-    dzikirPetang.value = _result.first.dzikirPetang!;
-    taklim.value = _result.first.taklim!;
-    istighfar.value = _result.first.istighfar!;
-    shalawat.value = _result.first.shalawat!;
-    isSaved.value = _result.first.isSaved!;
-    point.value = _result.first.point!;
+    shubuh.value = tanggalResult.first.shubuh!;
+    dhuhur.value = tanggalResult.first.dhuhur!;
+    ashar.value = tanggalResult.first.ashar!;
+    maghrib.value = tanggalResult.first.maghrib!;
+    isya.value = tanggalResult.first.isya!;
+    tahajud.value = tanggalResult.first.tahajud!;
+    dhuha.value = tanggalResult.first.dhuha!;
+    rawatib.value = tanggalResult.first.rawatib!;
+    tilawah.value = tanggalResult.first.tilawah!;
+    shaum.value = tanggalResult.first.shaum!;
+    sedekah.value = tanggalResult.first.sedekah!;
+    dzikirPagi.value = tanggalResult.first.dzikirPagi!;
+    dzikirPetang.value = tanggalResult.first.dzikirPetang!;
+    taklim.value = tanggalResult.first.taklim!;
+    istighfar.value = tanggalResult.first.istighfar!;
+    shalawat.value = tanggalResult.first.shalawat!;
+    isSaved.value = tanggalResult.first.isSaved!;
+    point.value = tanggalResult.first.point!;
   }
 
   void setFirstData(DateTime tanggal) {

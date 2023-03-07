@@ -5,12 +5,12 @@ import 'package:amala/models/hive/boxes.dart';
 import 'package:amala/models/hive/hive_user_model.dart';
 import 'package:amala/models/hive/hive_yaumi_active_model.dart';
 import 'package:amala/models/hive/hive_yaumi_model.dart';
-import 'package:amala/pages/home/widgets/adhanTimes.dart';
-import 'package:amala/pages/home/widgets/dailyProgressBar.dart';
-import 'package:amala/pages/home/widgets/habitChecklist.dart';
-import 'package:amala/pages/home/widgets/notificationsContainer.dart';
-import 'package:amala/pages/home/widgets/profilesBar.dart';
-import 'package:amala/pages/home_habitChecklistDetails/controllers/habitChecklistController.dart';
+import 'package:amala/pages/home/widgets/adhan_times.dart';
+import 'package:amala/pages/home/widgets/daily_progress_bar.dart';
+import 'package:amala/pages/home/widgets/habit_checklist.dart';
+import 'package:amala/pages/home/widgets/notification_container.dart';
+import 'package:amala/pages/home/widgets/profile_bar.dart';
+import 'package:amala/pages/home_habitChecklistDetails/controllers/habit_checklist_controller.dart';
 import 'package:amala/pages/yaumi_setting/yaumi_setting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +20,8 @@ import 'package:intl/intl.dart';
 import 'package:adhan/adhan.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:amala/constants/core_data.dart';
+
+import '../yaumiLog/yaumi_log_report.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -36,24 +38,22 @@ class _HomepageState extends State<Homepage>
   AnimationController? _animationController;
 
   final User? _user = FirebaseAuth.instance.currentUser;
-  var myCoordinate;
-
-  var uidGroup;
-  var uidLeader;
-  var lembaga;
-  var amanah;
-  var group;
+  Coordinates? myCoordinate;
+  String? uidGroup;
+  String? uidLeader;
+  String? lembaga;
+  String? amanah;
+  String? group;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _homeController.dailyProgressSelectedValue.value = {
       'day': DateFormat('EEEE', "id_ID").format(DateTime.now()),
       'date': DateFormat('dd').format(DateTime.now())
     };
     myCoordinate = Coordinates(CoreData.lat, CoreData.lat);
-    _homeController.calculatePrayerTimes(myCoordinate);
+    _homeController.calculatePrayerTimes(myCoordinate!);
     _homeController.activatedCategory = [].obs;
     _homeController.iconCheck = [].obs;
     _animationController = AnimationController(
@@ -111,45 +111,38 @@ class _HomepageState extends State<Homepage>
                   if (hiveYaumiModelSingleData.isEmpty) {
                     _habitController
                         .setFirstData(_homeController.selectedDate.value);
-                    return Scaffold();
+                    return const Scaffold();
                   } else {
                     final singleDataValue =
                         hiveYaumiModelSingleData.map((e) => e.isSaved).first;
                     _homeController.isSaved.value = singleDataValue!;
                     _homeController.checkListResult.value =
                         hiveYaumiModelSingleData;
-                    var cShubuh =
-                            _homeController.checkListResult.value.first.shubuh,
-                        cDhuhur =
-                            _homeController.checkListResult.value.first.dhuhur,
-                        cAshar =
-                            _homeController.checkListResult.value.first.ashar,
+                    var cShubuh = _homeController.checkListResult.first.shubuh,
+                        cDhuhur = _homeController.checkListResult.first.dhuhur,
+                        cAshar = _homeController.checkListResult.first.ashar,
                         cMaghrib =
-                            _homeController.checkListResult.value.first.maghrib,
-                        cIsya =
-                            _homeController.checkListResult.value.first.isya,
+                            _homeController.checkListResult.first.maghrib,
+                        cIsya = _homeController.checkListResult.first.isya,
                         cTahajud =
-                            _homeController.checkListResult.value.first.tahajud,
-                        cDhuha =
-                            _homeController.checkListResult.value.first.dhuha,
+                            _homeController.checkListResult.first.tahajud,
+                        cDhuha = _homeController.checkListResult.first.dhuha,
                         cRawatib =
-                            _homeController.checkListResult.value.first.rawatib,
+                            _homeController.checkListResult.first.rawatib,
                         cTilawah =
-                            _homeController.checkListResult.value.first.tilawah,
-                        cShaum =
-                            _homeController.checkListResult.value.first.shaum,
+                            _homeController.checkListResult.first.tilawah,
+                        cShaum = _homeController.checkListResult.first.shaum,
                         cSedekah =
-                            _homeController.checkListResult.value.first.sedekah,
-                        cDzikirPagi = _homeController
-                            .checkListResult.value.first.dzikirPagi,
-                        cDzikirPetang = _homeController
-                            .checkListResult.value.first.dzikirPetang,
-                        cTaklim =
-                            _homeController.checkListResult.value.first.taklim,
-                        cIstighfar = _homeController
-                            .checkListResult.value.first.istighfar,
-                        cShalawat = _homeController
-                            .checkListResult.value.first.shalawat;
+                            _homeController.checkListResult.first.sedekah,
+                        cDzikirPagi =
+                            _homeController.checkListResult.first.dzikirPagi,
+                        cDzikirPetang =
+                            _homeController.checkListResult.first.dzikirPetang,
+                        cTaklim = _homeController.checkListResult.first.taklim,
+                        cIstighfar =
+                            _homeController.checkListResult.first.istighfar,
+                        cShalawat =
+                            _homeController.checkListResult.first.shalawat;
                     List iconCheck = [
                       [cShubuh, cDhuhur, cAshar, cMaghrib, cIsya].contains(true)
                           ? true
@@ -199,10 +192,10 @@ class _HomepageState extends State<Homepage>
                                 context: context,
                                 builder: (BuildContext context) =>
                                     Obx(() => _buildDialog(false))),
-                            label: Text('SAVE'),
+                            label: const Text('SAVE'),
                             icon: Image.asset(
                               MyStrings.saveIconColor,
-                              scale: 2,
+                              scale: 3,
                             ),
                           )
                         : FloatingActionButton.extended(
@@ -210,10 +203,10 @@ class _HomepageState extends State<Homepage>
                                 context: context,
                                 builder: (BuildContext context) =>
                                     Obx(() => _buildDialog(true))),
-                            label: Text('UPDATE'),
+                            label: const Text('UPDATE'),
                             icon: Image.asset(
                               MyStrings.updateIconColor,
-                              scale: 2,
+                              scale: 3,
                             ),
                             backgroundColor: Colors.green,
                           )
@@ -238,7 +231,7 @@ class _HomepageState extends State<Homepage>
                           child: Container(
                             alignment: Alignment.center,
                             width: MediaQuery.of(context).size.width,
-                            child: Text('ABSEN'),
+                            child: const Text('ABSEN'),
                           )),
                     )
                   : Container(),
@@ -288,10 +281,9 @@ class _HomepageState extends State<Homepage>
               habitChecklist(
                   context: context,
                   toYaumiSettings: () => Get.to(() => const YaumiSetting()),
-                  toYaumiLog: null,
-                  // () => Get.to(() => YaumiLogReport(
-                  //       hiveYaumiModel: hiveYaumiModel,
-                  //     )),
+                  toYaumiLog: () => Get.to(() => YaumiLogReport(
+                        hiveYaumiModel: hiveYaumiModel,
+                      )),
                   habitChecklistController: _habitController,
                   homeController: _homeController,
                   iconsCheck: iconCheck,
@@ -324,7 +316,6 @@ class _HomepageState extends State<Homepage>
       _habitController.shalawat.value,
       _habitController.point.value
     ];
-    print(saved);
     return Stack(children: [
       ValueListenableBuilder<Box<HiveUserModel>>(
         valueListenable: Boxes.getUserModel().listenable(),
@@ -343,25 +334,25 @@ class _HomepageState extends State<Homepage>
               builder: (context, box, _) {
                 final hiveYaumiModel =
                     box.values.toList().cast<HiveYaumiModel>();
-                final todayYaumi = hiveYaumiModel
-                    .where((element) =>
-                        element.tanggal == _homeController.selectedDate.value)
-                    .first;
+                // final todayYaumi = hiveYaumiModel
+                //     .where((element) =>
+                //         element.tanggal == _homeController.selectedDate.value)
+                //     .first;
                 if (hiveYaumiModel.isEmpty) {
                   return Container();
                 } else {
                   return AlertDialog(
                     title: saved
-                        ? Text('UPDATE DATA YAUMI')
-                        : Text('SAVE DATA YAUMI'),
+                        ? const Text('UPDATE DATA YAUMI')
+                        : const Text('SAVE DATA YAUMI'),
                     content: Text.rich(TextSpan(children: [
                       saved
-                          ? TextSpan(text: 'Update data Yaumi ini? ')
-                          : TextSpan(text: 'Save data Yaumi hari '),
+                          ? const TextSpan(text: 'Update data Yaumi ini? ')
+                          : const TextSpan(text: 'Save data Yaumi hari '),
                       TextSpan(
                           text: '$date ',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      TextSpan(text: 'ke cloud data base?')
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      const TextSpan(text: 'ke cloud data base?')
                     ])),
                     actions: [
                       TextButton(
@@ -371,7 +362,6 @@ class _HomepageState extends State<Homepage>
                       TextButton(
                         onPressed: () async {
                           if (saved) {
-                            print('saved');
                             _homeController.saveLoading.value = true;
                             try {
                               // await DatabaseService(uid: _user.uid)
@@ -385,17 +375,13 @@ class _HomepageState extends State<Homepage>
                                   tanggal: _homeController.selectedDate.value,
                                   yaumi: yaumiList);
                               _homeController.saveLoading.value = false;
-                              print('success');
                               Navigator.pop(context, 'OK');
                             } catch (e) {
-                              print('failed');
                               _homeController.saveLoading.value = false;
                               Navigator.pop(context, 'OK');
                             }
                           } else {
                             _homeController.saveLoading.value = true;
-                            print(
-                                'not saved: ${_homeController.saveLoading.value}');
                             try {
                               // await DatabaseService(uid: _user.uid)
                               //     .setDataYaumi(
@@ -408,10 +394,8 @@ class _HomepageState extends State<Homepage>
                               _habitController.setSavedValue(
                                   tanggal: _homeController.selectedDate.value,
                                   yaumi: yaumiList);
-                              print('tried: ${_user!.uid}');
                               Navigator.pop(context, 'OK');
                             } catch (e) {
-                              print('catched: $e');
                               _homeController.saveLoading.value = false;
                               Navigator.pop(context, 'OK');
                             }
@@ -435,7 +419,7 @@ class _HomepageState extends State<Homepage>
             )
           : Container(),
       _homeController.saveLoading.value
-          ? SpinKitFadingCube(
+          ? const SpinKitFadingCube(
               color: Colors.amber,
             )
           : Container(),
