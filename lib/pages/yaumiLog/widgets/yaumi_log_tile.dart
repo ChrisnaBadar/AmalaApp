@@ -8,13 +8,14 @@ import '../../../models/hive/hive_yaumi_model.dart';
 import '../controller/yaumi_log_controller.dart';
 
 class YaumiLogTile extends StatelessWidget {
-  HiveYaumiModel? hiveYaumiModel;
-  HiveYaumiActiveModel? hiveYaumiActiveModel;
-  YaumiLogController? yaumiLogController;
-  List<HiveYaumiActiveModel>? hiveYaumiActiveModelList;
-  List? tanggalList;
-  YaumiLogTile(
-      {this.hiveYaumiModel,
+  final HiveYaumiModel? hiveYaumiModel;
+  final HiveYaumiActiveModel? hiveYaumiActiveModel;
+  final YaumiLogController? yaumiLogController;
+  final List<HiveYaumiActiveModel>? hiveYaumiActiveModelList;
+  final List? tanggalList;
+  const YaumiLogTile(
+      {super.key,
+      this.hiveYaumiModel,
       this.hiveYaumiActiveModel,
       this.yaumiLogController,
       this.hiveYaumiActiveModelList,
@@ -24,7 +25,7 @@ class YaumiLogTile extends StatelessWidget {
   Widget build(BuildContext context) {
     var tanggal = DateFormat('EEEE, dd MMMM yyyy', "id_ID")
         .format(hiveYaumiModel!.tanggal!);
-    List _activeModel = [
+    List hiveYaumiActiveModelList = [
       hiveYaumiActiveModel!.fardhu,
       hiveYaumiActiveModel!.fardhu,
       hiveYaumiActiveModel!.fardhu,
@@ -42,7 +43,7 @@ class YaumiLogTile extends StatelessWidget {
       hiveYaumiActiveModel!.istighfar,
       hiveYaumiActiveModel!.shalawat,
     ];
-    List _yaumiModel = [
+    List yaumiModelList = [
       hiveYaumiActiveModel!.fardhu!
           ? (hiveYaumiModel!.shubuh! ? 1 : 0) +
               (hiveYaumiModel!.dhuhur! ? 1 : 0) +
@@ -100,13 +101,14 @@ class YaumiLogTile extends StatelessWidget {
               : 0
           : 0
     ];
-    yaumiLogController!.calculateMyTotalPoints(_activeModel, _yaumiModel);
+    yaumiLogController!
+        .calculateMyTotalPoints(hiveYaumiActiveModelList, yaumiModelList);
     return ListTile(
-      leading: Icon(Icons.description),
+      leading: const Icon(Icons.description),
       title: Text(tanggal),
       subtitle:
           Text('${yaumiLogController!.myTotalPoints.value.roundToDouble()} %'),
-      trailing: Icon(Icons.arrow_right),
+      trailing: const Icon(Icons.arrow_right),
       onTap: () => Get.to(() => YaumiLogDetails(
             hiveYaumiModel: hiveYaumiModel,
             hiveYaumiActiveModel: hiveYaumiActiveModel,

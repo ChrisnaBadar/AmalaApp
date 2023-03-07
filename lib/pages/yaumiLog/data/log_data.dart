@@ -173,38 +173,35 @@ class LogData {
       values5,
       values6
     ];
-
-    print('days: $days\nValues: $values');
-
     var myModel = [
       ChartModel(
           id: 0,
           name: DateFormat('EEE', "id_ID").format(days[0]),
-          y: values[0] == null ? 0.0 : values[0]),
+          y: values[0] ?? 0.0),
       ChartModel(
           id: 1,
           name: DateFormat('EEE', "id_ID").format(days[1]),
-          y: values[1] == null ? 0.0 : values[1]),
+          y: values[1] ?? 0.0),
       ChartModel(
           id: 2,
           name: DateFormat('EEE', "id_ID").format(days[2]),
-          y: values[2] == null ? 0.0 : values[2]),
+          y: values[2] ?? 0.0),
       ChartModel(
           id: 3,
           name: DateFormat('EEE', "id_ID").format(days[3]),
-          y: values[3] == null ? 0.0 : values[3]),
+          y: values[3] ?? 0.0),
       ChartModel(
           id: 4,
           name: DateFormat('EEE', "id_ID").format(days[4]),
-          y: values[4] == null ? 0.0 : values[4]),
+          y: values[4] ?? 0.0),
       ChartModel(
           id: 5,
           name: DateFormat('EEE', "id_ID").format(days[5]),
-          y: values[5] == null ? 0.0 : values[5]),
+          y: values[5] ?? 0.0),
       ChartModel(
           id: 6,
           name: DateFormat('EEE', "id_ID").format(days[6]),
-          y: values[6] == null ? 0.0 : values[6])
+          y: values[6] ?? 0.0)
     ];
 
     return myModel;

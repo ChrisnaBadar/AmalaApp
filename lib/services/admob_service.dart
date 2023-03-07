@@ -35,7 +35,7 @@ class AdMobService {
   }
 
   /// Maximum duration allowed between loading and showing the ad.
-  final Duration maxCacheDuration = Duration(hours: 4);
+  final Duration maxCacheDuration = const Duration(hours: 4);
 
   /// Keep track of load time so we don't show an expired ad.
   DateTime? _appOpenLoadTime;
@@ -50,15 +50,13 @@ class AdMobService {
     AppOpenAd.load(
       adUnitId: AdMobService.appOpenAdUnit,
       orientation: AppOpenAd.orientationPortrait,
-      request: AdRequest(),
+      request: const AdRequest(),
       adLoadCallback: AppOpenAdLoadCallback(
         onAdLoaded: (ad) {
-          print('$ad loaded');
           _appOpenLoadTime = DateTime.now();
           _appOpenAd = ad;
         },
         onAdFailedToLoad: (error) {
-          print('AppOpenAd failed to load: $error');
           // Handle the error.
         },
       ),
@@ -72,16 +70,13 @@ class AdMobService {
 
   void showAdIfAvailable() {
     if (!isAdAvailable) {
-      print('Tried to show ad before available.');
       loadAd();
       return;
     }
     if (_isShowingAd) {
-      print('Tried to show ad while already showing an ad.');
       return;
     }
     if (DateTime.now().subtract(maxCacheDuration).isAfter(_appOpenLoadTime!)) {
-      print('Maximum cache duration exceeded. Loading another ad.');
       _appOpenAd!.dispose();
       _appOpenAd = null;
       loadAd();
@@ -91,16 +86,13 @@ class AdMobService {
     _appOpenAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (ad) {
         _isShowingAd = true;
-        print('$ad onAdShowedFullScreenContent');
       },
       onAdFailedToShowFullScreenContent: (ad, error) {
-        print('$ad onAdFailedToShowFullScreenContent: $error');
         _isShowingAd = false;
         ad.dispose();
         _appOpenAd = null;
       },
       onAdDismissedFullScreenContent: (ad) {
-        print('$ad onAdDismissedFullScreenContent');
         _isShowingAd = false;
         ad.dispose();
         _appOpenAd = null;
@@ -111,13 +103,13 @@ class AdMobService {
 
   //BANNER Ad
   static final BannerAdListener bannerListener = BannerAdListener(
-      onAdLoaded: (ad) => print('adLoaded'),
+      onAdLoaded: (ad) => print('adLoaded'), //TODO: user snackbar
       onAdFailedToLoad: (ad, error) {
         ad.dispose();
         print('failed to load: $error');
       },
-      onAdOpened: (ad) => print('ad opened'),
-      onAdClosed: (ad) => print('ad closed'));
+      onAdOpened: (ad) => print('ad opened'), //TODO: user snackbar
+      onAdClosed: (ad) => print('ad closed')); //TODO: user snackbar
 }
 
 class AppLifecycleReactor {

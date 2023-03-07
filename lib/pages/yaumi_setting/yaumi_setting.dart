@@ -145,18 +145,18 @@ class _MYaumiSettingsState extends State<YaumiSetting> {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 8.0,
               ),
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
+              const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text(
                       'Untuk memulai tracking habit ibadah harian silahkan mengaktifkan ibadah apa yang ingin diperbaiki dan dijadikan kebiasaan baik.')),
               ValueListenableBuilder<Box<HiveYaumiActiveModel>>(
@@ -174,7 +174,7 @@ class _MYaumiSettingsState extends State<YaumiSetting> {
                           ListView.builder(
                             itemCount: yaumiSettingParam.length,
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return Card(
                                 child: ListTile(

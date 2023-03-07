@@ -6,12 +6,13 @@ import '../../../models/hive/hive_yaumi_model.dart';
 import '../controller/yaumi_log_controller.dart';
 
 class YaumiLogList extends StatelessWidget {
-  List<HiveYaumiModel>? hiveYaumiModel;
-  List<HiveYaumiActiveModel>? hiveYaumiActiveModel;
-  List? tanggal;
-  YaumiLogController? yaumiLogController;
-  YaumiLogList(
-      {this.hiveYaumiModel,
+  final List<HiveYaumiModel>? hiveYaumiModel;
+  final List<HiveYaumiActiveModel>? hiveYaumiActiveModel;
+  final List? tanggal;
+  final YaumiLogController? yaumiLogController;
+  const YaumiLogList(
+      {super.key,
+      this.hiveYaumiModel,
       this.hiveYaumiActiveModel,
       this.yaumiLogController,
       this.tanggal});
@@ -23,7 +24,7 @@ class YaumiLogList extends StatelessWidget {
     return ListView.builder(
       itemCount: myList.length,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => YaumiLogTile(
         hiveYaumiModel: myList[index],
         hiveYaumiActiveModel: hiveYaumiActiveModel!.first,

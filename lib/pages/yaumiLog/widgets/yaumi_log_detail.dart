@@ -1,17 +1,20 @@
 import 'package:amala/constants/my_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:amala/pages/yaumiLog/data/log_data.dart';
 
 import '../../../models/hive/hive_yaumi_active_model.dart';
 import '../../../models/hive/hive_yaumi_model.dart';
-import '../data/log_data.dart';
 
 class YaumiLogDetails extends StatefulWidget {
   final HiveYaumiModel? hiveYaumiModel;
   final HiveYaumiActiveModel? hiveYaumiActiveModel;
   final List? tanggal;
-  YaumiLogDetails(
-      {this.hiveYaumiModel, this.hiveYaumiActiveModel, this.tanggal});
+  const YaumiLogDetails(
+      {super.key,
+      this.hiveYaumiModel,
+      this.hiveYaumiActiveModel,
+      this.tanggal});
 
   @override
   State<YaumiLogDetails> createState() => _YaumiLogDetailsState();
@@ -22,15 +25,15 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
 
   @override
   Widget build(BuildContext context) {
-    List _data = [
-      widget.hiveYaumiModel!.tanggal.toString(),
-      widget.hiveYaumiModel!.shubuh.toString(),
-      widget.hiveYaumiModel!.tahajud.toString(),
-    ];
+    // List dataTanggalShubuhTahajud = [
+    //   widget.hiveYaumiModel!.tanggal.toString(),
+    //   widget.hiveYaumiModel!.shubuh.toString(),
+    //   widget.hiveYaumiModel!.tahajud.toString(),
+    // ];
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details Aktivitas Yaumi'),
-        actions: [
+        title: const Text('Details Aktivitas Yaumi'),
+        actions: const [
           IconButton(
               onPressed: null,
               icon: Icon(
@@ -70,18 +73,18 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                     MyStrings.calenderIconColor,
                     scale: 3,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 6.0,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Tanggal',
+                      const Text('Tanggal',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(
                           DateFormat('EEEE, dd MMM yyy', "id_ID")
                               .format(widget.hiveYaumiModel!.tanggal!),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.normal,
                               color: Colors.blueGrey,
                               fontSize: 12.0)),
@@ -103,22 +106,22 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                     MyStrings.docIconColor,
                     scale: 3,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 6.0,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Cloud Save',
+                      const Text('Cloud Save',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       widget.tanggal!.contains(
                               DateFormat('EEEE, dd MMMM yyyy', "id_ID")
                                   .format(widget.hiveYaumiModel!.tanggal!))
-                          ? Text('Tersimpan',
+                          ? const Text('Tersimpan',
                               style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                   color: Colors.green))
-                          : Text('Tidak Tersimpan',
+                          : const Text('Tidak Tersimpan',
                               style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                   color: Colors.red)),
@@ -174,7 +177,7 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
     return ListView.builder(
       itemCount: _myData.length,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -188,11 +191,11 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 6.0),
+                          const SizedBox(height: 6.0),
                           Text(_myData[index]['title'],
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 15.0, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 6.0),
+                          const SizedBox(height: 6.0),
                           Container(
                             height: .5,
                             color: Colors.green,
@@ -206,15 +209,16 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                       ? ListView.builder(
                           itemCount: _myData[0]['list'].length,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 _myData[0]['list'][index]['title'],
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(height: 6.0),
+                              const SizedBox(height: 6.0),
                               fardhuList[index]
                                   ? Row(
                                       children: [
@@ -222,7 +226,7 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                                           MyStrings.checkedIconColor,
                                           scale: 3,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 6.0,
                                         ),
                                         Text(
@@ -237,7 +241,7 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                                           MyStrings.cancelIconColor,
                                           scale: 3,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 6.0,
                                         ),
                                         Text(
@@ -255,16 +259,16 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                           ? ListView.builder(
                               itemCount: _myData[7]['list'].length,
                               shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) => Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     _myData[7]['list'][index]['title'],
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(height: 6.0),
+                                  const SizedBox(height: 6.0),
                                   dzikirList[index]
                                       ? Row(
                                           children: [
@@ -272,7 +276,7 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                                               MyStrings.checkedIconColor,
                                               scale: 3,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 6.0,
                                             ),
                                             Text(
@@ -287,7 +291,7 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                                               MyStrings.cancelIconColor,
                                               scale: 3,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 6.0,
                                             ),
                                             Text(
@@ -308,7 +312,7 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                                       MyStrings.checkedIconColor,
                                       scale: 3,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 6.0,
                                     ),
                                     Text(
@@ -323,7 +327,7 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                                       MyStrings.cancelIconColor,
                                       scale: 3,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 6.0,
                                     ),
                                     Text(
@@ -333,7 +337,7 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
                                   ],
                                 )
                           : Container(),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               )
             ],
@@ -344,13 +348,13 @@ class _YaumiLogDetailsState extends State<YaumiLogDetails> {
   }
 
   TextStyle _trueStyle() {
-    return TextStyle(
+    return const TextStyle(
       color: Colors.green,
     );
   }
 
   TextStyle _falseStyle() {
-    return TextStyle(
+    return const TextStyle(
       color: Colors.red,
     );
   }

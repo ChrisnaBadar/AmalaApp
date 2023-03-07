@@ -12,7 +12,6 @@ class YaumiLogController extends GetxController {
     var activeCategory = categoryList.where((e) => e == true).length;
     myTotalPoints.value =
         ((pointsList.fold(0.0, (p, e) => p + e)) / activeCategory) * 100;
-    print('activeCategory: $activeCategory');
   }
 
   //TOTAL

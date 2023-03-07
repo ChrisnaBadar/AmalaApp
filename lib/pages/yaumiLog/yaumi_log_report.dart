@@ -14,7 +14,8 @@ import 'data/log_data.dart';
 class YaumiLogReport extends StatefulWidget {
   final List<HiveYaumiModel>? hiveYaumiModel;
   final HiveYaumiActiveModel? hiveYaumiActiveModel;
-  const YaumiLogReport({this.hiveYaumiModel, this.hiveYaumiActiveModel});
+  const YaumiLogReport(
+      {super.key, this.hiveYaumiModel, this.hiveYaumiActiveModel});
 
   @override
   State<YaumiLogReport> createState() => _YaumiLogReportState();
@@ -25,20 +26,20 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
   final logController = Get.put(YaumiLogController());
   var hariIni = DateFormat('dd MMM yyyy', "id_ID").format(DateTime.now());
   var pekanLalu = DateFormat('dd MMM yyyy', "id_ID")
-      .format(DateTime.now().subtract(Duration(days: 6)));
+      .format(DateTime.now().subtract(const Duration(days: 6)));
   var bulanIni = DateFormat('MMMM', "id_ID").format(DateTime.now());
   var bulanLalu = DateFormat('MMMM', "id_ID")
       .format(DateTime(DateTime.now().year, DateTime.now().month - 1));
   @override
   Widget build(BuildContext context) {
-    var _chartLogData = LogData().chartModel(widget.hiveYaumiModel!);
+    var chartLogData = LogData().chartModel(widget.hiveYaumiModel!);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Laporan Yaumi'),
+        title: const Text('Laporan Yaumi'),
         actions: [
           _user != null
               ? IconButton(
-                  onPressed: () => Get.to(() => YaumiLog()),
+                  onPressed: () => Get.to(() => const YaumiLog()),
                   icon: Image.asset(MyStrings.docIconColor, scale: 3))
               : Container()
         ],
@@ -46,14 +47,14 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 16.0,
             ),
-            Text('Aktifitas Ibadah Pekan Ini'),
-            SizedBox(
+            const Text('Aktifitas Ibadah Pekan Ini'),
+            const SizedBox(
               height: 16.0,
             ),
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * .25,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -64,17 +65,17 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
                       rightTitles: SideTitles(showTitles: false),
                       bottomTitles: SideTitles(
                         showTitles: true,
-                        getTitles: (value) => _chartLogData
+                        getTitles: (value) => chartLogData
                             .firstWhere(
                                 (element) => element.id == value.toInt())
                             .name,
-                        getTextStyles: (context, value) =>
-                            TextStyle(fontSize: 12.0, color: Colors.green),
+                        getTextStyles: (context, value) => const TextStyle(
+                            fontSize: 12.0, color: Colors.green),
                       ),
                       leftTitles: SideTitles(
                         showTitles: true,
                         getTextStyles: (context, value) =>
-                            TextStyle(fontSize: 12.0, color: Colors.grey),
+                            const TextStyle(fontSize: 12.0, color: Colors.grey),
                       ),
                     ),
                     maxY: 100,
@@ -83,7 +84,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
                     gridData: FlGridData(show: false),
                     borderData: FlBorderData(show: false),
                     barTouchData: BarTouchData(enabled: true),
-                    barGroups: _chartLogData
+                    barGroups: chartLogData
                         .map((e) => BarChartGroupData(x: e.id, barRods: [
                               BarChartRodData(
                                   colors: [Colors.grey],
@@ -95,22 +96,22 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(left: 16.0),
+              padding: const EdgeInsets.only(left: 16.0),
               alignment: Alignment.centerLeft,
               child: Text.rich(TextSpan(
                   children: [
                     TextSpan(text: pekanLalu),
-                    TextSpan(text: ' - '),
+                    const TextSpan(text: ' - '),
                     TextSpan(text: hariIni)
                   ],
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.blueGrey))),
             ),
-            SizedBox(
+            const SizedBox(
               height: 32.0,
             ),
-            Text('Prestasi Ibadah'),
-            SizedBox(
+            const Text('Prestasi Ibadah'),
+            const SizedBox(
               height: 16.0,
             ),
             _prestasiIbadah()
@@ -121,7 +122,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
   }
 
   TextStyle _headerStyle() {
-    return TextStyle(
+    return const TextStyle(
         fontWeight: FontWeight.bold, fontSize: 15.0, color: Colors.white);
   }
 
@@ -148,7 +149,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
                   child: Container(
                       alignment: Alignment.center,
                       child: Text(
-                        '$bulanIni',
+                        bulanIni,
                         style: _headerStyle(),
                       ))),
               Expanded(
@@ -156,7 +157,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
                   child: Container(
                       alignment: Alignment.center,
                       child: Text(
-                        '$bulanLalu',
+                        bulanLalu,
                         style: _headerStyle(),
                       ))),
             ],
@@ -173,7 +174,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
                   flex: 1,
                   child: Container(
                       alignment: Alignment.center,
-                      child: Text('Shalat Fardhu'))),
+                      child: const Text('Shalat Fardhu'))),
               Expanded(
                   flex: 1,
                   child: Container(
@@ -191,7 +192,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
             ],
           ),
         ),
-        Container(
+        SizedBox(
           height: 50.0,
           width: MediaQuery.of(context).size.width,
           child: Row(
@@ -201,7 +202,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
                   flex: 1,
                   child: Container(
                       alignment: Alignment.center,
-                      child: Text('Shalat Tahajud'))),
+                      child: const Text('Shalat Tahajud'))),
               Expanded(
                   flex: 1,
                   child: Container(
@@ -230,7 +231,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
                   flex: 1,
                   child: Container(
                       alignment: Alignment.center,
-                      child: Text('Shalat Dhuha'))),
+                      child: const Text('Shalat Dhuha'))),
               Expanded(
                   flex: 1,
                   child: Container(
@@ -248,7 +249,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
             ],
           ),
         ),
-        Container(
+        SizedBox(
           height: 50.0,
           width: MediaQuery.of(context).size.width,
           child: Row(
@@ -258,7 +259,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
                   flex: 1,
                   child: Container(
                       alignment: Alignment.center,
-                      child: Text('Shalat Rawatib'))),
+                      child: const Text('Shalat Rawatib'))),
               Expanded(
                   flex: 1,
                   child: Container(
@@ -286,7 +287,8 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
               Expanded(
                   flex: 1,
                   child: Container(
-                      alignment: Alignment.center, child: Text('Tilawah'))),
+                      alignment: Alignment.center,
+                      child: const Text('Tilawah'))),
               Expanded(
                   flex: 1,
                   child: Container(
@@ -304,7 +306,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
             ],
           ),
         ),
-        Container(
+        SizedBox(
           height: 50.0,
           width: MediaQuery.of(context).size.width,
           child: Row(
@@ -313,7 +315,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
               Expanded(
                   flex: 1,
                   child: Container(
-                      alignment: Alignment.center, child: Text('Shaum'))),
+                      alignment: Alignment.center, child: const Text('Shaum'))),
               Expanded(
                   flex: 1,
                   child: Container(
@@ -341,7 +343,8 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
               Expanded(
                   flex: 1,
                   child: Container(
-                      alignment: Alignment.center, child: Text('Sedekah'))),
+                      alignment: Alignment.center,
+                      child: const Text('Sedekah'))),
               Expanded(
                   flex: 1,
                   child: Container(
@@ -359,7 +362,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
             ],
           ),
         ),
-        Container(
+        SizedBox(
           height: 50.0,
           width: MediaQuery.of(context).size.width,
           child: Row(
@@ -368,7 +371,8 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
               Expanded(
                   flex: 1,
                   child: Container(
-                      alignment: Alignment.center, child: Text('Dzikir'))),
+                      alignment: Alignment.center,
+                      child: const Text('Dzikir'))),
               Expanded(
                   flex: 1,
                   child: Container(
@@ -396,7 +400,8 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
               Expanded(
                   flex: 1,
                   child: Container(
-                      alignment: Alignment.center, child: Text('Taklim'))),
+                      alignment: Alignment.center,
+                      child: const Text('Taklim'))),
               Expanded(
                   flex: 1,
                   child: Container(
@@ -414,7 +419,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
             ],
           ),
         ),
-        Container(
+        SizedBox(
           height: 50.0,
           width: MediaQuery.of(context).size.width,
           child: Row(
@@ -423,7 +428,8 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
               Expanded(
                   flex: 1,
                   child: Container(
-                      alignment: Alignment.center, child: Text('Istighfar'))),
+                      alignment: Alignment.center,
+                      child: const Text('Istighfar'))),
               Expanded(
                   flex: 1,
                   child: Container(
@@ -451,7 +457,8 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
               Expanded(
                   flex: 1,
                   child: Container(
-                      alignment: Alignment.center, child: Text('Shalawat'))),
+                      alignment: Alignment.center,
+                      child: const Text('Shalawat'))),
               Expanded(
                   flex: 1,
                   child: Container(

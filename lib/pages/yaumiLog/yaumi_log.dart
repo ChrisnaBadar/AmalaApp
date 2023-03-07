@@ -27,7 +27,6 @@ class _YaumiLogState extends State<YaumiLog> {
     return StreamBuilder<UserModels>(
         stream: DatabaseService(uid: _user!.uid).yaumiModel,
         builder: (context, snapshot) {
-          print('mySnapshot: $snapshot');
           if (snapshot.hasData) {
             final userData = snapshot.data;
             final yaumiData =
@@ -39,10 +38,8 @@ class _YaumiLogState extends State<YaumiLog> {
                     ));
             final yaumiDateResult =
                 yaumiDateModel.map((e) => e.tanggal).toList();
-            print('result: $yaumiDateResult');
             return _mainBody(dateResult: yaumiDateResult);
           } else {
-            print('empty');
             return _mainBody();
           }
         });
@@ -52,7 +49,7 @@ class _YaumiLogState extends State<YaumiLog> {
     List? result = dateResult;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Log Yaumi'),
+        title: const Text('Log Yaumi'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -76,7 +73,7 @@ class _YaumiLogState extends State<YaumiLog> {
                           hiveYaumiModel: hiveYaumiModel,
                           hiveYaumiActiveModel: hiveYaumiActiveModel,
                           yaumiLogController: _controller,
-                          tanggal: result == null ? [''] : result,
+                          tanggal: result ?? [''],
                         );
                       }
                     });

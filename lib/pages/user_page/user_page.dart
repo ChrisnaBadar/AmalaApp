@@ -125,7 +125,7 @@ class _UserPageState extends State<UserPage> {
                                             //       'uidLeader': uidLeader
                                             //     });
                                           },
-                                          child: Text('Edit Profile')),
+                                          child: const Text('Edit Profile')),
                                     ],
                                   ),
                                   _bannerAd == null
@@ -151,7 +151,7 @@ class _UserPageState extends State<UserPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('Group / Komunitas: ',
+                                        const Text('Group / Komunitas: ',
                                             style: TextStyle(
                                                 fontSize: 20.0,
                                                 fontWeight: FontWeight.bold)),
@@ -159,7 +159,7 @@ class _UserPageState extends State<UserPage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Card(
                                             child: ListTile(
-                                              leading: CircleAvatar(
+                                              leading: const CircleAvatar(
                                                 radius: 20.0,
                                                 child: CircleAvatar(
                                                   radius: 17.5,
@@ -167,7 +167,7 @@ class _UserPageState extends State<UserPage> {
                                                   child: Icon(Icons.group),
                                                 ),
                                               ),
-                                              title: Text('Group Info',
+                                              title: const Text('Group Info',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
@@ -189,7 +189,8 @@ class _UserPageState extends State<UserPage> {
                                                     //       });
                                                     // }
                                                   },
-                                                  icon: Icon(Icons.group)),
+                                                  icon:
+                                                      const Icon(Icons.group)),
                                             ),
                                           ),
                                         )
@@ -197,31 +198,33 @@ class _UserPageState extends State<UserPage> {
                                     ),
 
                                     //lembaga
-                                    Section2Widget(
+                                    const Section2Widget(
                                       title: 'Lembaga',
                                       lembaga: 'lembaga',
                                     ),
 
                                     //amanah
-                                    Section2Widget(
+                                    const Section2Widget(
                                       title: 'Amanah',
                                       amanah: 'amanah',
                                     ),
 
                                     //email
-                                    Section2Widget(
+                                    const Section2Widget(
                                       title: 'Email',
                                       email: 'email',
                                     ),
 
-                                    Section2Widget(
+                                    const Section2Widget(
                                       title: 'Ponsel',
                                       ponsel: 'ponsel',
                                     ),
 
                                     //logout
                                     Row(
-                                      children: [],
+                                      children: const [
+                                        //TODO: Logout??
+                                      ],
                                     ),
                                   ],
                                 )),
@@ -260,7 +263,8 @@ class Section2Widget extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text('$title',
-                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)),
+                style: const TextStyle(
+                    fontSize: 15.0, fontWeight: FontWeight.bold)),
           ),
           Expanded(
             flex: 3,
@@ -273,7 +277,7 @@ class Section2Widget extends StatelessWidget {
                             ? ': $email'
                             : ': $ponsel',
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15.0,
                   fontWeight: FontWeight.bold,
                 )),

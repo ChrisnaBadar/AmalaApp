@@ -16,7 +16,7 @@ class WelcomePage extends StatefulWidget {
   final String? wilayah;
   final double? lat;
   final double? lon;
-  WelcomePage({this.kota, this.wilayah, this.lat, this.lon});
+  const WelcomePage({super.key, this.kota, this.wilayah, this.lat, this.lon});
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();
@@ -66,7 +66,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 setFirstUserData();
                 settingsController.tilawah.value = true;
                 settingsController.updateData();
-                Get.off(() => Homepage());
+                Get.off(() => const Homepage());
               },
               child: const Text(
                 MyStrings.mulai,
