@@ -16,11 +16,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:adhan/adhan.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:amala/constants/core_data.dart';
 
+import '../../services/admob_service.dart';
 import '../absen/absen_page.dart';
 import '../yaumiLog/yaumi_log_report.dart';
 
@@ -38,6 +40,9 @@ class _HomepageState extends State<Homepage>
   final _settingsController = Get.put(YaumiSettingController());
   AnimationController? _animationController;
 
+  //admob
+  BannerAd? _bannerAd;
+
   final User? _user = FirebaseAuth.instance.currentUser;
   Coordinates? myCoordinate;
   String? uidGroup;
@@ -45,6 +50,15 @@ class _HomepageState extends State<Homepage>
   String? lembaga;
   String? amanah;
   String? group;
+
+  void _createBannerAd() {
+    _bannerAd = BannerAd(
+        size: AdSize.fullBanner,
+        adUnitId: AdMobService.bannerAdUnitId,
+        listener: AdMobService.bannerListener,
+        request: const AdRequest())
+      ..load();
+  }
 
   @override
   void initState() {
@@ -61,6 +75,7 @@ class _HomepageState extends State<Homepage>
         vsync: this,
         duration: Duration(seconds: _homeController.levelClock.value));
     _animationController!.forward();
+    _createBannerAd();
   }
 
   @override
@@ -223,6 +238,14 @@ class _HomepageState extends State<Homepage>
               //profile bar
               profilesBar(context, _user, CoreData.kota, CoreData.wilayah,
                   hiveUserModel!),
+
+              _bannerAd == null
+                  ? Container()
+                  : Container(
+                      height: 52,
+                      margin: const EdgeInsets.only(bottom: 12),
+                      child: AdWidget(ad: _bannerAd!),
+                    ),
 
               hiveUserModel.lembaga == 'PTGSP'
                   ? Padding(
