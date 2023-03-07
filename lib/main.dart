@@ -1,3 +1,4 @@
+import 'package:amala/models/hive/hive_absen_model.dart';
 import 'package:amala/models/hive/hive_user_model.dart';
 import 'package:amala/models/hive/hive_yaumi_active_model.dart';
 import 'package:amala/models/hive/hive_yaumi_model.dart';
@@ -23,6 +24,8 @@ void main() async {
   await Hive.openBox<HiveYaumiActiveModel>('hiveYaumiActiveModel');
   Hive.registerAdapter(HiveYaumiModelAdapter());
   await Hive.openBox<HiveYaumiModel>('hiveYaumiModel');
+  Hive.registerAdapter(HiveAbsenModelAdapter());
+  await Hive.openBox<HiveAbsenModel>('hiveAbsenModel');
   await initializeDateFormatting('id_ID', null)
       .then((value) => runApp(const Amala()));
 }

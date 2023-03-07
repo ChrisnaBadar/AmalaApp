@@ -21,6 +21,7 @@ import 'package:adhan/adhan.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:amala/constants/core_data.dart';
 
+import '../absen/absen_page.dart';
 import '../yaumiLog/yaumi_log_report.dart';
 
 class Homepage extends StatefulWidget {
@@ -227,7 +228,7 @@ class _HomepageState extends State<Homepage>
                   ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: ElevatedButton(
-                          onPressed: null, //() => Get.to(() => AbsenPage()),
+                          onPressed: () => Get.to(() => const AbsenPage()),
                           child: Container(
                             alignment: Alignment.center,
                             width: MediaQuery.of(context).size.width,

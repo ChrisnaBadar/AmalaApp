@@ -6,6 +6,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../services/admob_service.dart';
 import '../loading/loading.dart';
 import '../splash/splash_screen.dart';
+import 'EditProfileScreen/edit_profile_screen.dart';
 import 'controller/user_page_controller.dart';
 
 class UserPage extends StatefulWidget {
@@ -111,19 +112,8 @@ class _UserPageState extends State<UserPage> {
                                               fontWeight: FontWeight.bold)),
                                       TextButton(
                                           onPressed: () {
-                                            // Get.to(() => EditProfileScreen(),
-                                            //     arguments: {
-                                            //       'uid': uid,
-                                            //       'nama': nama,
-                                            //       'lembaga': lembaga,
-                                            //       'amanah': amanah,
-                                            //       'group': group,
-                                            //       'email': email,
-                                            //       'ponsel': ponsel,
-                                            //       'password': password,
-                                            //       'uidGroup': uidGroup,
-                                            //       'uidLeader': uidLeader
-                                            //     });
+                                            Get.to(() =>
+                                                const EditProfileScreen());
                                           },
                                           child: const Text('Edit Profile')),
                                     ],

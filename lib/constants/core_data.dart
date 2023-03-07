@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:adhan/adhan.dart';
 
 class CoreData {
   CoreData._();
+
+  static final User? currentUser = FirebaseAuth.instance.currentUser;
 
   static String appName = 'Amala';
   static String appVersion = 'v. 1.0.0';
@@ -18,4 +21,18 @@ class CoreData {
   static String namaUser = '-';
   static const double cornerRadius = 10.0;
   static bool isTestMode = true;
+
+  //identity
+  static String? uid = currentUser == null ? '-' : currentUser!.uid;
+  static String? nama = currentUser == null ? '-' : currentUser!.displayName;
+  static String? lembaga = '-';
+  static String? amanah = '-';
+  static String? group = '-';
+  static String? email = currentUser == null ? '-' : currentUser!.email;
+  static String? ponsel = currentUser == null ? '-' : currentUser!.phoneNumber;
+  static String? password = '-';
+  static String? uidGroup = '-';
+  static String? uidLeader = '-';
+  static String? profilePicUrl =
+      currentUser == null ? '-' : currentUser!.photoURL;
 }

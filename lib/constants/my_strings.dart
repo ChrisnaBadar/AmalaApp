@@ -48,6 +48,9 @@ class MyStrings {
   static const String docIconColor = 'assets/icons/doc.png';
   static const String checkedIconColor = 'assets/icons/checked.png';
   static const String cancelIconColor = 'assets/icons/cancel.png';
+  static const String filterIconColor = 'assets/icons/filter.png';
+  static const String feverIconColor = 'assets/icons/fever.png';
+  static const String leaveIconColor = 'assets/icons/leave.png';
 
   //welcomePage
   static const String page1Title = 'Selamat datang di aplikasi Amala';
