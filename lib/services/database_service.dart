@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:amala/models/user_model.dart';
 
+import '../models/group_model.dart';
+
 class DatabaseService {
   final String? uid;
   final String? uidGroup;
@@ -187,5 +189,47 @@ class DatabaseService {
         }
       }
     }, SetOptions(merge: true));
+  }
+
+// ░██████╗░██████╗░░█████╗░██╗░░░██╗██████╗░
+// ██╔════╝░██╔══██╗██╔══██╗██║░░░██║██╔══██╗
+// ██║░░██╗░██████╔╝██║░░██║██║░░░██║██████╔╝
+// ██║░░╚██╗██╔══██╗██║░░██║██║░░░██║██╔═══╝░
+// ╚██████╔╝██║░░██║╚█████╔╝╚██████╔╝██║░░░░░
+// ░╚═════╝░╚═╝░░╚═╝░╚════╝░░╚═════╝░╚═╝░░░░░
+
+  CollectionReference group = FirebaseFirestore.instance.collection('groups');
+
+  Future setGroupData(
+      {String? uidGroup,
+      String? uidLeader,
+      String? namaGroup,
+      List<UserModels>? member}) async {
+    return await group.doc(uid).set({
+      'uidGroup': uidGroup,
+      'uidLeader': uidLeader,
+      'namaGroup': namaGroup,
+      'member': member
+    });
+  }
+
+  Future updateGroupData({List<UserModels>? member}) async {
+    return await group.doc(uid).update({
+      'member': FieldValue.arrayUnion([member])
+    });
+  }
+
+  List<GroupModel> _groupModelListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((e) {
+      return GroupModel(
+          uidGroup: e['uidGroup'],
+          uidLeader: e['uidLeader'],
+          namaGroup: e['namaGroup'],
+          member: e['member']);
+    }).toList();
+  }
+
+  Stream<List<GroupModel>> get groupModelList {
+    return group.snapshots().map(_groupModelListFromSnapshot);
   }
 }

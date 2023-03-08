@@ -24,6 +24,7 @@ import 'package:amala/constants/core_data.dart';
 
 import '../../services/admob_service.dart';
 import '../absen/absen_page.dart';
+import '../group_list/group_list_page.dart';
 import '../yaumiLog/yaumi_log_report.dart';
 
 class Homepage extends StatefulWidget {
@@ -259,6 +260,16 @@ class _HomepageState extends State<Homepage>
                           )),
                     )
                   : Container(),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: () => Get.to(() => const GroupListPage()),
+                    child: Container(
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width,
+                        child: const Text('GROUP'))),
+              ),
 
               //tes
               // ElevatedButton(
