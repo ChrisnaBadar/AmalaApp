@@ -1,5 +1,8 @@
+import 'package:amala/constants/core_data.dart';
 import 'package:amala/constants/my_strings.dart';
 import 'package:amala/constants/my_text_styles.dart';
+import 'package:amala/models/user_model.dart';
+import 'package:amala/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:amala/controllers/group_controller.dart';
@@ -17,6 +20,19 @@ class _GroupListPageState extends State<GroupListPage> {
   final groupController = Get.put(GroupController());
   @override
   Widget build(BuildContext context) {
+    final userModels = UserModels()
+      ..uid = CoreData.uid
+      ..uidGroup = CoreData.uidGroup
+      ..uidLeader = CoreData.uidLeader
+      ..nama = CoreData.nama
+      ..amanah = CoreData.amanah
+      ..email = CoreData.email
+      ..group = CoreData.group
+      ..lembaga = CoreData.lembaga
+      ..password = CoreData.password
+      ..ponsel = CoreData.ponsel
+      ..absen = {}
+      ..yaumi = {};
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showModalBottomSheet(
@@ -25,8 +41,13 @@ class _GroupListPageState extends State<GroupListPage> {
             topLeft: Radius.circular(15.0),
             topRight: Radius.circular(15.0),
           )),
+          isScrollControlled: true,
           context: context,
-          builder: (context) => _buildSheet(),
+          builder: (context) => Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: _buildSheet(userModels),
+          ),
         ),
         label: const Text('Buat Group'),
         icon: Image.asset(
@@ -44,7 +65,7 @@ class _GroupListPageState extends State<GroupListPage> {
     );
   }
 
-  Widget _buildSheet() {
+  Widget _buildSheet(UserModels userModels) {
     return SizedBox(
       height: 300.0,
       child: Column(
@@ -110,7 +131,13 @@ class _GroupListPageState extends State<GroupListPage> {
             height: 8.0,
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () async {
+              // await DatabaseService(uid: CoreData.uid).setGroupData(
+              //     uidGroup: CoreData.uid,
+              //     uidLeader: CoreData.uid,
+              //     namaGroup: groupController.namaGroup.value,
+              //     member: []);
+            },
             child: Container(
               alignment: Alignment.center,
               width: MediaQuery.of(context).size.width * .5,

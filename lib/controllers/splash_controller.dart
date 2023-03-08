@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:amala/constants/core_data.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../pages/home/homepage.dart';
@@ -11,6 +12,7 @@ class SplashController extends GetxController {
   var appTitle = CoreData.appName;
   var appVersion = CoreData.appVersion;
   bool goodInternet = false;
+  User? currentUser = FirebaseAuth.instance.currentUser;
 
   //to Homepage
   void toHompageScreen() async {
@@ -43,11 +45,11 @@ class SplashController extends GetxController {
       CoreData.lat = myLocation[2];
       CoreData.lon = myLocation[3];
 
-      Get.off(() => WelcomePage());
+      Get.off(() => const WelcomePage());
     } on TimeoutException catch (e) {
-      Get.off(() => WelcomePage());
+      Get.off(() => const WelcomePage());
     } catch (e) {
-      Get.off(() => WelcomePage());
+      Get.off(() => const WelcomePage());
     }
   }
 }
