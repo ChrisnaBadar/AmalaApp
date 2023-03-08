@@ -20,9 +20,13 @@ class _GroupTileState extends State<GroupTile> {
           ),
         ),
         title: const Text('Group Title'),
-        subtitle: const Text('Group Details'),
-        trailing: Column(
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: const [Text('Jumlah Anggota:'), Text('13 Orang')],
+        ),
+        trailing: Image.asset(
+          MyStrings.plusIconColor,
+          scale: 1.5,
         ),
         isThreeLine: true,
       ),
