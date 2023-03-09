@@ -14,7 +14,8 @@ class YaumiSettingController extends GetxController {
       dzikir = false.obs,
       taklim = false.obs,
       istighfar = false.obs,
-      shalawat = false.obs;
+      shalawat = false.obs,
+      absen = false.obs;
 
   void setFirstActivator() {
     final hiveYaumiActiveModel = HiveYaumiActiveModel()
@@ -28,7 +29,8 @@ class YaumiSettingController extends GetxController {
       ..dzikir = false
       ..taklim = false
       ..istighfar = false
-      ..shalawat = false;
+      ..shalawat = false
+      ..absen = false;
 
     final box = Boxes.getYaumiActiveModel();
     box.put('hiveYaumiActiveModel', hiveYaumiActiveModel);
@@ -58,13 +60,15 @@ class YaumiSettingController extends GetxController {
       ..dzikir = dzikir.value
       ..taklim = taklim.value
       ..istighfar = istighfar.value
-      ..shalawat = shalawat.value;
+      ..shalawat = shalawat.value
+      ..absen = absen.value;
 
     final box = Boxes.getYaumiActiveModel();
     box.put('hiveYaumiActiveModel', hiveYaumiActiveModel);
   }
 
-  void setHiveData(List<HiveYaumiActiveModel> hiveYaumiActiveModel) {
+  Future<void> setHiveData(
+      List<HiveYaumiActiveModel> hiveYaumiActiveModel) async {
     //cari data di yaumiHive
     var fardhuActivated = hiveYaumiActiveModel.first.fardhu;
     var tahajudActivated = hiveYaumiActiveModel.first.tahajud;
@@ -77,6 +81,7 @@ class YaumiSettingController extends GetxController {
     var taklimActivated = hiveYaumiActiveModel.first.taklim;
     var shalawatActivated = hiveYaumiActiveModel.first.shalawat;
     var istighfarActivated = hiveYaumiActiveModel.first.istighfar;
+    var absenActivated = hiveYaumiActiveModel.first.absen;
 
     //Transfer data dari YaumiHive ke Controller
     fardhu.value = fardhuActivated!;
@@ -90,5 +95,6 @@ class YaumiSettingController extends GetxController {
     taklim.value = taklimActivated!;
     shalawat.value = shalawatActivated!;
     istighfar.value = istighfarActivated!;
+    absen.value = absenActivated!;
   }
 }

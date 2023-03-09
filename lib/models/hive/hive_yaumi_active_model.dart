@@ -41,4 +41,7 @@ class HiveYaumiActiveModel extends HiveObject {
 
   @HiveField(10)
   bool? shalawat;
+
+  @HiveField(11)
+  bool? absen;
 }

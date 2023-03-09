@@ -27,13 +27,14 @@ class HiveYaumiActiveModelAdapter extends TypeAdapter<HiveYaumiActiveModel> {
       ..dzikir = fields[7] as bool?
       ..taklim = fields[8] as bool?
       ..istighfar = fields[9] as bool?
-      ..shalawat = fields[10] as bool?;
+      ..shalawat = fields[10] as bool?
+      ..absen = fields[11] as bool?;
   }
 
   @override
   void write(BinaryWriter writer, HiveYaumiActiveModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.fardhu)
       ..writeByte(1)
@@ -55,7 +56,9 @@ class HiveYaumiActiveModelAdapter extends TypeAdapter<HiveYaumiActiveModel> {
       ..writeByte(9)
       ..write(obj.istighfar)
       ..writeByte(10)
-      ..write(obj.shalawat);
+      ..write(obj.shalawat)
+      ..writeByte(11)
+      ..write(obj.absen);
   }
 
   @override

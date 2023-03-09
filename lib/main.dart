@@ -1,3 +1,4 @@
+import 'package:amala/constants/core_data.dart';
 import 'package:amala/models/hive/hive_absen_model.dart';
 import 'package:amala/models/hive/hive_user_model.dart';
 import 'package:amala/models/hive/hive_yaumi_active_model.dart';
@@ -13,6 +14,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //admob init
+  RequestConfiguration configuration =
+      RequestConfiguration(testDeviceIds: CoreData.testDeviceIds);
+  MobileAds.instance.updateRequestConfiguration(configuration);
   MobileAds.instance.initialize();
   await Firebase.initializeApp();
   //hive init

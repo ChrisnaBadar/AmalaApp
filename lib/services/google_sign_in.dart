@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../models/hive/boxes.dart';
 import '../pages/splash/splash_screen.dart';
+import 'database_service.dart';
 
 /// Untuk komputer baru haru tambahkan fingerprint baru di project settings firebase
 /// dengan cara
@@ -40,20 +41,20 @@ class GoogleSingInProvider extends ChangeNotifier {
       await setFirstUserData(currentUser!);
     }
 
-    Get.off(() => const SplashScreen());
+    Get.offAll(() => const SplashScreen());
   }
 
   Future setFirstUserData(User currentUser) async {
-    // await DatabaseService(uid: currentUser.uid).setUserData(
-    //     '-',
-    //     '-',
-    //     currentUser.displayName,
-    //     currentUser.email,
-    //     '-',
-    //     '-',
-    //     '-',
-    //     currentUser.phoneNumber,
-    //     '-');
+    await DatabaseService(uid: currentUser.uid).setUserData(
+        '-',
+        '-',
+        currentUser.displayName!,
+        currentUser.email!,
+        '-',
+        '-',
+        '-',
+        currentUser.phoneNumber ?? '-',
+        '-');
     final userHiveModel = HiveUserModel()
       ..uid = currentUser.uid
       ..uidGroup = '-'

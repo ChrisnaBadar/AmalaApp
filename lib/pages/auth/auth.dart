@@ -1,5 +1,8 @@
+import 'package:amala/constants/core_data.dart';
 import 'package:amala/constants/my_strings.dart';
 import 'package:amala/models/hive/hive_user_model.dart';
+import 'package:amala/models/user_model.dart';
+import 'package:amala/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -43,8 +46,8 @@ class _AuthState extends State<Auth> {
                   : ValueListenableBuilder<Box<HiveUserModel>>(
                       valueListenable: Boxes.getUserModel().listenable(),
                       builder: (context, box, _) {
-                        return StreamBuilder<HiveUserModel>(
-                          stream: null,
+                        return StreamBuilder<UserModels>(
+                          stream: DatabaseService(uid: CoreData.uid).userData,
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return _mainBody(context, true);

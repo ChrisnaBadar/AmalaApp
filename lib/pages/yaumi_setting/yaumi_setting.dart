@@ -29,7 +29,8 @@ class _MYaumiSettingsState extends State<YaumiSetting> {
       MyStrings.dzikirIconColor,
       MyStrings.taklimIconColor,
       MyStrings.istighfarIconColor,
-      MyStrings.shalawatIconColor
+      MyStrings.shalawatIconColor,
+      MyStrings.absenIconColor
     ];
     List<Map> yaumiSettingParam = [
       {
@@ -142,6 +143,17 @@ class _MYaumiSettingsState extends State<YaumiSetting> {
               controller.updateData();
             }))
       },
+      {
+        'title': 'Absen Online',
+        'subTitle':
+            'Silahkan aktifkan fitur absen untuk keperluan absen lembaga atau kelas',
+        'trailling': Obx(() => Switch(
+            value: controller.absen.value,
+            onChanged: (val) {
+              controller.absen.value = val;
+              controller.updateData();
+            }))
+      }
     ];
     return Scaffold(
       appBar: AppBar(
@@ -154,6 +166,38 @@ class _MYaumiSettingsState extends State<YaumiSetting> {
             children: [
               const SizedBox(
                 height: 8.0,
+              ),
+              const Text(
+                'Absen Setting',
+                textAlign: TextAlign.start,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Absen online masih dalam pengembangan, sehingga sistem pelaporan baru akan hadir di update yang akan datang.',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(color: Colors.red, fontSize: 10.0),
+                  )),
+              const SizedBox(
+                height: 8.0,
+              ),
+              ListTile(
+                leading: Image.asset(myImageIcon[11], scale: 2),
+                title: Text(yaumiSettingParam[11]['title']),
+                subtitle: Text(yaumiSettingParam[11]['subTitle']),
+                trailing: yaumiSettingParam[11]['trailling'],
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              const Text(
+                'Yaumi Setting',
+                textAlign: TextAlign.start,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
               ),
               const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -168,25 +212,22 @@ class _MYaumiSettingsState extends State<YaumiSetting> {
                       controller.setFirstActivator();
                       return Container();
                     } else {
-                      controller.setHiveData(yaumiActiveModel);
+                      Future.delayed(Duration.zero,
+                          () => controller.setHiveData(yaumiActiveModel));
                       return Column(
                         children: [
                           ListView.builder(
-                            itemCount: yaumiSettingParam.length,
+                            itemCount: yaumiSettingParam.length - 1,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              return Card(
-                                child: ListTile(
-                                  leading:
-                                      Image.asset(myImageIcon[index], scale: 2),
-                                  title:
-                                      Text(yaumiSettingParam[index]['title']),
-                                  subtitle: Text(
-                                      yaumiSettingParam[index]['subTitle']),
-                                  trailing: yaumiSettingParam[index]
-                                      ['trailling'],
-                                ),
+                              return ListTile(
+                                leading:
+                                    Image.asset(myImageIcon[index], scale: 2),
+                                title: Text(yaumiSettingParam[index]['title']),
+                                subtitle:
+                                    Text(yaumiSettingParam[index]['subTitle']),
+                                trailing: yaumiSettingParam[index]['trailling'],
                               );
                             },
                           ),

@@ -25,6 +25,13 @@ class MyTextStyles {
         color: MyThemeData.primaryTextColor);
   }
 
+  static TextStyle header2() {
+    return const TextStyle(
+        fontSize: 17.5,
+        fontWeight: FontWeight.bold,
+        color: MyThemeData.primaryTextColor);
+  }
+
   static TextStyle paragraph() {
     return const TextStyle(
         fontSize: 15.0,

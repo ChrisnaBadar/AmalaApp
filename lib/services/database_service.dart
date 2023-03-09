@@ -62,6 +62,19 @@ class DatabaseService {
     });
   }
 
+  //Metoda update data user saat Edit profile di userEdit
+  Future updateUserData(String lembaga, String amanah) async {
+    return await yaumi.doc(uid).update({'lembaga': lembaga, 'amanah': amanah});
+  }
+
+  //Metoda update data user saat Edit profile di userEdit
+  Future updateUserData1(
+      String uidGroup, String uidLeader, String group) async {
+    return await yaumi
+        .doc(uid)
+        .update({'uidGroup': uidGroup, 'uidLeader': uidLeader, 'group': group});
+  }
+
   //Untuk Stream USER saja
   UserModels _userDataModelsFromSnapshot(DocumentSnapshot snapshot) {
     return UserModels(
@@ -160,11 +173,6 @@ class DatabaseService {
     return yaumi.doc(uid).snapshots().map(_userModelFromSnapshot);
   }
 
-  //Metoda update data user saat Edit profile di userEdit
-  Future updateUserData(String lembaga, String amanah) async {
-    return await yaumi.doc(uid).update({'lembaga': lembaga, 'amanah': amanah});
-  }
-
 // ░█████╗░██████╗░░██████╗███████╗███╗░░██╗░█████╗░███╗░░██╗██╗░░░░░██╗███╗░░██╗███████╗
 // ██╔══██╗██╔══██╗██╔════╝██╔════╝████╗░██║██╔══██╗████╗░██║██║░░░░░██║████╗░██║██╔════╝
 // ███████║██████╦╝╚█████╗░█████╗░░██╔██╗██║██║░░██║██╔██╗██║██║░░░░░██║██╔██╗██║█████╗░░
@@ -204,16 +212,18 @@ class DatabaseService {
       {String? uidGroup,
       String? uidLeader,
       String? namaGroup,
-      List<UserModels>? member}) async {
+      String? groupIcon,
+      List? member}) async {
     return await group.doc(uid).set({
       'uidGroup': uidGroup,
       'uidLeader': uidLeader,
       'namaGroup': namaGroup,
+      'groupIcon': groupIcon,
       'member': member
     });
   }
 
-  Future updateGroupData({List<UserModels>? member}) async {
+  Future updateGroupData({List? member}) async {
     return await group.doc(uid).update({
       'member': FieldValue.arrayUnion([member])
     });
@@ -225,6 +235,7 @@ class DatabaseService {
           uidGroup: e['uidGroup'],
           uidLeader: e['uidLeader'],
           namaGroup: e['namaGroup'],
+          groupIcon: e['groupIcon'],
           member: e['member']);
     }).toList();
   }

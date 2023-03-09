@@ -80,6 +80,13 @@ class _HomepageState extends State<Homepage>
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _animationController!.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Box<HiveUserModel>>(
         valueListenable: Boxes.getUserModel().listenable(),
@@ -103,19 +110,22 @@ class _HomepageState extends State<Homepage>
             _settingsController.setFirstActivator();
             return Container();
           } else {
-            _homeController.activatedCategory.value = [
-              hiveYaumiActiveModel.first.fardhu,
-              hiveYaumiActiveModel.first.tahajud,
-              hiveYaumiActiveModel.first.dhuha,
-              hiveYaumiActiveModel.first.rawatib,
-              hiveYaumiActiveModel.first.tilawah,
-              hiveYaumiActiveModel.first.shaum,
-              hiveYaumiActiveModel.first.sedekah,
-              hiveYaumiActiveModel.first.dzikir,
-              hiveYaumiActiveModel.first.taklim,
-              hiveYaumiActiveModel.first.istighfar,
-              hiveYaumiActiveModel.first.shalawat
-            ];
+            Future.delayed(
+                Duration.zero,
+                () => _homeController.activatedCategory.value = [
+                      hiveYaumiActiveModel.first.fardhu,
+                      hiveYaumiActiveModel.first.tahajud,
+                      hiveYaumiActiveModel.first.dhuha,
+                      hiveYaumiActiveModel.first.rawatib,
+                      hiveYaumiActiveModel.first.tilawah,
+                      hiveYaumiActiveModel.first.shaum,
+                      hiveYaumiActiveModel.first.sedekah,
+                      hiveYaumiActiveModel.first.dzikir,
+                      hiveYaumiActiveModel.first.taklim,
+                      hiveYaumiActiveModel.first.istighfar,
+                      hiveYaumiActiveModel.first.shalawat,
+                      hiveYaumiActiveModel.first.absen
+                    ]);
             return ValueListenableBuilder<Box<HiveYaumiModel>>(
                 valueListenable: Boxes.getYaumiModel().listenable(),
                 builder: (context, box, _) {
@@ -248,27 +258,32 @@ class _HomepageState extends State<Homepage>
                       child: AdWidget(ad: _bannerAd!),
                     ),
 
-              hiveUserModel.lembaga == 'PTGSP'
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: ElevatedButton(
-                          onPressed: () => Get.to(() => const AbsenPage()),
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width,
-                            child: const Text('ABSEN'),
-                          )),
-                    )
-                  : Container(),
-
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: () => Get.to(() => const GroupListPage()),
-                    child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width,
-                        child: const Text('GROUP'))),
+              Obx(
+                () => _homeController.currentUser.value != null
+                    ? !_settingsController.absen.value
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                onPressed: () =>
+                                    Get.to(() => const GroupListPage()),
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: const Text('GROUP'))),
+                          )
+                        : Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ElevatedButton(
+                                onPressed: () =>
+                                    Get.to(() => const AbsenPage()),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: const Text('ABSEN'),
+                                )),
+                          )
+                    : Container(),
               ),
 
               //tes

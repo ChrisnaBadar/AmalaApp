@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:adhan/adhan.dart';
@@ -7,6 +8,7 @@ class HomeController extends GetxController {
   var iconCheck = [].obs;
   var activatedCategory = [].obs;
   RxBool saveLoading = false.obs;
+  var currentUser = FirebaseAuth.instance.currentUser.obs;
 
   var selectedDate =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)

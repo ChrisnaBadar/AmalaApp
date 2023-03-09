@@ -20,7 +20,7 @@ class CoreData {
   static String tahunIni = DateFormat('yyyy', 'id_ID').format(DateTime.now());
   static String namaUser = '-';
   static const double cornerRadius = 10.0;
-  static bool isTestMode = true;
+  static bool isTestMode = false;
 
   //identity
   static String? uid = currentUser == null ? '-' : currentUser!.uid;
@@ -35,4 +35,6 @@ class CoreData {
   static String? uidLeader = '-';
   static String? profilePicUrl =
       currentUser == null ? '-' : currentUser!.photoURL;
+
+  static List<String> testDeviceIds = ['FACCB5E8557A3F11B0E7632F91836CDF'];
 }

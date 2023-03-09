@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../services/admob_service.dart';
+import '../../services/auth_service.dart';
 import '../loading/loading.dart';
 import '../splash/splash_screen.dart';
 import 'EditProfileScreen/edit_profile_screen.dart';
@@ -64,8 +65,8 @@ class _UserPageState extends State<UserPage> {
                         userPageController.loading.value = true;
                       });
 
-                      //await AuthService().signOut();
-                      Get.off(() => const SplashScreen());
+                      await AuthService().signOut();
+                      Get.offAll(() => const SplashScreen());
                     },
                   ),
                 ),
