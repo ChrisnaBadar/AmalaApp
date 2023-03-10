@@ -1,3 +1,4 @@
+import 'package:amala/constants/core_data.dart';
 import 'package:amala/constants/my_strings.dart';
 import 'package:amala/controllers/yaumi_setting_controller.dart';
 import 'package:amala/models/hive/hive_yaumi_active_model.dart';
@@ -155,6 +156,7 @@ class _MYaumiSettingsState extends State<YaumiSetting> {
             }))
       }
     ];
+    print(CoreData.uid);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -164,33 +166,41 @@ class _MYaumiSettingsState extends State<YaumiSetting> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(
-                height: 8.0,
-              ),
-              const Text(
-                'Absen Setting',
-                textAlign: TextAlign.start,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Absen online masih dalam pengembangan, sehingga sistem pelaporan baru akan hadir di update yang akan datang.',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(color: Colors.red, fontSize: 10.0),
-                  )),
-              const SizedBox(
-                height: 8.0,
-              ),
-              ListTile(
-                leading: Image.asset(myImageIcon[11], scale: 2),
-                title: Text(yaumiSettingParam[11]['title']),
-                subtitle: Text(yaumiSettingParam[11]['subTitle']),
-                trailing: yaumiSettingParam[11]['trailling'],
-              ),
+              Obx(() => controller.isLoggedIn.value
+                  ? Column(
+                      children: [
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        const Text(
+                          'Absen Setting',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15.0),
+                        ),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Absen online masih dalam pengembangan, sehingga sistem pelaporan baru akan hadir di update yang akan datang.',
+                              textAlign: TextAlign.start,
+                              style:
+                                  TextStyle(color: Colors.red, fontSize: 10.0),
+                            )),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        ListTile(
+                          leading: Image.asset(myImageIcon[11], scale: 2),
+                          title: Text(yaumiSettingParam[11]['title']),
+                          subtitle: Text(yaumiSettingParam[11]['subTitle']),
+                          trailing: yaumiSettingParam[11]['trailling'],
+                        ),
+                      ],
+                    )
+                  : Container()),
               const SizedBox(
                 height: 8.0,
               ),

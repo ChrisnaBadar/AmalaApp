@@ -56,7 +56,7 @@ class _GroupListPageState extends State<GroupListPage> {
       ..email = CoreData.email
       ..group = CoreData.group
       ..lembaga = CoreData.lembaga
-      ..password = CoreData.password
+      ..profilePicUrl = CoreData.profilePicUrl
       ..ponsel = CoreData.ponsel
       ..absen = {}
       ..yaumi = {};
@@ -315,7 +315,7 @@ class _GroupListPageState extends State<GroupListPage> {
         ..uidLeader = CoreData.uid
         ..nama = CoreData.nama
         ..email = CoreData.email
-        ..password = CoreData.password
+        ..profilePicUrl = CoreData.profilePicUrl
         ..group = groupController.namaGroup.value
         ..lembaga = CoreData.lembaga
         ..ponsel = CoreData.ponsel

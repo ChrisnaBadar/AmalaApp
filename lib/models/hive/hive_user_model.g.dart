@@ -22,7 +22,7 @@ class HiveUserModelAdapter extends TypeAdapter<HiveUserModel> {
       ..uidLeader = fields[2] as String?
       ..nama = fields[3] as String?
       ..email = fields[4] as String?
-      ..password = fields[5] as String?
+      ..profilePicUrl = fields[5] as String?
       ..group = fields[6] as String?
       ..lembaga = fields[7] as String?
       ..ponsel = fields[8] as String?
@@ -44,7 +44,7 @@ class HiveUserModelAdapter extends TypeAdapter<HiveUserModel> {
       ..writeByte(4)
       ..write(obj.email)
       ..writeByte(5)
-      ..write(obj.password)
+      ..write(obj.profilePicUrl)
       ..writeByte(6)
       ..write(obj.group)
       ..writeByte(7)

@@ -5,8 +5,6 @@ import 'package:adhan/adhan.dart';
 class CoreData {
   CoreData._();
 
-  static final User? currentUser = FirebaseAuth.instance.currentUser;
-
   static String appName = 'Amala';
   static String appVersion = 'v. 1.0.0';
   static String kota = '-';
@@ -23,18 +21,17 @@ class CoreData {
   static bool isTestMode = false;
 
   //identity
-  static String? uid = currentUser == null ? '-' : currentUser!.uid;
-  static String? nama = currentUser == null ? '-' : currentUser!.displayName;
+  static String? uid = '-';
+  static String? nama = '-';
   static String? lembaga = '-';
   static String? amanah = '-';
   static String? group = '-';
-  static String? email = currentUser == null ? '-' : currentUser!.email;
-  static String? ponsel = currentUser == null ? '-' : currentUser!.phoneNumber;
+  static String? email = '-';
+  static String? ponsel = '-';
   static String? password = '-';
   static String? uidGroup = '-';
   static String? uidLeader = '-';
-  static String? profilePicUrl =
-      currentUser == null ? '-' : currentUser!.photoURL;
+  static String? profilePicUrl = '-';
 
   static List<String> testDeviceIds = ['FACCB5E8557A3F11B0E7632F91836CDF'];
 }

@@ -126,7 +126,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                       CoreData.uidLeader
                                                   ..nama = _user!.displayName
                                                   ..email = _user!.email
-                                                  ..password = CoreData.password
+                                                  ..profilePicUrl =
+                                                      CoreData.profilePicUrl
                                                   ..group = CoreData.group
                                                   ..lembaga = updateLembaga
                                                   ..ponsel = _user!.phoneNumber

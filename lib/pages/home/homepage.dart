@@ -68,7 +68,7 @@ class _HomepageState extends State<Homepage>
       'day': DateFormat('EEEE', "id_ID").format(DateTime.now()),
       'date': DateFormat('dd').format(DateTime.now())
     };
-    myCoordinate = Coordinates(CoreData.lat, CoreData.lat);
+    myCoordinate = Coordinates(CoreData.lat, CoreData.lon);
     _homeController.calculatePrayerTimes(myCoordinate!);
     _homeController.activatedCategory = [].obs;
     _homeController.iconCheck = [].obs;
@@ -93,8 +93,13 @@ class _HomepageState extends State<Homepage>
         builder: (context, box, _) {
           final userHiveModel = box.values.toList().cast<HiveUserModel>();
           final hiveUserModel = userHiveModel.first;
+          CoreData.uid = hiveUserModel.uid;
           CoreData.uidGroup = hiveUserModel.uidGroup;
           CoreData.uidLeader = hiveUserModel.uidLeader;
+          CoreData.nama = hiveUserModel.nama;
+          CoreData.email = hiveUserModel.email;
+          CoreData.profilePicUrl = hiveUserModel.profilePicUrl;
+          CoreData.ponsel = hiveUserModel.ponsel;
           CoreData.amanah = hiveUserModel.amanah;
           CoreData.lembaga = hiveUserModel.lembaga;
           CoreData.group = hiveUserModel.group;

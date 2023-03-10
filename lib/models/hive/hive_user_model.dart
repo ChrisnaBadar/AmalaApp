@@ -25,7 +25,7 @@ class HiveUserModel extends HiveObject {
   String? email;
 
   @HiveField(5)
-  String? password;
+  String? profilePicUrl;
 
   @HiveField(6)
   String? group;

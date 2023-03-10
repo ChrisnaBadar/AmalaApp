@@ -4,7 +4,7 @@ class UserModels {
   String? uidLeader;
   String? nama;
   String? email;
-  String? password;
+  String? profilePicUrl;
   String? group;
   String? lembaga;
   String? ponsel;
@@ -18,7 +18,7 @@ class UserModels {
       this.uidLeader,
       this.nama,
       this.email,
-      this.password,
+      this.profilePicUrl,
       this.group,
       this.lembaga,
       this.ponsel,

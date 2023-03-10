@@ -19,7 +19,7 @@ Widget profilesBar(BuildContext context, User? user, String kota,
   var lembaga = userHiveModel.lembaga;
   var amanah = userHiveModel.amanah;
   var group = userHiveModel.group;
-  var password = userHiveModel.password;
+  var profilePicUrl = userHiveModel.profilePicUrl;
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Column(
@@ -112,7 +112,7 @@ Widget profilesBar(BuildContext context, User? user, String kota,
                         'amanah': amanah,
                         'email': user.email,
                         'ponsel': user.phoneNumber,
-                        'password': password,
+                        'profilePicUrl': profilePicUrl,
                         'uidGroup': uidGroup,
                         'uidLeader': uidLeader
                       }),

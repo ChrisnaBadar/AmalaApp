@@ -1,3 +1,4 @@
+import 'package:amala/constants/core_data.dart';
 import 'package:amala/models/hive/boxes.dart';
 import 'package:amala/models/hive/hive_yaumi_active_model.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,8 @@ class YaumiSettingController extends GetxController {
       istighfar = false.obs,
       shalawat = false.obs,
       absen = false.obs;
+
+  RxBool isLoggedIn = CoreData.uid == '-' ? false.obs : true.obs;
 
   void setFirstActivator() {
     final hiveYaumiActiveModel = HiveYaumiActiveModel()

@@ -117,7 +117,7 @@ class _WelcomePageState extends State<WelcomePage> {
       ..uidLeader = '-'
       ..nama = '-'
       ..email = '-'
-      ..password = '-'
+      ..profilePicUrl = '-'
       ..group = '-'
       ..lembaga = '-'
       ..ponsel = '-'
