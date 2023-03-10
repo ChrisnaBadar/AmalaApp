@@ -115,11 +115,10 @@ class _GroupTileState extends State<GroupTile> {
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: 70.0,
+            height: 80.0,
             child: ListView.builder(
               itemCount: groupModel.member!.length,
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -136,6 +135,7 @@ class _GroupTileState extends State<GroupTile> {
                     width: 70.0,
                     child: Text(
                       groupModel.member![index]['nama'],
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                       style: const TextStyle(fontSize: 10.0),

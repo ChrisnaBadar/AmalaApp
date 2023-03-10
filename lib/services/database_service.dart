@@ -229,6 +229,19 @@ class DatabaseService {
     });
   }
 
+  GroupModel _groupModelFromSnapshot(DocumentSnapshot snapshot) {
+    return GroupModel(
+        uidGroup: snapshot['uidGroup'],
+        uidLeader: snapshot['uidLeader'],
+        namaGroup: snapshot['namaGroup'],
+        groupIcon: snapshot['groupIcon'],
+        member: snapshot['member']);
+  }
+
+  Stream<GroupModel> get groupModel {
+    return group.doc(uidGroup).snapshots().map(_groupModelFromSnapshot);
+  }
+
   List<GroupModel> _groupModelListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((e) {
       return GroupModel(

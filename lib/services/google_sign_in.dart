@@ -1,3 +1,4 @@
+import 'package:amala/constants/core_data.dart';
 import 'package:amala/models/hive/hive_user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,15 +58,15 @@ class GoogleSingInProvider extends ChangeNotifier {
         '-');
     final userHiveModel = HiveUserModel()
       ..uid = currentUser.uid
-      ..uidGroup = '-'
-      ..uidLeader = '-'
+      ..uidGroup = CoreData.uidGroup
+      ..uidLeader = CoreData.uidLeader
       ..nama = currentUser.displayName
       ..email = currentUser.email
-      ..password = '-'
-      ..group = '-'
-      ..lembaga = '-'
-      ..ponsel = currentUser.phoneNumber
-      ..amanah = '-';
+      ..password = CoreData.password
+      ..group = CoreData.group
+      ..lembaga = CoreData.lembaga
+      ..ponsel = currentUser.phoneNumber ?? '-'
+      ..amanah = CoreData.amanah;
 
     final box = Boxes.getUserModel();
     box.put('user', userHiveModel);

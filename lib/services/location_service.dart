@@ -27,9 +27,22 @@ class LocationService {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    final result = await Geolocator.getCurrentPosition(
-        timeLimit: const Duration(seconds: 20));
-    return result;
+    try {
+      final result = await Geolocator.getCurrentPosition(
+          timeLimit: const Duration(seconds: 20));
+      return result;
+    } catch (e) {
+      final result = Position(
+          longitude: CoreData.lat,
+          latitude: CoreData.lon,
+          timestamp: DateTime.now(),
+          accuracy: 0.0,
+          altitude: 0.0,
+          heading: 0.0,
+          speed: 0.0,
+          speedAccuracy: 0.0);
+      return result;
+    }
   }
 
   Future getLocation() async {

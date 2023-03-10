@@ -1,4 +1,6 @@
+import 'package:amala/constants/core_data.dart';
 import 'package:amala/models/hive/hive_user_model.dart';
+import 'package:amala/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -112,18 +114,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                               .currentState!
                                               .saveAndValidate();
                                           if (validationSuccess) {
-                                            // await DatabaseService(uid: uid)
-                                            //     .updateUserData(updateLembaga,
-                                            //         updateAmanah);
+                                            await DatabaseService(
+                                                    uid: CoreData.uid)
+                                                .updateUserData(updateLembaga!,
+                                                    updateAmanah!);
                                             final userHiveModel =
                                                 HiveUserModel()
                                                   ..uid = _user!.uid
-                                                  ..uidGroup = 'uidGroup'
-                                                  ..uidLeader = 'uidLeader'
+                                                  ..uidGroup = CoreData.uidGroup
+                                                  ..uidLeader =
+                                                      CoreData.uidLeader
                                                   ..nama = _user!.displayName
                                                   ..email = _user!.email
-                                                  ..password = 'password'
-                                                  ..group = 'group'
+                                                  ..password = CoreData.password
+                                                  ..group = CoreData.group
                                                   ..lembaga = updateLembaga
                                                   ..ponsel = _user!.phoneNumber
                                                   ..amanah = updateAmanah;

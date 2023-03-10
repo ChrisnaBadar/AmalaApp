@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import '../../constants/core_data.dart';
 import '../../services/admob_service.dart';
 import '../../services/auth_service.dart';
 import '../loading/loading.dart';
@@ -189,26 +190,26 @@ class _UserPageState extends State<UserPage> {
                                     ),
 
                                     //lembaga
-                                    const Section2Widget(
+                                    Section2Widget(
                                       title: 'Lembaga',
-                                      lembaga: 'lembaga',
+                                      lembaga: CoreData.lembaga,
                                     ),
 
                                     //amanah
-                                    const Section2Widget(
+                                    Section2Widget(
                                       title: 'Amanah',
-                                      amanah: 'amanah',
+                                      amanah: CoreData.amanah,
                                     ),
 
                                     //email
-                                    const Section2Widget(
+                                    Section2Widget(
                                       title: 'Email',
-                                      email: 'email',
+                                      email: CoreData.email,
                                     ),
 
-                                    const Section2Widget(
+                                    Section2Widget(
                                       title: 'Ponsel',
-                                      ponsel: 'ponsel',
+                                      ponsel: CoreData.ponsel,
                                     ),
 
                                     //logout

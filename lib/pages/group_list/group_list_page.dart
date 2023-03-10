@@ -9,6 +9,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:amala/controllers/group_controller.dart';
 
+import '../../models/hive/boxes.dart';
+import '../../models/hive/hive_user_model.dart';
 import '../loading/loading.dart';
 import 'group_list.dart';
 
@@ -83,14 +85,12 @@ class _GroupListPageState extends State<GroupListPage> {
               ),
             ),
             body: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 16.0,
-                    ),
-                    Padding(
+              child: Column(
+                children: [
+                  Container(
+                    height: 35.0,
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text('Daftar Group',
                           style: TextStyle(
@@ -98,11 +98,20 @@ class _GroupListPageState extends State<GroupListPage> {
                               color: Colors.blueGrey[700],
                               fontWeight: FontWeight.bold)),
                     ),
-                    GroupList(
-                      groupList: groupList,
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GroupList(
+                            groupList: groupList,
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );
@@ -300,6 +309,20 @@ class _GroupListPageState extends State<GroupListPage> {
           ]);
       await DatabaseService(uid: CoreData.uid).updateUserData1(
           CoreData.uid!, CoreData.uid!, groupController.namaGroup.value);
+      final userHiveModel = HiveUserModel()
+        ..uid = CoreData.uid
+        ..uidGroup = CoreData.uid
+        ..uidLeader = CoreData.uid
+        ..nama = CoreData.nama
+        ..email = CoreData.email
+        ..password = CoreData.password
+        ..group = groupController.namaGroup.value
+        ..lembaga = CoreData.lembaga
+        ..ponsel = CoreData.ponsel
+        ..amanah = CoreData.amanah;
+
+      final box = Boxes.getUserModel();
+      box.put('user', userHiveModel);
       setState(() {
         loading = false;
       });

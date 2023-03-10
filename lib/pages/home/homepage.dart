@@ -92,6 +92,12 @@ class _HomepageState extends State<Homepage>
         valueListenable: Boxes.getUserModel().listenable(),
         builder: (context, box, _) {
           final userHiveModel = box.values.toList().cast<HiveUserModel>();
+          final hiveUserModel = userHiveModel.first;
+          CoreData.uidGroup = hiveUserModel.uidGroup;
+          CoreData.uidLeader = hiveUserModel.uidLeader;
+          CoreData.amanah = hiveUserModel.amanah;
+          CoreData.lembaga = hiveUserModel.lembaga;
+          CoreData.group = hiveUserModel.group;
           if (userHiveModel.isEmpty) {
             return _mainBody();
           } else {

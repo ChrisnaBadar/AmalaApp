@@ -9,6 +9,7 @@ class HomeController extends GetxController {
   var activatedCategory = [].obs;
   RxBool saveLoading = false.obs;
   var currentUser = FirebaseAuth.instance.currentUser.obs;
+  RxBool clear = false.obs;
 
   var selectedDate =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
