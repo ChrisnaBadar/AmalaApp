@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:amala/controllers/group_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../models/hive/boxes.dart';
 import '../../models/hive/hive_user_model.dart';
@@ -22,6 +23,7 @@ class GroupListPage extends StatefulWidget {
 }
 
 class _GroupListPageState extends State<GroupListPage> {
+  User? currentUser = FirebaseAuth.instance.currentUser;
   //untuk formbuilder
   final _formKey = GlobalKey<FormBuilderState>();
   FocusNode? _focusNode;
@@ -60,30 +62,36 @@ class _GroupListPageState extends State<GroupListPage> {
       ..ponsel = CoreData.ponsel
       ..absen = {}
       ..yaumi = {};
+    final _result = groupList!
+        .map((e) => e.member!)
+        .first
+        .indexWhere((element) => element['uid'] == currentUser!.uid);
     return loading
         ? const Loading()
         : Scaffold(
-            floatingActionButton: FloatingActionButton.extended(
-              onPressed: () => showModalBottomSheet(
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0),
-                )),
-                isScrollControlled: true,
-                context: context,
-                builder: (context) => Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: _buildSheet(userModels),
-                ),
-              ),
-              label: const Text('Buat Group'),
-              icon: Image.asset(
-                MyStrings.manIconColor,
-                scale: 3.5,
-              ),
-            ),
+            floatingActionButton: _result == -1
+                ? FloatingActionButton.extended(
+                    onPressed: () => showModalBottomSheet(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0),
+                      )),
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) => Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: _buildSheet(userModels),
+                      ),
+                    ),
+                    label: const Text('Buat Group'),
+                    icon: Image.asset(
+                      MyStrings.manIconColor,
+                      scale: 3.5,
+                    ),
+                  )
+                : null,
             body: SafeArea(
               child: Column(
                 children: [

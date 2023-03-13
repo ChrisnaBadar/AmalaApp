@@ -2,8 +2,10 @@ import 'package:amala/constants/core_data.dart';
 import 'package:amala/models/hive/boxes.dart';
 import 'package:amala/models/hive/hive_yaumi_active_model.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class YaumiSettingController extends GetxController {
+  static User? currentUser = FirebaseAuth.instance.currentUser;
   //Bool Parameter
   RxBool fardhu = false.obs,
       tahajud = false.obs,
@@ -18,7 +20,7 @@ class YaumiSettingController extends GetxController {
       shalawat = false.obs,
       absen = false.obs;
 
-  RxBool isLoggedIn = CoreData.uid == '-' ? false.obs : true.obs;
+  RxBool isLoggedIn = currentUser != null ? true.obs : false.obs;
 
   void setFirstActivator() {
     final hiveYaumiActiveModel = HiveYaumiActiveModel()

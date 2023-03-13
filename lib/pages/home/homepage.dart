@@ -103,6 +103,7 @@ class _HomepageState extends State<Homepage>
           CoreData.amanah = hiveUserModel.amanah;
           CoreData.lembaga = hiveUserModel.lembaga;
           CoreData.group = hiveUserModel.group;
+          print('my pp: ${CoreData.profilePicUrl}');
           if (userHiveModel.isEmpty) {
             return _mainBody();
           } else {
@@ -271,7 +272,7 @@ class _HomepageState extends State<Homepage>
 
               Obx(
                 () => _homeController.currentUser.value != null
-                    ? !_settingsController.absen.value
+                    ? !yaumiActiveModel!.first.absen!
                         ? Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(

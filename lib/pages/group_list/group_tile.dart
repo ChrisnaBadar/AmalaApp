@@ -1,6 +1,7 @@
 import 'package:amala/constants/my_strings.dart';
 import 'package:amala/models/group_model.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class GroupTile extends StatefulWidget {
   final GroupModel? groupModel;
@@ -11,6 +12,7 @@ class GroupTile extends StatefulWidget {
 }
 
 class _GroupTileState extends State<GroupTile> {
+  User? currentUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -52,6 +54,8 @@ class _GroupTileState extends State<GroupTile> {
   }
 
   Widget _buildSheet(GroupModel groupModel) {
+    final memberCheck = widget.groupModel!.member!
+        .indexWhere((element) => element['uid'] == currentUser!.uid);
     return SizedBox(
       height: 300.0,
       child: Column(
@@ -148,17 +152,30 @@ class _GroupTileState extends State<GroupTile> {
           const SizedBox(
             height: 8.0,
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            child: ElevatedButton(
-                onPressed: () {},
-                child: Container(
+          memberCheck == -1
+              ? Container(
+                  width: MediaQuery.of(context).size.width,
                   alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width * .8,
-                  child: const Text('Gabung Group'),
-                )),
-          )
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width * .8,
+                        child: const Text('Gabung Group'),
+                      )),
+                )
+              : Container(
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      style: const ButtonStyle(),
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width * .8,
+                        child: const Text('Keluar Group'),
+                      )),
+                )
         ],
       ),
     );

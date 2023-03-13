@@ -156,7 +156,6 @@ class _MYaumiSettingsState extends State<YaumiSetting> {
             }))
       }
     ];
-    print(CoreData.uid);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),

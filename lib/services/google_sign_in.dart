@@ -62,7 +62,7 @@ class GoogleSingInProvider extends ChangeNotifier {
       ..uidLeader = CoreData.uidLeader
       ..nama = currentUser.displayName
       ..email = currentUser.email
-      ..profilePicUrl = CoreData.profilePicUrl
+      ..profilePicUrl = currentUser.photoURL
       ..group = CoreData.group
       ..lembaga = CoreData.lembaga
       ..ponsel = currentUser.phoneNumber ?? '-'

@@ -101,26 +101,7 @@ Widget profilesBar(BuildContext context, User? user, String kota,
                       backgroundImage: NetworkImage(user.photoURL!),
                     ),
                     title: Text('${user.displayName}'),
-                    subtitle: Text('${user.email}'),
-                    trailing: IconButton(
-                      onPressed: () =>
-                          Get.to(() => const UserPage(), arguments: {
-                        'uid': user.uid,
-                        'nama': user.displayName,
-                        'group': group,
-                        'lembaga': lembaga,
-                        'amanah': amanah,
-                        'email': user.email,
-                        'ponsel': user.phoneNumber,
-                        'profilePicUrl': profilePicUrl,
-                        'uidGroup': uidGroup,
-                        'uidLeader': uidLeader
-                      }),
-                      icon: const Icon(
-                        Icons.person,
-                        color: Colors.blue,
-                      ),
-                    )),
+                    subtitle: Text('${user.email}')),
               )
             : Container(
                 decoration: const BoxDecoration(
