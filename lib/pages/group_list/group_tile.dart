@@ -26,6 +26,7 @@ class _GroupTileState extends State<GroupTile> {
   @override
   Widget build(BuildContext context) {
     final members = widget.groupModel!.member!.values.toList();
+    debugPrint('${widget.groupModel!.uidLeader}');
     return Card(
       child: ListTile(
         trailing: CircleAvatar(
@@ -65,9 +66,10 @@ class _GroupTileState extends State<GroupTile> {
   }
 
   Widget _buildSheet(GroupModel groupModel, List members) {
-    final memberCheck = widget.groupModel!.member!;
+    final isNotMember =
+        members.where((element) => element['uid'] == currentUser!.uid).isEmpty;
     return loading
-        ? Loading()
+        ? const Loading()
         : SizedBox(
             height: 300.0,
             child: Column(
@@ -164,7 +166,7 @@ class _GroupTileState extends State<GroupTile> {
                 const SizedBox(
                   height: 8.0,
                 ),
-                memberCheck == -1
+                isNotMember
                     ? Container(
                         width: MediaQuery.of(context).size.width,
                         alignment: Alignment.center,
@@ -176,19 +178,17 @@ class _GroupTileState extends State<GroupTile> {
                               try {
                                 //write userModel for online db
                                 await DatabaseService(
-                                        uidLeader: widget.groupModel!.uidLeader)
-                                    .updateGroupData(member: [
-                                  {
-                                    'nama': currentUser!.displayName,
-                                    'photoUrl': currentUser!.photoURL,
-                                    'uid': currentUser!.uid,
-                                  }
-                                ]);
+                                        uidLeader: widget.groupModel!.uidLeader,
+                                        uid: currentUser!.uid)
+                                    .updateGroupData(
+                                        nama: currentUser!.displayName,
+                                        photoUrl: currentUser!.photoURL);
 
-                                await DatabaseService().updateUserData1(
-                                    widget.groupModel!.uidGroup!,
-                                    widget.groupModel!.uidLeader!,
-                                    widget.groupModel!.namaGroup!);
+                                await DatabaseService(uid: currentUser!.uid)
+                                    .updateUserData1(
+                                        widget.groupModel!.uidGroup!,
+                                        widget.groupModel!.uidLeader!,
+                                        widget.groupModel!.namaGroup!);
                                 //write hiveModel for local db
                                 final hiveUserModel = HiveUserModel()
                                   ..uid = currentUser!.uid
@@ -204,6 +204,8 @@ class _GroupTileState extends State<GroupTile> {
 
                                 final box = Boxes.getUserModel();
                                 box.put('user', hiveUserModel);
+
+                                //core data
 
                                 setState(() {
                                   loading = false;
@@ -236,8 +238,12 @@ class _GroupTileState extends State<GroupTile> {
                               });
                               try {
                                 //remove userModel for online db
+                                await DatabaseService(
+                                        uidLeader: widget.groupModel!.uidLeader,
+                                        uid: currentUser!.uid)
+                                    .removeGroupData();
 
-                                await DatabaseService()
+                                await DatabaseService(uid: currentUser!.uid)
                                     .updateUserData1('-', '-', '-');
                                 //write hiveModel for local db
                                 final hiveUserModel = HiveUserModel()

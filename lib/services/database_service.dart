@@ -223,17 +223,19 @@ class DatabaseService {
     });
   }
 
-  Future updateGroupData({List? member}) async {
-    return await group.doc(uidLeader).update({
-      'member': FieldValue.arrayUnion([member])
-    });
+  Future updateGroupData({String? nama, String? photoUrl}) async {
+    return await group.doc(uidLeader).set({
+      'member': {
+        uid: {'nama': nama, 'photoUrl': photoUrl, 'uid': uid}
+      }
+    }, SetOptions(merge: true));
   }
 
-  // Future removeGroupData({List? member}) async {
-  //   return await group.doc(uidLeader).update({
-  //     'member': FieldValue.arrayRemove([member!.where((e) => e['uid'] == uid)])
-  //   });
-  // }
+  Future removeGroupData() async {
+    return await group
+        .doc(uidLeader)
+        .update({'member.$uid': FieldValue.delete()});
+  }
 
   GroupModel _groupModelFromSnapshot(DocumentSnapshot snapshot) {
     return GroupModel(
