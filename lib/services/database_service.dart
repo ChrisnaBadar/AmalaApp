@@ -224,10 +224,16 @@ class DatabaseService {
   }
 
   Future updateGroupData({List? member}) async {
-    return await group.doc(uid).update({
+    return await group.doc(uidLeader).update({
       'member': FieldValue.arrayUnion([member])
     });
   }
+
+  // Future removeGroupData({List? member}) async {
+  //   return await group.doc(uidLeader).update({
+  //     'member': FieldValue.arrayRemove([member!.where((e) => e['uid'] == uid)])
+  //   });
+  // }
 
   GroupModel _groupModelFromSnapshot(DocumentSnapshot snapshot) {
     return GroupModel(

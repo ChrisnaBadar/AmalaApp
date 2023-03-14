@@ -3,7 +3,7 @@ class GroupModel {
   final String? uidLeader;
   final String? namaGroup;
   final String? groupIcon;
-  final List? member;
+  final Map? member;
 
   GroupModel(
       {this.uidGroup,

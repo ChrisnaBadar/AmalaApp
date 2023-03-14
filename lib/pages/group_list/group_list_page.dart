@@ -63,13 +63,17 @@ class _GroupListPageState extends State<GroupListPage> {
       ..absen = {}
       ..yaumi = {};
     final _result = groupList!
-        .map((e) => e.member!)
+        .map((e) => e.member!.values)
+        .toList()
         .first
-        .indexWhere((element) => element['uid'] == currentUser!.uid);
+        .toList()
+        .where((e) => e['uid'] == 'DooAOySQjGSBJ1zJtEJY')
+        .toList();
+    debugPrint('result 2: $_result');
     return loading
         ? const Loading()
         : Scaffold(
-            floatingActionButton: _result == -1
+            floatingActionButton: _result.isEmpty
                 ? FloatingActionButton.extended(
                     onPressed: () => showModalBottomSheet(
                       shape: const RoundedRectangleBorder(
