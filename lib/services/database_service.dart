@@ -209,17 +209,19 @@ class DatabaseService {
   CollectionReference group = FirebaseFirestore.instance.collection('groups');
 
   Future setGroupData(
-      {String? uidGroup,
-      String? uidLeader,
+      {String? nama,
+      String? photoUrl,
       String? namaGroup,
       String? groupIcon,
       List? member}) async {
     return await group.doc(uid).set({
-      'uidGroup': uidGroup,
-      'uidLeader': uidLeader,
+      'uidGroup': uid,
+      'uidLeader': uid,
       'namaGroup': namaGroup,
       'groupIcon': groupIcon,
-      'member': member
+      'member': {
+        uid: {'nama': nama, 'photoUrl': photoUrl, 'uid': uid}
+      }
     });
   }
 

@@ -62,18 +62,17 @@ class _GroupListPageState extends State<GroupListPage> {
       ..ponsel = CoreData.ponsel
       ..absen = {}
       ..yaumi = {};
-    final _result = groupList!
+    final isGroupLeader = groupList!
         .map((e) => e.member!.values)
         .toList()
         .first
         .toList()
-        .where((e) => e['uid'] == 'DooAOySQjGSBJ1zJtEJY')
+        .where((e) => e['uid'] == currentUser!.uid)
         .toList();
-    debugPrint('result 2: $_result');
     return loading
         ? const Loading()
         : Scaffold(
-            floatingActionButton: _result.isEmpty
+            floatingActionButton: isGroupLeader.isEmpty
                 ? FloatingActionButton.extended(
                     onPressed: () => showModalBottomSheet(
                       shape: const RoundedRectangleBorder(
@@ -307,27 +306,20 @@ class _GroupListPageState extends State<GroupListPage> {
       setState(() {
         loading = true;
       });
-      await DatabaseService(uid: CoreData.uid).setGroupData(
-          uidGroup: CoreData.uid,
-          uidLeader: CoreData.uid,
+      await DatabaseService(uid: currentUser!.uid).setGroupData(
+          nama: currentUser!.displayName,
+          photoUrl: currentUser!.photoURL,
           namaGroup: groupController.namaGroup.value,
-          groupIcon: groupController.iconAvatar.value,
-          member: [
-            {
-              'uid': userModels.uid,
-              'nama': userModels.nama,
-              'photoUrl': CoreData.profilePicUrl
-            }
-          ]);
-      await DatabaseService(uid: CoreData.uid).updateUserData1(
-          CoreData.uid!, CoreData.uid!, groupController.namaGroup.value);
+          groupIcon: groupController.iconAvatar.value);
+      await DatabaseService(uid: currentUser!.uid).updateUserData1(
+          currentUser!.uid, currentUser!.uid, groupController.namaGroup.value);
       final userHiveModel = HiveUserModel()
-        ..uid = CoreData.uid
-        ..uidGroup = CoreData.uid
-        ..uidLeader = CoreData.uid
-        ..nama = CoreData.nama
-        ..email = CoreData.email
-        ..profilePicUrl = CoreData.profilePicUrl
+        ..uid = currentUser!.uid
+        ..uidGroup = currentUser!.uid
+        ..uidLeader = currentUser!.uid
+        ..nama = currentUser!.displayName
+        ..email = currentUser!.email
+        ..profilePicUrl = currentUser!.photoURL
         ..group = groupController.namaGroup.value
         ..lembaga = CoreData.lembaga
         ..ponsel = CoreData.ponsel
