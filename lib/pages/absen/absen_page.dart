@@ -21,12 +21,12 @@ class AbsenPage extends StatefulWidget {
 }
 
 class _AbsenPageState extends State<AbsenPage> {
-  BannerAd? bannerAd;
+  BannerAd? _bannerAd;
 
   final _absenController = Get.put(AbsenController());
 
   void _createBannerAd() {
-    bannerAd = BannerAd(
+    _bannerAd = BannerAd(
         size: AdSize.fullBanner,
         adUnitId: AdMobService.bannerAdUnitId,
         listener: AdMobService.bannerListener,
@@ -35,8 +35,22 @@ class _AbsenPageState extends State<AbsenPage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _createBannerAd();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: _bannerAd == null
+          ? Container()
+          : Container(
+              height: 52,
+              margin: const EdgeInsets.only(bottom: 12),
+              child: AdWidget(ad: _bannerAd!),
+            ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Get.to(() => AbsenForm(absenController: _absenController));

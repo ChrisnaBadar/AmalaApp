@@ -23,6 +23,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:amala/constants/core_data.dart';
 
 import '../../services/admob_service.dart';
+import '../../services/database_service.dart';
 import '../absen/absen_page.dart';
 import '../group_list/group_list_page.dart';
 import '../yaumiLog/yaumi_log_report.dart';
@@ -43,6 +44,8 @@ class _HomepageState extends State<Homepage>
 
   //admob
   BannerAd? _bannerAd;
+  InterstitialAd? _interstitialAd;
+  AppOpenAd? _appOpenAd;
 
   final User? _user = FirebaseAuth.instance.currentUser;
   Coordinates? myCoordinate;
@@ -51,6 +54,46 @@ class _HomepageState extends State<Homepage>
   String? lembaga;
   String? amanah;
   String? group;
+
+  void _loadOpenAppAd() {
+    AppOpenAd.load(
+        adUnitId: AdMobService.appOpenAdUnit,
+        request: const AdRequest(),
+        adLoadCallback: AppOpenAdLoadCallback(
+            onAdLoaded: (ad) {
+              _appOpenAd = ad;
+              _appOpenAd!.show();
+            },
+            onAdFailedToLoad: (e) => _appOpenAd = null),
+        orientation: AppOpenAd.orientationPortrait);
+  }
+
+  void _createIntertitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdMobService.interstitialAdUnitId,
+        request: AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) => _interstitialAd = ad,
+          onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null,
+        ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd != null) {
+      _interstitialAd!.fullScreenContentCallback =
+          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+        _submitSave();
+        _createIntertitialAd();
+      }, onAdFailedToShowFullScreenContent: (ad, e) {
+        ad.dispose();
+        _submitSave();
+        _createIntertitialAd();
+      });
+      _interstitialAd!.show();
+      _interstitialAd = null;
+    }
+  }
 
   void _createBannerAd() {
     _bannerAd = BannerAd(
@@ -77,6 +120,8 @@ class _HomepageState extends State<Homepage>
         duration: Duration(seconds: _homeController.levelClock.value));
     _animationController!.forward();
     _createBannerAd();
+    _createIntertitialAd();
+    _loadOpenAppAd();
   }
 
   @override
@@ -103,7 +148,7 @@ class _HomepageState extends State<Homepage>
           CoreData.amanah = hiveUserModel.amanah;
           CoreData.lembaga = hiveUserModel.lembaga;
           CoreData.group = hiveUserModel.group;
-          print('my pp: ${CoreData.profilePicUrl}');
+          print('my uid Group: ${hiveUserModel.uidGroup}');
           if (userHiveModel.isEmpty) {
             return _mainBody();
           } else {
@@ -227,10 +272,13 @@ class _HomepageState extends State<Homepage>
                 ? _homeController.iconCheck.contains(true)
                     ? !_homeController.isSaved.value
                         ? FloatingActionButton.extended(
-                            onPressed: () => showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    Obx(() => _buildDialog(false))),
+                            onPressed: () {
+                              _homeController.saved.value = false;
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      Obx(() => _buildDialog()));
+                            },
                             label: const Text('SAVE'),
                             icon: Image.asset(
                               MyStrings.saveIconColor,
@@ -238,10 +286,13 @@ class _HomepageState extends State<Homepage>
                             ),
                           )
                         : FloatingActionButton.extended(
-                            onPressed: () => showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    Obx(() => _buildDialog(true))),
+                            onPressed: () {
+                              _homeController.saved.value = true;
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      Obx(() => _buildDialog()));
+                            },
                             label: const Text('UPDATE'),
                             icon: Image.asset(
                               MyStrings.updateIconColor,
@@ -356,9 +407,7 @@ class _HomepageState extends State<Homepage>
         )));
   }
 
-  Widget _buildDialog(bool saved) {
-    var date = DateFormat('EEEE, dd MMM yyyy', "id_ID")
-        .format(_homeController.selectedDate.value);
+  void _submitSave() async {
     var yaumiList = [
       _habitController.shubuh.value,
       _habitController.dhuhur.value,
@@ -378,6 +427,47 @@ class _HomepageState extends State<Homepage>
       _habitController.shalawat.value,
       _habitController.point.value
     ];
+    if (_homeController.saved.value) {
+      _homeController.saveLoading.value = true;
+      try {
+        await DatabaseService(uid: _user!.uid).setDataYaumi(
+            _homeController.selectedDate.value,
+            yaumiList,
+            true,
+            _habitController.point.value);
+        _habitController.isSaved.value = true;
+        _habitController.setSavedValue(
+            tanggal: _homeController.selectedDate.value, yaumi: yaumiList);
+        _homeController.saveLoading.value = false;
+        Navigator.pop(context, 'OK');
+      } catch (e) {
+        _homeController.saveLoading.value = false;
+        Navigator.pop(context, 'OK');
+      }
+    } else {
+      _homeController.saveLoading.value = true;
+      try {
+        await DatabaseService(uid: _user!.uid).setDataYaumi(
+            _homeController.selectedDate.value,
+            yaumiList,
+            _habitController.isSaved.value,
+            _habitController.point.value);
+        _homeController.saveLoading.value = false;
+        _habitController.isSaved.value = true;
+        _habitController.setSavedValue(
+            tanggal: _homeController.selectedDate.value, yaumi: yaumiList);
+        Navigator.pop(context, 'OK');
+      } catch (e) {
+        _homeController.saveLoading.value = false;
+        Navigator.pop(context, 'OK');
+      }
+    }
+  }
+
+  Widget _buildDialog() {
+    var date = DateFormat('EEEE, dd MMM yyyy', "id_ID")
+        .format(_homeController.selectedDate.value);
+
     return Stack(children: [
       ValueListenableBuilder<Box<HiveUserModel>>(
         valueListenable: Boxes.getUserModel().listenable(),
@@ -404,11 +494,11 @@ class _HomepageState extends State<Homepage>
                   return Container();
                 } else {
                   return AlertDialog(
-                    title: saved
+                    title: _homeController.saved.value
                         ? const Text('UPDATE DATA YAUMI')
                         : const Text('SAVE DATA YAUMI'),
                     content: Text.rich(TextSpan(children: [
-                      saved
+                      _homeController.saved.value
                           ? const TextSpan(text: 'Update data Yaumi ini? ')
                           : const TextSpan(text: 'Save data Yaumi hari '),
                       TextSpan(
@@ -422,47 +512,7 @@ class _HomepageState extends State<Homepage>
                         child: const Text('Cancel'),
                       ),
                       TextButton(
-                        onPressed: () async {
-                          if (saved) {
-                            _homeController.saveLoading.value = true;
-                            try {
-                              // await DatabaseService(uid: _user.uid)
-                              //     .setDataYaumi(
-                              //         _homeController.selectedDate.value,
-                              //         yaumiList,
-                              //         true,
-                              //         _habitController.point.value);
-                              _habitController.isSaved.value = true;
-                              _habitController.setSavedValue(
-                                  tanggal: _homeController.selectedDate.value,
-                                  yaumi: yaumiList);
-                              _homeController.saveLoading.value = false;
-                              Navigator.pop(context, 'OK');
-                            } catch (e) {
-                              _homeController.saveLoading.value = false;
-                              Navigator.pop(context, 'OK');
-                            }
-                          } else {
-                            _homeController.saveLoading.value = true;
-                            try {
-                              // await DatabaseService(uid: _user.uid)
-                              //     .setDataYaumi(
-                              //         _homeController.selectedDate.value,
-                              //         yaumiList,
-                              //         _habitController.isSaved.value,
-                              //         _habitController.point.value);
-                              _homeController.saveLoading.value = false;
-                              _habitController.isSaved.value = true;
-                              _habitController.setSavedValue(
-                                  tanggal: _homeController.selectedDate.value,
-                                  yaumi: yaumiList);
-                              Navigator.pop(context, 'OK');
-                            } catch (e) {
-                              _homeController.saveLoading.value = false;
-                              Navigator.pop(context, 'OK');
-                            }
-                          }
-                        },
+                        onPressed: () => _showInterstitialAd(),
                         child: const Text('OK'),
                       ),
                     ],

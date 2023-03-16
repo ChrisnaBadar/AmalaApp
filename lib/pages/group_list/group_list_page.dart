@@ -9,9 +9,11 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:amala/controllers/group_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../models/hive/boxes.dart';
 import '../../models/hive/hive_user_model.dart';
+import '../../services/admob_service.dart';
 import '../loading/loading.dart';
 import 'group_list.dart';
 
@@ -29,6 +31,25 @@ class _GroupListPageState extends State<GroupListPage> {
   FocusNode? _focusNode;
   bool loading = false;
   final groupController = Get.put(GroupController());
+  //admob
+  BannerAd? _bannerAd;
+
+  void _createBannerAd() {
+    _bannerAd = BannerAd(
+        size: AdSize.fullBanner,
+        adUnitId: AdMobService.bannerAdUnitId,
+        listener: AdMobService.bannerListener,
+        request: const AdRequest())
+      ..load();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _createBannerAd();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<GroupModel>>(
@@ -36,7 +57,8 @@ class _GroupListPageState extends State<GroupListPage> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final groupList = snapshot.data;
-          return _mainBody(groupList);
+          final checkGroupList = groupList!.map((e) => e.uidGroup).toList();
+          return _mainBody(groupList, checkGroupList);
         } else {
           return const Scaffold(
             body: Center(
@@ -48,7 +70,7 @@ class _GroupListPageState extends State<GroupListPage> {
     );
   }
 
-  Widget _mainBody(List<GroupModel>? groupList) {
+  Widget _mainBody(List<GroupModel>? groupList, List checkGroupList) {
     final userModels = UserModels()
       ..uid = CoreData.uid
       ..uidGroup = CoreData.uidGroup
@@ -69,9 +91,19 @@ class _GroupListPageState extends State<GroupListPage> {
         .toList()
         .where((e) => e['uid'] == currentUser!.uid)
         .toList();
+    checkGroupList.contains(CoreData.uidGroup)
+        ? true
+        : DatabaseService(uid: CoreData.uid).updateUserData1('-', '-', '-');
     return loading
         ? const Loading()
         : Scaffold(
+            bottomNavigationBar: _bannerAd == null
+                ? Container()
+                : Container(
+                    height: 52,
+                    margin: const EdgeInsets.only(bottom: 12),
+                    child: AdWidget(ad: _bannerAd!),
+                  ),
             floatingActionButton: isGroupLeader.isEmpty
                 ? FloatingActionButton.extended(
                     onPressed: () => showModalBottomSheet(

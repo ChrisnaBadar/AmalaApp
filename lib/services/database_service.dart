@@ -239,6 +239,10 @@ class DatabaseService {
         .update({'member.$uid': FieldValue.delete()});
   }
 
+  Future removeGroup() async {
+    return await group.doc(uidLeader).delete();
+  }
+
   GroupModel _groupModelFromSnapshot(DocumentSnapshot snapshot) {
     return GroupModel(
         uidGroup: snapshot['uidGroup'],

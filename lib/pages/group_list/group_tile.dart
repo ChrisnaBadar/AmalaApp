@@ -28,7 +28,6 @@ class _GroupTileState extends State<GroupTile> {
   @override
   Widget build(BuildContext context) {
     final members = widget.groupModel!.member!.values.toList();
-    debugPrint('${widget.groupModel!.uidLeader}');
     return Card(
       child: ListTile(
         trailing: CircleAvatar(
@@ -177,7 +176,7 @@ class _GroupTileState extends State<GroupTile> {
                       const SizedBox(
                         height: 8.0,
                       ),
-                      isNotMember
+                      CoreData.uidGroup == '-'
                           ? Container(
                               width: MediaQuery.of(context).size.width,
                               alignment: Alignment.center,
@@ -221,6 +220,12 @@ class _GroupTileState extends State<GroupTile> {
                                       box.put('user', hiveUserModel);
 
                                       //core data
+                                      CoreData.uidGroup =
+                                          widget.groupModel!.uidGroup;
+                                      CoreData.uidLeader =
+                                          widget.groupModel!.uidLeader;
+                                      CoreData.group =
+                                          widget.groupModel!.namaGroup;
 
                                       setState(() {
                                         loading = false;
@@ -257,9 +262,8 @@ class _GroupTileState extends State<GroupTile> {
                                           //remove userModel for online db
                                           await DatabaseService(
                                                   uidLeader: widget
-                                                      .groupModel!.uidLeader,
-                                                  uid: currentUser!.uid)
-                                              .removeGroupData();
+                                                      .groupModel!.uidLeader)
+                                              .removeGroup();
 
                                           await DatabaseService(
                                                   uid: currentUser!.uid)
@@ -307,8 +311,30 @@ class _GroupTileState extends State<GroupTile> {
                                         child: const Text('Hapus Group'),
                                       )),
                                 )
-                              : !isNotMember
+                              : isNotMember
                                   ? Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      alignment: Alignment.center,
+                                      child: ElevatedButton(
+                                          onPressed: null,
+                                          style: const ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll<
+                                                      Color>(Colors.blueGrey)),
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .8,
+                                            child: const Text(
+                                              'Not Your Group',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          )),
+                                    )
+                                  : Container(
                                       width: MediaQuery.of(context).size.width,
                                       alignment: Alignment.center,
                                       child: ElevatedButton(
@@ -376,8 +402,7 @@ class _GroupTileState extends State<GroupTile> {
                                                 .8,
                                             child: const Text('Keluar Group'),
                                           )),
-                                    )
-                                  : Container()
+                                    ),
                     ],
                   ),
                 );

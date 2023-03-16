@@ -10,6 +10,7 @@ class HomeController extends GetxController {
   RxBool saveLoading = false.obs;
   var currentUser = FirebaseAuth.instance.currentUser.obs;
   RxBool clear = false.obs;
+  RxBool saved = true.obs;
 
   var selectedDate =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)

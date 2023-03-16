@@ -22,6 +22,7 @@ class YaumiLog extends StatefulWidget {
 class _YaumiLogState extends State<YaumiLog> {
   final _controller = Get.put(YaumiLogController());
   final User? _user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<UserModels>(

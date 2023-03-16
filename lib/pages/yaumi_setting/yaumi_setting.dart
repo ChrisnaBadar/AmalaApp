@@ -4,8 +4,11 @@ import 'package:amala/controllers/yaumi_setting_controller.dart';
 import 'package:amala/models/hive/hive_yaumi_active_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:amala/models/hive/boxes.dart';
+
+import '../../services/admob_service.dart';
 
 class YaumiSetting extends StatefulWidget {
   const YaumiSetting({Key? key}) : super(key: key);
@@ -15,7 +18,25 @@ class YaumiSetting extends StatefulWidget {
 }
 
 class _MYaumiSettingsState extends State<YaumiSetting> {
+  //admob
+  BannerAd? _bannerAd;
   final controller = Get.put(YaumiSettingController());
+
+  void _createBannerAd() {
+    _bannerAd = BannerAd(
+        size: AdSize.fullBanner,
+        adUnitId: AdMobService.bannerAdUnitId,
+        listener: AdMobService.bannerListener,
+        request: const AdRequest())
+      ..load();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _createBannerAd();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,6 +181,13 @@ class _MYaumiSettingsState extends State<YaumiSetting> {
       appBar: AppBar(
         title: const Text('Settings'),
       ),
+      bottomNavigationBar: _bannerAd == null
+          ? Container()
+          : Container(
+              height: 52,
+              margin: const EdgeInsets.only(bottom: 12),
+              child: AdWidget(ad: _bannerAd!),
+            ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(

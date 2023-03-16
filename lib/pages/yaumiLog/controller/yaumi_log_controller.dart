@@ -7,6 +7,7 @@ import '../../../models/hive/hive_yaumi_model.dart';
 class YaumiLogController extends GetxController {
   //TOTAL Active Category
   RxDouble myTotalPoints = 0.0.obs;
+  RxBool loading = false.obs;
 
   void calculateMyTotalPoints(List categoryList, List pointsList) {
     var activeCategory = categoryList.where((e) => e == true).length;

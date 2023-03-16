@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:amala/constants/my_strings.dart';
 import 'package:amala/constants/core_data.dart';
 
+import '../../../services/admob_service.dart';
 import '../../../services/database_service.dart';
 import '../../../services/location_service.dart';
 import '../../loading/loading.dart';
@@ -21,6 +22,11 @@ class AbsenForm extends StatefulWidget {
 }
 
 class _AbsenFormState extends State<AbsenForm> {
+  //ads
+  InterstitialAd? _interstitialAd;
+  BannerAd? _bannerAd;
+  bool _isAdLoaded = false;
+
   //untuk formbuilder
   final _formKey = GlobalKey<FormBuilderState>();
   FocusNode? _focusNode;
@@ -54,45 +60,40 @@ class _AbsenFormState extends State<AbsenForm> {
   List absenDoneOption = ['Pilih salah satu..', 'Ijin'];
   String? statusKehadiran;
 
-  // void _showIntertitialAd() {
-  //   InterstitialAd.load(
-  //       adUnitId: AdMobService.interstitialAdUnitId,
-  //       request: AdRequest(),
-  //       adLoadCallback: InterstitialAdLoadCallback(
-  //         onAdLoaded: onAdLoaded,
-  //         onAdFailedToLoad: (LoadAdError error) {
-  //           print('InterstitialAd failed to load: $error');
-  //         },
-  //       ));
-  // }
+  void _createIntertitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdMobService.interstitialAdUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: (ad) => _interstitialAd = ad,
+            onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null));
+  }
 
-  // void onAdLoaded(InterstitialAd ad) {
-  //   this._interstitialAd = ad;
-  //   _isAdLoaded = true;
-  //   _interstitialAd.fullScreenContentCallback = FullScreenContentCallback(
-  //     onAdShowedFullScreenContent: (InterstitialAd ad) =>
-  //         print('%ad onAdShowedFullScreenContent.'),
-  //     onAdDismissedFullScreenContent: (InterstitialAd ad) {
-  //       print('$ad onAdDismissedFullScreenContent.');
-  //       ad.dispose();
-  //       _submitRecord();
-  //     },
-  //     onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-  //       print('$ad onAdFailedToShowFullScreenContent: $error');
-  //       ad.dispose();
-  //     },
-  //     onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
-  //   );
-  // }
+  void _showInterstitialAd() {
+    if (_interstitialAd != null) {
+      _interstitialAd!.fullScreenContentCallback =
+          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+        _submitRecord();
+        _createIntertitialAd();
+      }, onAdFailedToShowFullScreenContent: (ad, e) {
+        ad.dispose();
+        _submitRecord();
+        _createIntertitialAd();
+      });
+      _interstitialAd!.show();
+      _interstitialAd = null;
+    }
+  }
 
-  // void _createBannerAd() {
-  //   _bannerAd = BannerAd(
-  //       size: AdSize.fullBanner,
-  //       adUnitId: AdMobService.bannerAdUnitId,
-  //       listener: AdMobService.bannerListener,
-  //       request: const AdRequest())
-  //     ..load();
-  // }
+  void _createBannerAd() {
+    _bannerAd = BannerAd(
+        size: AdSize.fullBanner,
+        adUnitId: AdMobService.bannerAdUnitId,
+        listener: AdMobService.bannerListener,
+        request: const AdRequest())
+      ..load();
+  }
 
   void _submitRecord() async {
     final validationSuccess = _formKey.currentState!.saveAndValidate();
@@ -114,10 +115,8 @@ class _AbsenFormState extends State<AbsenForm> {
   void initState() {
     super.initState();
 
-    // if (!CoreData().isPurchased) {
-    //   _createBannerAd();
-    //   _showIntertitialAd();
-    // }
+    _createBannerAd();
+    _createIntertitialAd();
 
     waktu = DateFormat.jm().format(DateTime.now());
     tanggal =
@@ -148,50 +147,16 @@ class _AbsenFormState extends State<AbsenForm> {
             resizeToAvoidBottomInset: false,
             bottomNavigationBar: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: lokasi != null
-                    ? ElevatedButton(
-                        child: const Text(
-                          'SUBMIT',
-                          style: TextStyle(
-                              fontSize: 17.0, fontWeight: FontWeight.bold),
-                        ),
-                        onPressed: () async {
-                          _submitRecord();
-                        },
-                      )
-                    : ElevatedButton(
-                        onPressed: () async {
-                          setState(() {
-                            locationLoading = true;
-                          });
-                          await LocationService().getLocation().then((value) {
-                            setState(() {
-                              wilayah = value[1];
-                              lokasi = wilayah;
-                              locationLoading = false;
-                            });
-                          });
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              MyStrings.locationPinIconColor,
-                              scale: 3,
-                            ),
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            const Text(
-                              'PERBARUI LOKASI',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )),
+                child: ElevatedButton(
+                  child: const Text(
+                    'SUBMIT',
+                    style:
+                        TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () async {
+                    _showInterstitialAd();
+                  },
+                )),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -396,42 +361,6 @@ class _AbsenFormState extends State<AbsenForm> {
                             const SizedBox(
                               height: 8.0,
                             ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                setState(() {
-                                  locationLoading = true;
-                                });
-                                //TODO: perbaiki tombol ini
-                                await LocationService()
-                                    .getLocation()
-                                    .then((value) {
-                                  setState(() {
-                                    wilayah = value[1];
-                                    lokasi = wilayah;
-                                    locationLoading = false;
-                                  });
-                                });
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    MyStrings.locationPinIconColor,
-                                    scale: 3,
-                                  ),
-                                  const SizedBox(
-                                    width: 16.0,
-                                  ),
-                                  const Text(
-                                    'PERBARUI LOKASI',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
                           ],
                         ),
                       ),
@@ -493,13 +422,13 @@ class _AbsenFormState extends State<AbsenForm> {
                             ],
                           )
                         : Container(),
-                    // _bannerAd == null
-                    //     ? Container()
-                    //     : Container(
-                    //         height: 52,
-                    //         margin: const EdgeInsets.only(bottom: 12),
-                    //         child: AdWidget(ad: _bannerAd),
-                    //       )
+                    _bannerAd == null
+                        ? Container()
+                        : Container(
+                            height: 52,
+                            margin: const EdgeInsets.only(bottom: 12),
+                            child: AdWidget(ad: _bannerAd!),
+                          )
                   ],
                 ),
               ),

@@ -48,6 +48,7 @@ class _AbsenTileState extends State<AbsenTile> {
                         '*Work Form Office / Field* (WFO)'
                     ? const Text('WFO',
                         style: TextStyle(
+                            fontFamily: 'Raleway',
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
                             fontSize: 20.0))
@@ -55,17 +56,18 @@ class _AbsenTileState extends State<AbsenTile> {
                             '*Work From Home* (WFH)'
                         ? const Text('WFH',
                             style: TextStyle(
+                                fontFamily: 'Raleway',
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blue,
                                 fontSize: 20.0))
                         : widget.hiveAbsenModel!.kehadiran == '*Sakit*'
                             ? Image.asset(
                                 MyStrings.feverIconColor,
-                                scale: 3,
+                                scale: 2,
                               )
                             : Image.asset(
                                 MyStrings.leaveIconColor,
-                                scale: 3,
+                                scale: 2,
                               ),
               ],
             ),

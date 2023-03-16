@@ -2,11 +2,13 @@ import 'package:amala/controllers/home_controller.dart';
 import 'package:amala/pages/home_habitChecklistDetails/widgets/checklist_detail_widget.dart';
 import 'package:amala/pages/home_habitChecklistDetails/widgets/habit_checklist_detail_header.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../models/hive/boxes.dart';
 import '../../models/hive/hive_yaumi_active_model.dart';
 import '../../models/hive/hive_yaumi_model.dart';
+import '../../services/admob_service.dart';
 import 'controllers/habit_checklist_controller.dart';
 
 class HabitCheckslistDetails extends StatefulWidget {
@@ -26,11 +28,36 @@ class HabitCheckslistDetails extends StatefulWidget {
 }
 
 class _HabitCheckslistDetailsState extends State<HabitCheckslistDetails> {
+  BannerAd? _bannerAd;
+
+  void _createBannerAd() {
+    _bannerAd = BannerAd(
+        size: AdSize.fullBanner,
+        adUnitId: AdMobService.bannerAdUnitId,
+        listener: AdMobService.bannerListener,
+        request: const AdRequest())
+      ..load();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _createBannerAd();
+  }
+
   @override
   Widget build(BuildContext context) {
     final habitChecklistController = widget.habitChecklistController;
     final homeController = widget.homeController;
     return Scaffold(
+      bottomNavigationBar: _bannerAd == null
+          ? Container()
+          : Container(
+              height: 52,
+              margin: const EdgeInsets.only(bottom: 12),
+              child: AdWidget(ad: _bannerAd!),
+            ),
       body: SingleChildScrollView(
         child: Column(
           children: [
