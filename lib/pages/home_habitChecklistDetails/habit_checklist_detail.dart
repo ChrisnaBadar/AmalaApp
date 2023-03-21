@@ -41,7 +41,6 @@ class _HabitCheckslistDetailsState extends State<HabitCheckslistDetails> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _createBannerAd();
   }

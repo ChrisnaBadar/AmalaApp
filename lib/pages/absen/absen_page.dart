@@ -36,7 +36,6 @@ class _AbsenPageState extends State<AbsenPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _createBannerAd();
   }

@@ -1,13 +1,9 @@
-import 'dart:math';
-
-import 'package:amala/constants/my_strings.dart';
 import 'package:amala/models/group_model.dart';
 import 'package:amala/models/hive/hive_user_model.dart';
 import 'package:amala/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../constants/core_data.dart';
@@ -77,9 +73,9 @@ class _GroupTileState extends State<GroupTile> {
             builder: (context, box, _) {
               final hiveUserModel = box.values.toList().cast<HiveUserModel>();
               if (hiveUserModel.isNotEmpty) {
-                final _result = hiveUserModel.where((element) =>
-                    element.uidGroup == 'DmEAhN5MuSgX9Ny5Lr1MnQxs0862');
-                debugPrint('$_result');
+                // final _result = hiveUserModel.where((element) =>
+                //     element.uidGroup == 'DmEAhN5MuSgX9Ny5Lr1MnQxs0862');
+                // debugPrint('$_result');
                 return SizedBox(
                   height: 300.0,
                   child: Column(

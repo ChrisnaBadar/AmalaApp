@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../constants/core_data.dart';
-import '../../services/admob_service.dart';
 import '../../services/auth_service.dart';
 import '../loading/loading.dart';
 import '../splash/splash_screen.dart';
@@ -24,15 +23,6 @@ class _UserPageState extends State<UserPage> {
   final userPageController = Get.put(UserPageController());
 
   final User? _user = FirebaseAuth.instance.currentUser;
-
-  void _createBannerAd() {
-    _bannerAd = BannerAd(
-        size: AdSize.fullBanner,
-        adUnitId: AdMobService.bannerAdUnitId,
-        listener: AdMobService.bannerListener,
-        request: const AdRequest())
-      ..load();
-  }
 
   @override
   void initState() {
@@ -214,9 +204,7 @@ class _UserPageState extends State<UserPage> {
 
                                     //logout
                                     Row(
-                                      children: const [
-                                        //TODO: Logout??
-                                      ],
+                                      children: const [],
                                     ),
                                   ],
                                 )),

@@ -28,7 +28,6 @@ class _GroupListPageState extends State<GroupListPage> {
   User? currentUser = FirebaseAuth.instance.currentUser;
   //untuk formbuilder
   final _formKey = GlobalKey<FormBuilderState>();
-  FocusNode? _focusNode;
   bool loading = false;
   final groupController = Get.put(GroupController());
   //admob
@@ -45,7 +44,6 @@ class _GroupListPageState extends State<GroupListPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _createBannerAd();
   }

@@ -40,7 +40,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
   void _createIntertitialAd() {
     InterstitialAd.load(
         adUnitId: AdMobService.interstitialAdUnitId,
-        request: AdRequest(),
+        request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (ad) => _interstitialAd = ad,
           onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null,
@@ -77,7 +77,6 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _createBannerAd();
     _createIntertitialAd();

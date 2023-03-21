@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../auth/auth.dart';
-import '../../user_page/user_page.dart';
 
 final today = DateTime.now();
 final hari = DateFormat('EEEE', "id_ID").format(today);
@@ -14,12 +13,12 @@ final formatTanggal = DateFormat('dd MMMM yyyy', "id_ID").format(today);
 
 Widget profilesBar(BuildContext context, User? user, String kota,
     String wilayah, HiveUserModel userHiveModel) {
-  var uidGroup = userHiveModel.uidGroup;
-  var uidLeader = userHiveModel.uidLeader;
-  var lembaga = userHiveModel.lembaga;
-  var amanah = userHiveModel.amanah;
-  var group = userHiveModel.group;
-  var profilePicUrl = userHiveModel.profilePicUrl;
+  // var uidGroup = userHiveModel.uidGroup;
+  // var uidLeader = userHiveModel.uidLeader;
+  // var lembaga = userHiveModel.lembaga;
+  // var amanah = userHiveModel.amanah;
+  // var group = userHiveModel.group;
+  // var profilePicUrl = userHiveModel.profilePicUrl;
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Column(

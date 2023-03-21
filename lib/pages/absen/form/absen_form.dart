@@ -9,7 +9,6 @@ import 'package:amala/constants/core_data.dart';
 
 import '../../../services/admob_service.dart';
 import '../../../services/database_service.dart';
-import '../../../services/location_service.dart';
 import '../../loading/loading.dart';
 import '../controllers/absen_controller.dart';
 
@@ -25,7 +24,6 @@ class _AbsenFormState extends State<AbsenForm> {
   //ads
   InterstitialAd? _interstitialAd;
   BannerAd? _bannerAd;
-  bool _isAdLoaded = false;
 
   //untuk formbuilder
   final _formKey = GlobalKey<FormBuilderState>();

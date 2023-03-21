@@ -1,4 +1,3 @@
-import 'package:amala/constants/core_data.dart';
 import 'package:amala/constants/my_strings.dart';
 import 'package:amala/controllers/yaumi_setting_controller.dart';
 import 'package:amala/models/hive/hive_yaumi_active_model.dart';
@@ -33,7 +32,6 @@ class _MYaumiSettingsState extends State<YaumiSetting> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _createBannerAd();
   }

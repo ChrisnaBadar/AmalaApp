@@ -71,7 +71,7 @@ class _HomepageState extends State<Homepage>
   void _createIntertitialAd() {
     InterstitialAd.load(
         adUnitId: AdMobService.interstitialAdUnitId,
-        request: AdRequest(),
+        request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (ad) => _interstitialAd = ad,
           onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null,
@@ -126,7 +126,6 @@ class _HomepageState extends State<Homepage>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _animationController!.dispose();
     super.dispose();
   }
@@ -148,7 +147,6 @@ class _HomepageState extends State<Homepage>
           CoreData.amanah = hiveUserModel.amanah;
           CoreData.lembaga = hiveUserModel.lembaga;
           CoreData.group = hiveUserModel.group;
-          print('my uid Group: ${hiveUserModel.uidGroup}');
           if (userHiveModel.isEmpty) {
             return _mainBody();
           } else {
