@@ -2,8 +2,10 @@ import 'package:amala/constants/my_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../../constants/core_data.dart';
 import '../../models/hive/hive_absen_model.dart';
 import 'controllers/absen_controller.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AbsenTile extends StatefulWidget {
   final HiveAbsenModel? hiveAbsenModel;
@@ -78,6 +80,8 @@ class _AbsenTileState extends State<AbsenTile> {
   }
 
   _bottomSheet(BuildContext context) {
+    var sharedText =
+        '*${widget.hiveAbsenModel!.tanggal!}*\n\nNama: *${CoreData.nama}*\nKehadiran: ${widget.hiveAbsenModel!.kehadiran!}\nWaktu: ${widget.hiveAbsenModel!.waktu!}\nLokasi: ${widget.hiveAbsenModel!.lokasi!}';
     return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -121,7 +125,9 @@ class _AbsenTileState extends State<AbsenTile> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await Share.share(sharedText);
+                    },
                     child: Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
