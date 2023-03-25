@@ -35,36 +35,36 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
 
   //admob
   BannerAd? _bannerAd;
-  InterstitialAd? _interstitialAd;
+  //InterstitialAd? _interstitialAd;
 
-  void _createIntertitialAd() {
-    InterstitialAd.load(
-        adUnitId: AdMobService.interstitialAdUnitId,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (ad) => _interstitialAd = ad,
-          onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null,
-        ));
-  }
+  // void _createIntertitialAd() {
+  //   InterstitialAd.load(
+  //       adUnitId: AdMobService.interstitialAdUnitId,
+  //       request: const AdRequest(),
+  //       adLoadCallback: InterstitialAdLoadCallback(
+  //         onAdLoaded: (ad) => _interstitialAd = ad,
+  //         onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null,
+  //       ));
+  // }
 
-  void _showInterstitialAd() {
-    if (_interstitialAd != null) {
-      _interstitialAd!.fullScreenContentCallback =
-          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
-        ad.dispose();
-        logController.loading.value = true;
-        _createIntertitialAd();
-        Get.to(() => const YaumiLog());
-      }, onAdFailedToShowFullScreenContent: (ad, e) {
-        ad.dispose();
-        logController.loading.value = true;
-        _createIntertitialAd();
-        Get.to(() => const YaumiLog());
-      });
-      _interstitialAd!.show();
-      _interstitialAd = null;
-    }
-  }
+  // void _showInterstitialAd() {
+  //   if (_interstitialAd != null) {
+  //     _interstitialAd!.fullScreenContentCallback =
+  //         FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+  //       ad.dispose();
+  //       logController.loading.value = true;
+  //       _createIntertitialAd();
+  //       Get.to(() => const YaumiLog());
+  //     }, onAdFailedToShowFullScreenContent: (ad, e) {
+  //       ad.dispose();
+  //       logController.loading.value = true;
+  //       _createIntertitialAd();
+  //       Get.to(() => const YaumiLog());
+  //     });
+  //     _interstitialAd!.show();
+  //     _interstitialAd = null;
+  //   }
+  // }
 
   void _createBannerAd() {
     _bannerAd = BannerAd(
@@ -79,7 +79,7 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
   void initState() {
     super.initState();
     _createBannerAd();
-    _createIntertitialAd();
+    //_createIntertitialAd();
     logController.loading.value = false;
   }
 
@@ -92,7 +92,10 @@ class _YaumiLogReportState extends State<YaumiLogReport> {
         actions: [
           _user != null
               ? IconButton(
-                  onPressed: () => _showInterstitialAd(),
+                  onPressed: () {
+                    logController.loading.value = true;
+                    Get.to(() => const YaumiLog());
+                  },
                   icon: Image.asset(MyStrings.docIconColor, scale: 3))
               : Container()
         ],

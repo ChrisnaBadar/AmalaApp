@@ -44,7 +44,7 @@ class _HomepageState extends State<Homepage>
 
   //admob
   BannerAd? _bannerAd;
-  InterstitialAd? _interstitialAd;
+  //InterstitialAd? _interstitialAd;
   AppOpenAd? _appOpenAd;
 
   final User? _user = FirebaseAuth.instance.currentUser;
@@ -55,45 +55,45 @@ class _HomepageState extends State<Homepage>
   String? amanah;
   String? group;
 
-  void _loadOpenAppAd() {
-    AppOpenAd.load(
-        adUnitId: AdMobService.appOpenAdUnit,
-        request: const AdRequest(),
-        adLoadCallback: AppOpenAdLoadCallback(
-            onAdLoaded: (ad) {
-              _appOpenAd = ad;
-              _appOpenAd!.show();
-            },
-            onAdFailedToLoad: (e) => _appOpenAd = null),
-        orientation: AppOpenAd.orientationPortrait);
-  }
+  // void _loadOpenAppAd() {
+  //   AppOpenAd.load(
+  //       adUnitId: AdMobService.appOpenAdUnit,
+  //       request: const AdRequest(),
+  //       adLoadCallback: AppOpenAdLoadCallback(
+  //           onAdLoaded: (ad) {
+  //             _appOpenAd = ad;
+  //             _appOpenAd!.show();
+  //           },
+  //           onAdFailedToLoad: (e) => _appOpenAd = null),
+  //       orientation: AppOpenAd.orientationPortrait);
+  // }
 
-  void _createIntertitialAd() {
-    InterstitialAd.load(
-        adUnitId: AdMobService.interstitialAdUnitId,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (ad) => _interstitialAd = ad,
-          onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null,
-        ));
-  }
+  // void _createIntertitialAd() {
+  //   InterstitialAd.load(
+  //       adUnitId: AdMobService.interstitialAdUnitId,
+  //       request: const AdRequest(),
+  //       adLoadCallback: InterstitialAdLoadCallback(
+  //         onAdLoaded: (ad) => _interstitialAd = ad,
+  //         onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null,
+  //       ));
+  // }
 
-  void _showInterstitialAd() {
-    if (_interstitialAd != null) {
-      _interstitialAd!.fullScreenContentCallback =
-          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
-        ad.dispose();
-        _submitSave();
-        _createIntertitialAd();
-      }, onAdFailedToShowFullScreenContent: (ad, e) {
-        ad.dispose();
-        _submitSave();
-        _createIntertitialAd();
-      });
-      _interstitialAd!.show();
-      _interstitialAd = null;
-    }
-  }
+  // void _showInterstitialAd() {
+  //   if (_interstitialAd != null) {
+  //     _interstitialAd!.fullScreenContentCallback =
+  //         FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+  //       ad.dispose();
+  //       _submitSave();
+  //       _createIntertitialAd();
+  //     }, onAdFailedToShowFullScreenContent: (ad, e) {
+  //       ad.dispose();
+  //       _submitSave();
+  //       _createIntertitialAd();
+  //     });
+  //     _interstitialAd!.show();
+  //     _interstitialAd = null;
+  //   }
+  // }
 
   void _createBannerAd() {
     _bannerAd = BannerAd(
@@ -120,8 +120,8 @@ class _HomepageState extends State<Homepage>
         duration: Duration(seconds: _homeController.levelClock.value));
     _animationController!.forward();
     _createBannerAd();
-    _createIntertitialAd();
-    _loadOpenAppAd();
+    //_createIntertitialAd();
+    //_loadOpenAppAd();
   }
 
   @override
@@ -510,7 +510,7 @@ class _HomepageState extends State<Homepage>
                         child: const Text('Cancel'),
                       ),
                       TextButton(
-                        onPressed: () => _showInterstitialAd(),
+                        onPressed: () => _submitSave(),
                         child: const Text('OK'),
                       ),
                     ],

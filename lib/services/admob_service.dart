@@ -18,13 +18,13 @@ class AdMobService {
     }
   }
 
-  static String get interstitialAdUnitId {
-    if (CoreData.isTestMode) {
-      return 'ca-app-pub-3940256099942544/1033173712';
-    } else {
-      return 'ca-app-pub-6705737681125281/5784234556';
-    }
-  }
+  // static String get interstitialAdUnitId {
+  //   if (CoreData.isTestMode) {
+  //     return 'ca-app-pub-3940256099942544/1033173712';
+  //   } else {
+  //     return 'ca-app-pub-6705737681125281/5784234556';
+  //   }
+  // }
 
   static String get nativeAdUnitId {
     if (CoreData.isTestMode) {

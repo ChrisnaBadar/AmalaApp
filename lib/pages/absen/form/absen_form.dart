@@ -21,8 +21,8 @@ class AbsenForm extends StatefulWidget {
 }
 
 class _AbsenFormState extends State<AbsenForm> {
-  //ads
-  InterstitialAd? _interstitialAd;
+  // //ads
+  // InterstitialAd? _interstitialAd;
   BannerAd? _bannerAd;
 
   //untuk formbuilder
@@ -58,31 +58,31 @@ class _AbsenFormState extends State<AbsenForm> {
   List absenDoneOption = ['Pilih salah satu..', 'Ijin'];
   String? statusKehadiran;
 
-  void _createIntertitialAd() {
-    InterstitialAd.load(
-        adUnitId: AdMobService.interstitialAdUnitId,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-            onAdLoaded: (ad) => _interstitialAd = ad,
-            onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null));
-  }
+  // void _createIntertitialAd() {
+  //   InterstitialAd.load(
+  //       adUnitId: AdMobService.interstitialAdUnitId,
+  //       request: const AdRequest(),
+  //       adLoadCallback: InterstitialAdLoadCallback(
+  //           onAdLoaded: (ad) => _interstitialAd = ad,
+  //           onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null));
+  // }
 
-  void _showInterstitialAd() {
-    if (_interstitialAd != null) {
-      _interstitialAd!.fullScreenContentCallback =
-          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
-        ad.dispose();
-        _submitRecord();
-        _createIntertitialAd();
-      }, onAdFailedToShowFullScreenContent: (ad, e) {
-        ad.dispose();
-        _submitRecord();
-        _createIntertitialAd();
-      });
-      _interstitialAd!.show();
-      _interstitialAd = null;
-    }
-  }
+  // void _showInterstitialAd() {
+  //   if (_interstitialAd != null) {
+  //     _interstitialAd!.fullScreenContentCallback =
+  //         FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+  //       ad.dispose();
+  //       _submitRecord();
+  //       _createIntertitialAd();
+  //     }, onAdFailedToShowFullScreenContent: (ad, e) {
+  //       ad.dispose();
+  //       _submitRecord();
+  //       _createIntertitialAd();
+  //     });
+  //     _interstitialAd!.show();
+  //     _interstitialAd = null;
+  //   }
+  // }
 
   void _createBannerAd() {
     _bannerAd = BannerAd(
@@ -114,7 +114,7 @@ class _AbsenFormState extends State<AbsenForm> {
     super.initState();
 
     _createBannerAd();
-    _createIntertitialAd();
+    //_createIntertitialAd();
 
     waktu = DateFormat.jm().format(DateTime.now());
     tanggal =
@@ -152,7 +152,8 @@ class _AbsenFormState extends State<AbsenForm> {
                         TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () async {
-                    _showInterstitialAd();
+                    _submitRecord();
+                    //_showInterstitialAd();
                   },
                 )),
             body: SafeArea(
