@@ -29,7 +29,7 @@ class LocationService {
 
     try {
       final result = await Geolocator.getCurrentPosition(
-          timeLimit: const Duration(seconds: 20));
+          timeLimit: const Duration(seconds: 10));
       return result;
     } catch (e) {
       final result = Position(
@@ -56,8 +56,9 @@ class LocationService {
       CoreData.wilayah = map['locality'];
       CoreData.lat = lat;
       CoreData.lon = lon;
+      return true;
     } catch (e) {
-      return;
+      return false;
     }
   }
 }

@@ -1,5 +1,5 @@
-import 'package:amala/constants/my_theme_data.dart';
 import 'package:flutter/material.dart';
+import 'my_theme_data.dart';
 
 class MyTextStyles {
   MyTextStyles._();

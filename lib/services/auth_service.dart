@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //Sign out
-  Future signOut() async {
+  Future signOut(BuildContext context) async {
     try {
-      return await _auth.signOut();
+      await _auth.signOut();
     } catch (e) {
       return null;
     }

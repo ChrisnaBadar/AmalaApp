@@ -1,54 +1,86 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:adhan/adhan.dart';
-import 'package:get/get.dart';
 
-import '../../../controllers/home_controller.dart';
+import 'package:amala/constants/core_data.dart';
+
+import '../../../blocs/bloc_exports.dart';
 
 class AdhanTimes extends StatelessWidget {
-  final Coordinates? coordinate;
+  final String? shalatTitle;
+  final String? shalatTimes;
+  final String? nextShalatTimes;
   final AnimationController? animationController;
-  final HomeController? homeController;
-  const AdhanTimes(
-      {super.key,
-      this.coordinate,
-      this.animationController,
-      this.homeController});
+  const AdhanTimes({
+    Key? key,
+    this.shalatTitle,
+    this.shalatTimes,
+    this.nextShalatTimes,
+    this.animationController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 16.0,
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    CoreData.shalatTitle,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey[900]),
+                  ),
+                  Text(
+                    CoreData.shalatTimes,
+                    style: TextStyle(
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey[900]),
+                  ),
+                  Countdown(
+                    animation: StepTween(begin: CoreData.levelClock, end: 0)
+                        .animate(animationController!),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    'Aktifkan Pengingat',
+                    style: TextStyle(
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey[700]),
+                  ),
+                  Text(
+                    'Waktu Shalat?',
+                    style: TextStyle(
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey[700]),
+                  ),
+                  Switch(
+                      value: state.shalatReminder,
+                      onChanged: (val) {
+                        context
+                            .read<SettingsBloc>()
+                            .add(TooggleShalatReminderEvent());
+                      })
+                ],
+              )
+            ],
           ),
-          Obx(() => Text(homeController!.shalatTitle.value,
-              style: const TextStyle(
-                  fontStyle: FontStyle.italic, color: Colors.blueGrey))),
-          const SizedBox(
-            height: 4.0,
-          ),
-          Obx(
-            () => Text(homeController!.shalatTimes.value,
-                style: const TextStyle(
-                    fontSize: 22.0, fontWeight: FontWeight.bold)),
-          ),
-          const SizedBox(
-            height: 4.0,
-          ),
-          Obx(
-            () => Countdown(
-              animation:
-                  StepTween(begin: homeController!.levelClock.value, end: 0)
-                      .animate(animationController!),
-            ),
-          ),
-          const SizedBox(
-            height: 16.0,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -66,9 +98,9 @@ class Countdown extends AnimatedWidget {
         '${clockTimer.inHours.remainder(12).toString().padLeft(2, '0')}:${clockTimer.inMinutes.remainder(60).toString().padLeft(2, '0')}:${clockTimer.inSeconds.remainder(60).toString().padLeft(2, '0')}';
 
     return Text(
-      "- $timerText",
+      "- $timerText hingga waktu ${CoreData.shalatTitle}",
       style: TextStyle(
-        fontSize: 13.5,
+        fontSize: 11.0,
         color: Theme.of(context).primaryColor,
       ),
     );

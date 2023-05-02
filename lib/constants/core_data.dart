@@ -1,5 +1,5 @@
-import 'package:intl/intl.dart';
 import 'package:adhan/adhan.dart';
+import 'package:intl/intl.dart';
 
 class CoreData {
   CoreData._();
@@ -18,6 +18,7 @@ class CoreData {
   static String namaUser = '-';
   static const double cornerRadius = 10.0;
   static bool isTestMode = false;
+  static int locationFetchDuration = 20;
 
   //identity
   static String? uid = '-';
@@ -33,4 +34,17 @@ class CoreData {
   static String? profilePicUrl = '-';
 
   static List<String> testDeviceIds = ['FACCB5E8557A3F11B0E7632F91836CDF'];
+
+  //absen
+  static List list = [
+    'Work From Office / Field (WFO)',
+    'Ijin',
+    'Sakit',
+    'Work From Home (WFH)'
+  ];
+
+  //adhan
+  static String shalatTitle = '';
+  static String shalatTimes = '';
+  static int levelClock = 0;
 }

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:amala/models/user_model.dart';
 
-import '../models/group_model.dart';
+import '../models/groups_model.dart';
+import '../models/users_model.dart';
 
 class DatabaseService {
   final String? uid;
@@ -38,46 +38,42 @@ class DatabaseService {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   Future setUserData(
-    String uidGroup,
-    String uidLeader,
     String nama,
     String email,
     String profilePicUrl,
-    String group,
-    String lembaga,
-    String ponsel,
-    String amanah,
   ) async {
     await users.doc(uid).set({
       'uid': uid,
-      'uidGroup': uidGroup,
-      'uidLeader': uidLeader,
+      'uidGroup': '',
+      'uidLeader': '',
       'nama': nama,
       'email': email,
       'profilePicUrl': profilePicUrl,
-      'group': group,
-      'lembaga': lembaga,
-      'ponsel': ponsel,
-      'amanah': amanah
+      'group': '',
+      'lembaga': '',
+      'ponsel': '',
+      'amanah': '',
+      'yaumi': {},
+      'absen': {}
     });
   }
 
-  //Metoda update data user saat Edit profile di userEdit
-  Future updateUserData(String lembaga, String amanah) async {
-    return await yaumi.doc(uid).update({'lembaga': lembaga, 'amanah': amanah});
-  }
-
-  //Metoda update data user saat Edit profile di userEdit
-  Future updateUserData1(
-      String uidGroup, String uidLeader, String group) async {
-    return await yaumi
-        .doc(uid)
-        .update({'uidGroup': uidGroup, 'uidLeader': uidLeader, 'group': group});
+  Future updateUserData(
+    String nama,
+    String email,
+    String profilePicUrl,
+  ) async {
+    await users.doc(uid).update({
+      'uid': uid,
+      'nama': nama,
+      'email': email,
+      'profilePicUrl': profilePicUrl,
+    });
   }
 
   //Untuk Stream USER saja
-  UserModels _userDataModelsFromSnapshot(DocumentSnapshot snapshot) {
-    return UserModels(
+  UsersModel _userDataModelsFromSnapshot(DocumentSnapshot snapshot) {
+    return UsersModel(
         uid: snapshot['uid'] ?? '',
         uidGroup: snapshot['uidGroup'] ?? '',
         uidLeader: snapshot['uidLeader'] ?? '',
@@ -92,8 +88,8 @@ class DatabaseService {
         absen: snapshot['absen'] ?? '');
   }
 
-  // ini STREAM nya
-  Stream<UserModels> get userData {
+  //ini STREAM nya
+  Stream<UsersModel> get userData {
     return users.doc(uid).snapshots().map(_userDataModelsFromSnapshot);
   }
 
@@ -106,13 +102,14 @@ class DatabaseService {
 
   CollectionReference yaumi = FirebaseFirestore.instance.collection('users');
 
-  Future setDataYaumi(
-      DateTime tanggal, List yaumiList, bool isSaved, double point) async {
+  Future setDataYaumi(DateTime tanggal, List yaumiList, bool isSaved,
+      double point, String nama) async {
     return await yaumi.doc(uid).set({
       'yaumi': {
         DateFormat('ddMMMyy').format(tanggal): {
           'tanggal': DateFormat('EEEE, dd MMMM yyyy', "id_ID").format(tanggal),
           'date': tanggal,
+          'nama': nama,
           'shubuh': yaumiList[0],
           'dhuhur': yaumiList[1],
           'ashar': yaumiList[2],
@@ -165,12 +162,22 @@ class DatabaseService {
     });
   }
 
-  UserModels _userModelFromSnapshot(DocumentSnapshot snapshot) {
-    return UserModels(yaumi: snapshot['yaumi']);
+  UsersModel _userModelFromSnapshot(DocumentSnapshot snapshot) {
+    return UsersModel(yaumi: snapshot['yaumi']);
   }
 
-  Stream<UserModels> get yaumiModel {
+  Stream<UsersModel> get yaumiModel {
     return yaumi.doc(uid).snapshots().map(_userModelFromSnapshot);
+  }
+
+  List<UsersModel> _userListModelFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((e) {
+      return UsersModel(yaumi: e['yaumi'], uidGroup: e['uidGroup']);
+    }).toList();
+  }
+
+  Stream<List<UsersModel>> get yaumiListModel {
+    return yaumi.snapshots().map(_userListModelFromSnapshot);
   }
 
 // ░█████╗░██████╗░░██████╗███████╗███╗░░██╗░█████╗░███╗░░██╗██╗░░░░░██╗███╗░░██╗███████╗
@@ -182,13 +189,20 @@ class DatabaseService {
 
   CollectionReference absen = FirebaseFirestore.instance.collection('users');
 
-  Future setDataAbsen(DateTime tanggal, String waktu, String kehadiran,
-      String keperluan, String tanggalIjin, String lokasi) async {
+  Future setDataAbsen(
+      DateTime tanggal,
+      String waktu,
+      String nama,
+      String kehadiran,
+      String keperluan,
+      String tanggalIjin,
+      String lokasi) async {
     return await absen.doc(uid).set({
       'absen': {
         DateFormat('ddMMMyy').format(tanggal): {
           'tanggal': DateFormat('EEEE, dd MMMM yyyy', "id_ID").format(tanggal),
           'date': tanggal,
+          'nama': nama,
           'waktu': waktu,
           'kehadiran': kehadiran,
           'keperluan': keperluan,
@@ -197,6 +211,19 @@ class DatabaseService {
         }
       }
     }, SetOptions(merge: true));
+  }
+
+  //Delete Absen
+  Future deleteDataAbsen(String tanggal) async {
+    await absen.doc(uid).update({'absen.$tanggal': FieldValue.delete()});
+  }
+
+  UsersModel _userAbsenModelFromSnapshot(DocumentSnapshot snapshot) {
+    return UsersModel(absen: snapshot['absen']);
+  }
+
+  Stream<UsersModel> get absenModel {
+    return absen.doc(uid).snapshots().map(_userAbsenModelFromSnapshot);
   }
 
 // ░██████╗░██████╗░░█████╗░██╗░░░██╗██████╗░
@@ -209,12 +236,8 @@ class DatabaseService {
   CollectionReference group = FirebaseFirestore.instance.collection('groups');
 
   Future setGroupData(
-      {String? nama,
-      String? photoUrl,
-      String? namaGroup,
-      String? groupIcon,
-      List? member}) async {
-    return await group.doc(uid).set({
+      String nama, String photoUrl, String namaGroup, String groupIcon) async {
+    await group.doc(uid).set({
       'uidGroup': uid,
       'uidLeader': uid,
       'namaGroup': namaGroup,
@@ -223,14 +246,26 @@ class DatabaseService {
         uid: {'nama': nama, 'photoUrl': photoUrl, 'uid': uid}
       }
     });
+    await users.doc(uid).update({
+      'uidGroup': uid,
+      'uidLeader': uid,
+      'group': namaGroup,
+    });
   }
 
-  Future updateGroupData({String? nama, String? photoUrl}) async {
-    return await group.doc(uidLeader).set({
+  Future joinGroup(String nama, String photoUrl, String namaGroup) async {
+    await group.doc(uidLeader).set({
       'member': {
         uid: {'nama': nama, 'photoUrl': photoUrl, 'uid': uid}
       }
     }, SetOptions(merge: true));
+    await users.doc(uid).update(
+        {'uidLeader': uidLeader, 'uidGroup': uidLeader, 'group': namaGroup});
+  }
+
+  Future unjoinGroup() async {
+    await group.doc(uidLeader).update({'member.$uid': FieldValue.delete()});
+    await users.doc(uid).update({'uidLeader': '', 'uidGroup': '', 'group': ''});
   }
 
   Future removeGroupData() async {
@@ -240,11 +275,13 @@ class DatabaseService {
   }
 
   Future removeGroup() async {
-    return await group.doc(uidLeader).delete();
+    await group.doc(uidLeader).delete();
+    await users.doc(uid).update({'uidGroup': '', 'uidLeader': '', 'group': ''});
+    return true;
   }
 
-  GroupModel _groupModelFromSnapshot(DocumentSnapshot snapshot) {
-    return GroupModel(
+  GroupsModel _groupModelFromSnapshot(DocumentSnapshot snapshot) {
+    return GroupsModel(
         uidGroup: snapshot['uidGroup'],
         uidLeader: snapshot['uidLeader'],
         namaGroup: snapshot['namaGroup'],
@@ -252,13 +289,13 @@ class DatabaseService {
         member: snapshot['member']);
   }
 
-  Stream<GroupModel> get groupModel {
+  Stream<GroupsModel> get groupModel {
     return group.doc(uidGroup).snapshots().map(_groupModelFromSnapshot);
   }
 
-  List<GroupModel> _groupModelListFromSnapshot(QuerySnapshot snapshot) {
+  List<GroupsModel> _groupModelListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((e) {
-      return GroupModel(
+      return GroupsModel(
           uidGroup: e['uidGroup'],
           uidLeader: e['uidLeader'],
           namaGroup: e['namaGroup'],
@@ -267,7 +304,7 @@ class DatabaseService {
     }).toList();
   }
 
-  Stream<List<GroupModel>> get groupModelList {
+  Stream<List<GroupsModel>> get groupModelList {
     return group.snapshots().map(_groupModelListFromSnapshot);
   }
 }
