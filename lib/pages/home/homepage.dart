@@ -23,6 +23,7 @@ class _HomepageState extends State<Homepage>
   final User? _user = FirebaseAuth.instance.currentUser;
   Coordinates? myCoordinate;
   AnimationController? _animationController;
+
   @override
   void initState() {
     myCoordinate = Coordinates(CoreData.lat, CoreData.lon);
@@ -78,7 +79,9 @@ class _HomepageState extends State<Homepage>
               const MyDatePicker(),
 
               //yaumi
-              const YaumiPage()
+              YaumiPage(
+                user: _user,
+              )
             ],
           ),
         ),

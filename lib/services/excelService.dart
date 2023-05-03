@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 import '../models/absen_model.dart';
@@ -403,19 +405,21 @@ class ExcelService {
         tableStyle);
 
     // (await getApplicationSupportDirectory()).path;
+    // Directory('/storage/emulated/0/Download').path;
     //Final Steps
     final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
-    final String path = Directory('/storage/emulated/0/Download').path;
-    final String fileName = '$path/Yaumi.xlsx';
+    final String path = (await getApplicationSupportDirectory()).path;
+    final String fileName = '$path/YaumiReport.xlsx';
     final File file = File(fileName);
-    await file
-        .writeAsBytes(bytes, flush: true)
-        .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('File Yaumi.xlsx telah disimpan di $value'),
-              duration: const Duration(seconds: 10),
-            )));
+    final XFile xFile = XFile(fileName);
+    await file.writeAsBytes(bytes, flush: true);
+    // .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //       content: Text('File Yaumi.xlsx telah disimpan di $value'),
+    //       duration: const Duration(seconds: 10),
+    //     )));
     //OpenFile.open(fileName);
+    Share.shareXFiles([xFile]);
   }
 
   //DATABASE=====YAUMI===================================================================================================

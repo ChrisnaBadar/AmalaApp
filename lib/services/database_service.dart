@@ -35,7 +35,7 @@ class DatabaseService {
 // ╚██████╔╝██████╔╝███████╗██║░░██║  ██████╔╝██║░░██║░░░██║░░░██║░░██║
 // ░╚═════╝░╚═════╝░╚══════╝╚═╝░░╚═╝  ╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝
 
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference users = FirebaseFirestore.instance.collection('_users');
 
   Future setUserData(
     String nama,
@@ -100,7 +100,7 @@ class DatabaseService {
 // ░░░██║░░░██║░░██║╚██████╔╝██║░╚═╝░██║██║██║░░██║██║░░██║
 // ░░░╚═╝░░░╚═╝░░╚═╝░╚═════╝░╚═╝░░░░░╚═╝╚═╝╚═╝░░╚═╝╚═╝░░╚═╝
 
-  CollectionReference yaumi = FirebaseFirestore.instance.collection('users');
+  CollectionReference yaumi = FirebaseFirestore.instance.collection('_users');
 
   Future setDataYaumi(DateTime tanggal, List yaumiList, bool isSaved,
       double point, String nama) async {
@@ -187,7 +187,7 @@ class DatabaseService {
 // ██║░░██║██████╦╝██████╔╝███████╗██║░╚███║╚█████╔╝██║░╚███║███████╗██║██║░╚███║███████╗
 // ╚═╝░░╚═╝╚═════╝░╚═════╝░╚══════╝╚═╝░░╚══╝░╚════╝░╚═╝░░╚══╝╚══════╝╚═╝╚═╝░░╚══╝╚══════╝
 
-  CollectionReference absen = FirebaseFirestore.instance.collection('users');
+  CollectionReference absen = FirebaseFirestore.instance.collection('_users');
 
   Future setDataAbsen(
       DateTime tanggal,

@@ -3,6 +3,7 @@ import 'package:amala/models/yaumi_model.dart';
 import 'package:amala/pages/log_yaumi/log_yaumi_list.dart';
 import 'package:amala/services/database_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 import '../../blocs/bloc_exports.dart';
@@ -16,12 +17,14 @@ class LogYaumiPage extends StatefulWidget {
 }
 
 class _LogYaumiPageState extends State<LogYaumiPage> {
+  bool loading = false;
   List<String> months = List.generate(
       12,
       (index) => DateFormat('MMMM yyyy', "id_ID")
           .format(DateTime(DateTime.now().year, index + 1)));
   String dropdownValue = DateFormat('MMMM yyyy', "id_ID")
       .format(DateTime(DateTime.now().year, DateTime.now().month));
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
@@ -86,9 +89,52 @@ class _LogYaumiPageState extends State<LogYaumiPage> {
                   ),
                 ));
               } else {
-                return const Scaffold(
-                  body: Center(
-                    child: Text('no data'),
+                return Scaffold(
+                  body: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: loading
+                        ? const SpinKitDancingSquare(
+                            color: Colors.amber,
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                                const Text(
+                                  'Jika anda melihat halaman ini anda harus memperbaharui data online dengan cara menekan tombol di bawah ini.',
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(
+                                  height: 16.0,
+                                ),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      setState(() {
+                                        loading = true;
+                                      });
+                                      try {
+                                        await DatabaseService(
+                                                uid: userState.uid)
+                                            .updateUserData(
+                                                userState.nama,
+                                                userState.email,
+                                                userState.photoUrl);
+                                        setState(() {
+                                          loading = false;
+                                        });
+                                      } catch (e) {
+                                        await DatabaseService(
+                                                uid: userState.uid)
+                                            .setUserData(
+                                                userState.nama,
+                                                userState.email,
+                                                userState.photoUrl);
+                                        setState(() {
+                                          loading = false;
+                                        });
+                                      }
+                                    },
+                                    child: const Text('Renew Data'))
+                              ]),
                   ),
                 );
               }

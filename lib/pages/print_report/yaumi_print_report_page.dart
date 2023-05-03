@@ -24,7 +24,7 @@ class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
               if (snapshot.hasData) {
                 final userData = snapshot.data;
                 final userGroupData = userData!
-                    .where((e) => e.uidGroup == 'fimQlN0i8yvHDSd5MA3P')
+                    .where((e) => e.uidGroup == state.uidGroup)
                     .toList();
                 final yaumiData = userGroupData.map((e) => e.yaumi).toList();
                 final result = List.generate(

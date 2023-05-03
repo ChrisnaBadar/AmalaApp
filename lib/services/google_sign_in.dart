@@ -40,7 +40,9 @@ class GoogleSingInProvider extends ChangeNotifier {
       final currentUser = FirebaseAuth.instance.currentUser;
       try {
         await DatabaseService(uid: currentUser!.uid).updateUserData(
-            'Abu Syams', currentUser.email!, currentUser.photoURL!);
+            currentUser.displayName!,
+            currentUser.email!,
+            currentUser.photoURL!);
       } catch (e) {
         await DatabaseService(uid: currentUser!.uid).setUserData(
             currentUser.displayName!,

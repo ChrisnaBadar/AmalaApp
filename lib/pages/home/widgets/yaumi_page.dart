@@ -1,11 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:amala/blocs/bloc_exports.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:amala/blocs/bloc_exports.dart';
 import 'package:amala/pages/home/widgets/yaumi_list.dart';
 
 class YaumiPage extends StatelessWidget {
+  final User? user;
   const YaumiPage({
     Key? key,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -25,12 +29,14 @@ class YaumiPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton.icon(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/logYaumi');
-                      },
-                      icon: const Icon(Icons.list_alt),
-                      label: const Text('Log')),
+                  user != null
+                      ? TextButton.icon(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/logYaumi');
+                          },
+                          icon: const Icon(Icons.list_alt),
+                          label: const Text('Log'))
+                      : Container(),
                   BlocBuilder<SelectedDateBloc, SelectedDateState>(
                     builder: (context, selectedDateState) {
                       final selectedDate = selectedDateState.selectedDate;

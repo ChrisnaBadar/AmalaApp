@@ -3,6 +3,7 @@ import 'package:amala/models/absen_model.dart';
 import 'package:amala/pages/absen/widgets/absen_list.dart';
 import 'package:amala/services/database_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 import '../../blocs/bloc_exports.dart';
@@ -17,6 +18,7 @@ class AbsenPage extends StatefulWidget {
 }
 
 class _AbsenPageState extends State<AbsenPage> {
+  bool loading = false;
   String filterKehadiran = 'all';
   List<String> months = List.generate(
       12,
@@ -114,7 +116,54 @@ class _AbsenPageState extends State<AbsenPage> {
                       ),
                     );
                   } else {
-                    return Container();
+                    return Scaffold(
+                      body: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: loading
+                            ? const SpinKitDancingSquare(
+                                color: Colors.amber,
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                    const Text(
+                                      'Jika anda melihat halaman ini anda harus memperbaharui data online dengan cara menekan tombol di bawah ini.',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(
+                                      height: 16.0,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          setState(() {
+                                            loading = true;
+                                          });
+                                          try {
+                                            await DatabaseService(
+                                                    uid: state.uid)
+                                                .updateUserData(
+                                                    state.nama,
+                                                    state.email,
+                                                    state.photoUrl);
+                                            setState(() {
+                                              loading = false;
+                                            });
+                                          } catch (e) {
+                                            await DatabaseService(
+                                                    uid: state.uid)
+                                                .setUserData(
+                                                    state.nama,
+                                                    state.email,
+                                                    state.photoUrl);
+                                            setState(() {
+                                              loading = false;
+                                            });
+                                          }
+                                        },
+                                        child: const Text('Renew Data'))
+                                  ]),
+                      ),
+                    );
                   }
                 });
           },

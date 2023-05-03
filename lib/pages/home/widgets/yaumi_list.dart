@@ -51,9 +51,15 @@ class _YaumiListState extends State<YaumiList> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0),
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         const Text(
-                                            'Jika tombol bermasalah silahkan tekan: >> '),
+                                          'Jika checkbox bermasalah silahkan tekan: >> ',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.blueGrey),
+                                        ),
                                         TextButton(
                                             onPressed: () {
                                               context.read<YaumiBloc>().add(
@@ -63,6 +69,15 @@ class _YaumiListState extends State<YaumiList> {
                                             child: const Text('Reset')),
                                       ],
                                     ),
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: const Text(
+                                        ' atau tutup dulu aplikasi lalu buka kembali',
+                                        style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: Colors.blueGrey)),
                                   ),
                                   settingsState.fardhu
                                       ? ListTile(
