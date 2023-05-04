@@ -22,6 +22,7 @@ class MyStrings {
   static const String content = 'assets/content.png';
   static const String muslimPray = 'assets/muslim-pray.png';
   static const String personSit = 'assets/person_sit.png';
+  static const String sampleSheet = 'assets/sampleSheet.png';
 
   //iconsString
   static const String calenderIconColor = 'assets/icons/calendar.png';

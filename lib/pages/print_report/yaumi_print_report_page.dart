@@ -1,9 +1,13 @@
+import 'dart:ffi';
+
+import 'package:amala/constants/my_strings.dart';
 import 'package:amala/models/users_model.dart';
 import 'package:amala/models/yaumi_model.dart';
 import 'package:amala/pages/print_report/yaumi_report_tile.dart';
 import 'package:amala/services/database_service.dart';
 import 'package:amala/services/excelService.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../blocs/bloc_exports.dart';
 
@@ -15,6 +19,8 @@ class YaumiPrintReportPage extends StatefulWidget {
 }
 
 class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
+  static var selectedDate = 11;
+  var targetDate = selectedDate - 1;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
@@ -107,6 +113,31 @@ class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
                               ),
                             ),
                             Text(' Bulan sebelum - xx Bulan Berjalan'),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Laporan Bulanan Yaumi [Nama Lembaga]',
+                              style: TextStyle(
+                                  color: Colors.blueGrey[800],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17.0),
+                            ),
+                            Text(
+                              '11 April 2023 - 10 Mei 2023',
+                              style: TextStyle(
+                                  color: Colors.blueGrey[600], fontSize: 13.0),
+                            ),
+                            SizedBox(
+                              height: 8.0,
+                            ),
+                            Image.asset(MyStrings.sampleSheet)
                           ],
                         ),
                       ),
