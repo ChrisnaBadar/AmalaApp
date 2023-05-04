@@ -1,5 +1,6 @@
 import 'package:amala/models/users_model.dart';
 import 'package:amala/models/yaumi_model.dart';
+import 'package:amala/pages/print_report/yaumi_report_tile.dart';
 import 'package:amala/services/database_service.dart';
 import 'package:amala/services/excelService.dart';
 import 'package:flutter/material.dart';
@@ -60,24 +61,66 @@ class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
                 final testResult = myResult.map((e) => e.poinHariIni).toList();
                 print('yaumiData.length: $myResult');
                 return Scaffold(
-                  body: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              ExcelService().generateYaumiSheet(
-                                  yaumiModel: myResult,
-                                  myDate: DateTime(2023, 4, 11),
-                                  lembaga: '-',
-                                  context: context);
-                            },
-                            child: Text('Generate Report'))
-                      ],
-                    ),
-                  ),
+                  body: SafeArea(
+                      child: Column(
+                    children: [
+                      //Title
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Laporan Ibadah Harian Group',
+                          style: TextStyle(
+                              color: Colors.blueGrey[700],
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const Text('Tenggang laporan dari bulan ke bulan'),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Row(
+                          children: [
+                            Text('Tanggal'),
+                            SizedBox(
+                              width: 16.0,
+                            ),
+                            SizedBox(
+                              width: 80.0,
+                              child: DropdownButtonFormField(
+                                value: '1',
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0)))),
+                                elevation: 16,
+                                style:
+                                    const TextStyle(color: Colors.deepPurple),
+                                items: List.generate(
+                                    12,
+                                    (index) => DropdownMenuItem<String>(
+                                        value: '${index + 1}',
+                                        child: Text('${index + 1}'))),
+                                onChanged: (Object? value) {},
+                              ),
+                            ),
+                            Text(' Bulan sebelum - xx Bulan Berjalan'),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: 1,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) =>
+                              const YaumiReportTile(),
+                        ),
+                      )
+                      //LIst of report tile between months
+                    ],
+                  )),
                 );
               } else {
                 return Container();
