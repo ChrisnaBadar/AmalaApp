@@ -16,21 +16,26 @@ class SettingsState extends Equatable {
   final bool shalawat;
   final bool istighfar;
   final String selectedGroupIcons;
-  const SettingsState(
-      {required this.absen,
-      required this.shalatReminder,
-      required this.fardhu,
-      required this.tahajud,
-      required this.dhuha,
-      required this.rawatib,
-      required this.tilawah,
-      required this.shaum,
-      required this.sedekah,
-      required this.dzikir,
-      required this.taklim,
-      required this.shalawat,
-      required this.istighfar,
-      required this.selectedGroupIcons});
+  final int reportSelectedDate;
+  final String namaLembaga;
+  const SettingsState({
+    required this.absen,
+    required this.shalatReminder,
+    required this.fardhu,
+    required this.tahajud,
+    required this.dhuha,
+    required this.rawatib,
+    required this.tilawah,
+    required this.shaum,
+    required this.sedekah,
+    required this.dzikir,
+    required this.taklim,
+    required this.shalawat,
+    required this.istighfar,
+    required this.selectedGroupIcons,
+    required this.reportSelectedDate,
+    required this.namaLembaga,
+  });
 
   @override
   List<Object> get props => [
@@ -47,7 +52,9 @@ class SettingsState extends Equatable {
         taklim,
         shalawat,
         istighfar,
-        selectedGroupIcons
+        selectedGroupIcons,
+        reportSelectedDate,
+        namaLembaga
       ];
 
   SettingsState copyWith(
@@ -64,7 +71,9 @@ class SettingsState extends Equatable {
       bool? taklim,
       bool? shalawat,
       bool? istighfar,
-      String? selectedGroupIcons}) {
+      String? selectedGroupIcons,
+      int? reportSelectedDate,
+      String? namaLembaga}) {
     return SettingsState(
         absen: absen ?? this.absen,
         shalatReminder: shalatReminder ?? this.shalatReminder,
@@ -79,7 +88,9 @@ class SettingsState extends Equatable {
         taklim: taklim ?? this.taklim,
         shalawat: shalawat ?? this.shalawat,
         istighfar: istighfar ?? this.istighfar,
-        selectedGroupIcons: selectedGroupIcons ?? this.selectedGroupIcons);
+        selectedGroupIcons: selectedGroupIcons ?? this.selectedGroupIcons,
+        reportSelectedDate: reportSelectedDate ?? this.reportSelectedDate,
+        namaLembaga: namaLembaga ?? this.namaLembaga);
   }
 
   Map<String, dynamic> toMap() {
@@ -97,7 +108,9 @@ class SettingsState extends Equatable {
       'taklim': taklim,
       'shalawat': shalawat,
       'istighfar': istighfar,
-      'selectedGroupIcons': selectedGroupIcons
+      'selectedGroupIcons': selectedGroupIcons,
+      'reportSelectedDate': reportSelectedDate,
+      'namaLembaga': namaLembaga
     };
   }
 
@@ -116,7 +129,9 @@ class SettingsState extends Equatable {
         taklim: map['taklim'] as bool,
         shalawat: map['shalawat'] as bool,
         istighfar: map['istighfar'] as bool,
-        selectedGroupIcons: map['selectedGroupIcons'] as String);
+        selectedGroupIcons: map['selectedGroupIcons'] as String,
+        reportSelectedDate: map['reportSelectedDate'] as int,
+        namaLembaga: map['namaLembaga'] as String);
   }
 }
 
@@ -136,5 +151,7 @@ class SettingsInitial extends SettingsState {
             taklim: false,
             shalawat: false,
             istighfar: false,
-            selectedGroupIcons: MyStrings.shalawatIconColor);
+            selectedGroupIcons: MyStrings.shalawatIconColor,
+            reportSelectedDate: 11,
+            namaLembaga: '[Nama Lembaga]');
 }

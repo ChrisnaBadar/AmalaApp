@@ -78,6 +78,16 @@ class SettingsBloc extends HydratedBloc<SettingsEvent, SettingsState> {
       selectedGroupIcons = event.selectedGroupIcons;
       emit(state.copyWith(selectedGroupIcons: selectedGroupIcons));
     });
+    on<SetReportSelectedDateEvent>((event, emit) {
+      var reportSelectedDate = state.reportSelectedDate;
+      reportSelectedDate = event.date;
+      emit(state.copyWith(reportSelectedDate: reportSelectedDate));
+    });
+    on<SetNamaLembagaEvent>((event, emit) {
+      var namaLembaga = state.namaLembaga;
+      namaLembaga = event.namaLembaga;
+      emit(state.copyWith(namaLembaga: namaLembaga));
+    });
   }
 
   @override

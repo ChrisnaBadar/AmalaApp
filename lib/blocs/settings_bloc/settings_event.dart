@@ -35,3 +35,17 @@ class SetSelectedGroupIconsEvent extends SettingsEvent {
     this.selectedGroupIcons,
   );
 }
+
+class SetReportSelectedDateEvent extends SettingsEvent {
+  int date;
+  SetReportSelectedDateEvent({
+    required this.date,
+  });
+}
+
+class SetNamaLembagaEvent extends SettingsEvent {
+  String namaLembaga;
+  SetNamaLembagaEvent({
+    required this.namaLembaga,
+  });
+}
