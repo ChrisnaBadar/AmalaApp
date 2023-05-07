@@ -1,5 +1,6 @@
 import 'package:amala/blocs/bloc_exports.dart';
 import 'package:amala/constants/core_data.dart';
+import 'package:amala/constants/my_strings.dart';
 import 'package:amala/models/users_model.dart';
 import 'package:amala/pages/splash_screen/controller/splash_controller.dart';
 import 'package:amala/services/database_service.dart';
@@ -69,25 +70,29 @@ class _SplashScreenState extends State<SplashScreen>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const SizedBox(),
-          SizedBox(
-              child: Text(
-            'Amala',
-            style: TextStyle(
-                fontFamily: 'Raleway',
-                color: Colors.amber[100],
-                fontWeight: FontWeight.bold,
-                fontSize: 50.0),
-          )),
+          Column(
+            children: [
+              SpinKitDancingSquare(
+                color: Colors.amber[600],
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              SizedBox(
+                  child: Text(
+                'Amala',
+                style: TextStyle(
+                    fontFamily: 'Raleway',
+                    color: Colors.amber[100],
+                    fontWeight: FontWeight.bold,
+                    fontSize: 50.0),
+              )),
+            ],
+          ),
           Container(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                SpinKitDancingSquare(
-                  color: Colors.amber[600],
-                ),
-                const SizedBox(
-                  height: 8.0,
-                ),
                 const Text(
                   'Checking Version',
                   style: TextStyle(color: Colors.white),
@@ -95,6 +100,28 @@ class _SplashScreenState extends State<SplashScreen>
                 Text(
                   'Amala App $appVersion',
                   style: const TextStyle(color: Colors.white),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 8.0,
+                    ),
+                    const Text(
+                      'Powered by:',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    const SizedBox(
+                      width: 8.0,
+                    ),
+                    Image.asset(
+                      MyStrings.gsp,
+                      scale: 3,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8.0,
                 ),
                 Countdown(
                   animation:

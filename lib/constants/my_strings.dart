@@ -55,6 +55,7 @@ class MyStrings {
   static const String leaveIconColor = 'assets/icons/leave.png';
   static const String plusIconColor = 'assets/icons/plus.png';
   static const String reportIconColor = 'assets/icons/report.png';
+  static const String gsp = 'assets/icons/gsp.png';
 
   //welcomePage
   static const String page1Title = 'Selamat datang di aplikasi Amala';
