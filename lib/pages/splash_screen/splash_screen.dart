@@ -40,27 +40,22 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     var appVersion = CoreData.appVersion;
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      builder: (settingsContext, settingsState) {
-        CoreData.adhanAlarm = settingsState.shalatReminder;
-        return BlocBuilder<UserBloc, UserState>(
-          builder: (context, state) {
-            final uid = state.uid;
-            final nama = state.nama;
-            final email = state.email;
-            final profilePicUrl = state.photoUrl;
-            return StreamBuilder<UsersModel>(
-              stream: DatabaseService(uid: uid == '' ? '-' : uid).userData,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  print('has data');
-                  final userModel = snapshot.data;
-                } else {
-                  print('no data');
-                }
-                return _mainBody(appVersion);
-              },
-            );
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        final uid = state.uid;
+        final nama = state.nama;
+        final email = state.email;
+        final profilePicUrl = state.photoUrl;
+        return StreamBuilder<UsersModel>(
+          stream: DatabaseService(uid: uid == '' ? '-' : uid).userData,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              print('has data');
+              final userModel = snapshot.data;
+            } else {
+              print('no data');
+            }
+            return _mainBody(appVersion);
           },
         );
       },

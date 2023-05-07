@@ -18,7 +18,7 @@ void main() async {
   MobileAds.instance.updateRequestConfiguration(configuration);
   MobileAds.instance.initialize();
   await Firebase.initializeApp();
-  await Upgrader.clearSavedSettings();
+  //await Upgrader.clearSavedSettings();
   await Alarm.init();
   final storage = await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory());

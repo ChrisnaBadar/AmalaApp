@@ -17,7 +17,7 @@ class CoreData {
   static String tahunIni = DateFormat('yyyy', 'id_ID').format(DateTime.now());
   static String namaUser = '-';
   static const double cornerRadius = 10.0;
-  static bool isTestMode = true;
+  static bool isTestMode = false;
   static int locationFetchDuration = 20;
 
   //identity
