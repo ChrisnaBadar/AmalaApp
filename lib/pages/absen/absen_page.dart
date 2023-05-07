@@ -4,11 +4,13 @@ import 'package:amala/pages/absen/widgets/absen_list.dart';
 import 'package:amala/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 
 import '../../blocs/bloc_exports.dart';
 import '../../constants/my_strings.dart';
 import '../../models/users_model.dart';
+import '../../services/admob_service.dart';
 
 class AbsenPage extends StatefulWidget {
   const AbsenPage({super.key});
@@ -26,6 +28,48 @@ class _AbsenPageState extends State<AbsenPage> {
           .format(DateTime(DateTime.now().year, index + 1)));
   String dropdownValue = DateFormat('MMMM yyyy', "id_ID")
       .format(DateTime(DateTime.now().year, DateTime.now().month));
+
+  BannerAd? _bannerAd;
+  bool _bannerAdLoaded = false;
+  void loadAd() {
+    _bannerAd = BannerAd(
+      adUnitId: AdMobService.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+          setState(() {
+            _bannerAdLoaded = true;
+          });
+        },
+        // Called when an ad request failed.
+        onAdFailedToLoad: (ad, err) {
+          debugPrint('BannerAd failed to load: $err');
+          // Dispose the ad here to free resources.
+          ad.dispose();
+        },
+      ),
+    )..load();
+  }
+
+  _adWidget() {
+    return _bannerAdLoaded
+        ? SizedBox(
+            width: _bannerAd!.size.width.toDouble(),
+            height: _bannerAd!.size.height.toDouble(),
+            child: AdWidget(ad: _bannerAd!),
+          )
+        : const SizedBox();
+  }
+
+  @override
+  void initState() {
+    loadAd();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     String filterKehadiranTitle = filterKehadiran == CoreData.list[0]
@@ -82,6 +126,7 @@ class _AbsenPageState extends State<AbsenPage> {
                         )
                         .toList();
                     return Scaffold(
+                      bottomNavigationBar: _adWidget(),
                       floatingActionButton: todayAbsen.isEmpty
                           ? FloatingActionButton.extended(
                               onPressed: () {
@@ -100,7 +145,8 @@ class _AbsenPageState extends State<AbsenPage> {
                           child: Column(
                             children: [
                               //Header Absen
-                              _headerAbsen(),
+                              _headerAbsen(
+                                  userModel.uid!, userModel.uidLeader!),
 
                               //Bulan Dropdown
                               _bulanDropdownSortir(
@@ -117,6 +163,7 @@ class _AbsenPageState extends State<AbsenPage> {
                     );
                   } else {
                     return Scaffold(
+                      bottomNavigationBar: _adWidget(),
                       body: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: loading
@@ -172,7 +219,7 @@ class _AbsenPageState extends State<AbsenPage> {
     );
   }
 
-  Widget _headerAbsen() {
+  Widget _headerAbsen(String uid, String uidLeader) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -183,15 +230,17 @@ class _AbsenPageState extends State<AbsenPage> {
                   fontSize: 17.5,
                   color: Colors.blueGrey[700],
                   fontWeight: FontWeight.bold)),
-          TextButton.icon(
-              onPressed: () {
-                Navigator.pushNamed(context, '/logAbsen');
-              },
-              icon: Image.asset(
-                MyStrings.docIconColor,
-                scale: 3,
-              ),
-              label: const Text('Online Data Report'))
+          uid == uidLeader
+              ? TextButton.icon(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/absenPrintReportPage');
+                  },
+                  icon: Image.asset(
+                    MyStrings.docIconColor,
+                    scale: 3,
+                  ),
+                  label: const Text('Online Data Report'))
+              : Container()
         ],
       ),
     );

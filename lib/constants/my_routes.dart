@@ -9,6 +9,7 @@ import 'package:amala/pages/yaumi_settings/yaumi_settings_page.dart';
 
 import '../pages/auth_page/auth_page.dart';
 import '../pages/group_list/group_list_page.dart';
+import '../pages/print_report/absen_print_report_page.dart';
 
 class MyRoutes {
   final routes = {
@@ -21,6 +22,7 @@ class MyRoutes {
     '/logAbsen': (context) => const LogAbsenPage(),
     '/authPage': (context) => const AuthPage(),
     '/groupListPage': (context) => const GroupListPage(),
-    '/yaumiPrintReportPage': (context) => const YaumiPrintReportPage()
+    '/yaumiPrintReportPage': (context) => const YaumiPrintReportPage(),
+    '/absenPrintReportPage': (context) => const AbsenPrintReportPage()
   };
 }

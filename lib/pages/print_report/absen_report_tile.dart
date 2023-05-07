@@ -1,16 +1,16 @@
 import 'package:amala/services/excelService.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/yaumi_model.dart';
+import '../../models/absen_model.dart';
 
-class YaumiReportTile extends StatelessWidget {
+class AbsenReportTile extends StatelessWidget {
   final String prevMonth;
   final String currentMonth;
   final String month;
-  final List<YaumiModel> myResult;
+  final List<AbsenModel> myResult;
   final String namaLembaga;
   final DateTime myDate;
-  const YaumiReportTile(
+  const AbsenReportTile(
       {super.key,
       required this.prevMonth,
       required this.currentMonth,
@@ -26,7 +26,7 @@ class YaumiReportTile extends StatelessWidget {
       child: Card(
         child: ListTile(
             title: Text(
-              'Laporan Yaumi $month',
+              'Absen Online $month',
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: Colors.blueGrey[500], fontWeight: FontWeight.bold),
@@ -36,8 +36,8 @@ class YaumiReportTile extends StatelessWidget {
                 style: TextStyle(color: Colors.blueGrey[400], fontSize: 12.0)),
             trailing: ElevatedButton.icon(
               onPressed: () {
-                ExcelService().generateYaumiSheet(
-                    yaumiModel: myResult, myDate: myDate, lembaga: namaLembaga);
+                ExcelService().generateAbsenSheet(
+                    absenModel: myResult, myDate: myDate, lembaga: namaLembaga);
               },
               label: const Text('Share'),
               icon: const Icon(

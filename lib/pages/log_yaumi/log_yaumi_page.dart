@@ -4,10 +4,12 @@ import 'package:amala/pages/log_yaumi/log_yaumi_list.dart';
 import 'package:amala/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 
 import '../../blocs/bloc_exports.dart';
 import '../../constants/my_strings.dart';
+import '../../services/admob_service.dart';
 
 class LogYaumiPage extends StatefulWidget {
   const LogYaumiPage({super.key});
@@ -24,6 +26,47 @@ class _LogYaumiPageState extends State<LogYaumiPage> {
           .format(DateTime(DateTime.now().year, index + 1)));
   String dropdownValue = DateFormat('MMMM yyyy', "id_ID")
       .format(DateTime(DateTime.now().year, DateTime.now().month));
+
+  BannerAd? _bannerAd;
+  bool _bannerAdLoaded = false;
+  void loadAd() {
+    _bannerAd = BannerAd(
+      adUnitId: AdMobService.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+          setState(() {
+            _bannerAdLoaded = true;
+          });
+        },
+        // Called when an ad request failed.
+        onAdFailedToLoad: (ad, err) {
+          debugPrint('BannerAd failed to load: $err');
+          // Dispose the ad here to free resources.
+          ad.dispose();
+        },
+      ),
+    )..load();
+  }
+
+  _adWidget() {
+    return _bannerAdLoaded
+        ? SizedBox(
+            width: _bannerAd!.size.width.toDouble(),
+            height: _bannerAd!.size.height.toDouble(),
+            child: AdWidget(ad: _bannerAd!),
+          )
+        : const SizedBox();
+  }
+
+  @override
+  void initState() {
+    loadAd();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,25 +112,27 @@ class _LogYaumiPageState extends State<LogYaumiPage> {
                 final sortedItems = selectedDateData
                   ..sort((a, b) => b.date.compareTo(a.date));
                 return Scaffold(
+                    bottomNavigationBar: _adWidget(),
                     body: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Column(
-                      children: [
-                        //Header Absen
-                        _headerLog(sortedItems),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Column(
+                          children: [
+                            //Header Absen
+                            _headerLog(sortedItems, userData.uid!,
+                                userData.uidLeader!),
 
-                        //Bulan Dropdown
-                        _bulanDropdownSortir(months),
+                            //Bulan Dropdown
+                            _bulanDropdownSortir(months),
 
-                        //List Absen
-                        Expanded(
-                          child: LogYaumiList(allYaumis: sortedItems),
+                            //List Absen
+                            Expanded(
+                              child: LogYaumiList(allYaumis: sortedItems),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                ));
+                      ),
+                    ));
               } else {
                 return Scaffold(
                   body: Padding(
@@ -143,7 +188,8 @@ class _LogYaumiPageState extends State<LogYaumiPage> {
     );
   }
 
-  Widget _headerLog(List<YaumiModel> sortedItems) {
+  Widget _headerLog(
+      List<YaumiModel> sortedItems, String uid, String uidLeader) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -154,16 +200,18 @@ class _LogYaumiPageState extends State<LogYaumiPage> {
                   fontSize: 17.5,
                   color: Colors.blueGrey[700],
                   fontWeight: FontWeight.bold)),
-          TextButton.icon(
-              onPressed: () {
-                Navigator.pushNamed(context, '/yaumiPrintReportPage',
-                    arguments: sortedItems);
-              },
-              icon: Image.asset(
-                MyStrings.docIconColor,
-                scale: 3,
-              ),
-              label: const Text('Online Data Report'))
+          uid == uidLeader
+              ? TextButton.icon(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/yaumiPrintReportPage',
+                        arguments: sortedItems);
+                  },
+                  icon: Image.asset(
+                    MyStrings.docIconColor,
+                    scale: 3,
+                  ),
+                  label: const Text('Online Data Report'))
+              : Container()
         ],
       ),
     );

@@ -163,7 +163,10 @@ class DatabaseService {
   }
 
   UsersModel _userModelFromSnapshot(DocumentSnapshot snapshot) {
-    return UsersModel(yaumi: snapshot['yaumi']);
+    return UsersModel(
+        yaumi: snapshot['yaumi'],
+        uid: snapshot['uid'],
+        uidLeader: snapshot['uidLeader']);
   }
 
   Stream<UsersModel> get yaumiModel {
@@ -172,7 +175,11 @@ class DatabaseService {
 
   List<UsersModel> _userListModelFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((e) {
-      return UsersModel(yaumi: e['yaumi'], uidGroup: e['uidGroup']);
+      return UsersModel(
+          yaumi: e['yaumi'],
+          uidGroup: e['uidGroup'],
+          uid: e['uid'],
+          uidLeader: e['uidLeader']);
     }).toList();
   }
 
@@ -219,11 +226,24 @@ class DatabaseService {
   }
 
   UsersModel _userAbsenModelFromSnapshot(DocumentSnapshot snapshot) {
-    return UsersModel(absen: snapshot['absen']);
+    return UsersModel(
+        absen: snapshot['absen'],
+        uid: snapshot['uid'],
+        uidLeader: snapshot['uidLeader']);
   }
 
   Stream<UsersModel> get absenModel {
     return absen.doc(uid).snapshots().map(_userAbsenModelFromSnapshot);
+  }
+
+  List<UsersModel> _userAbsenListModelFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((e) {
+      return UsersModel(absen: e['absen'], uidGroup: e['uidGroup']);
+    }).toList();
+  }
+
+  Stream<List<UsersModel>> get absenListModel {
+    return yaumi.snapshots().map(_userAbsenListModelFromSnapshot);
   }
 
 // ░██████╗░██████╗░░█████╗░██╗░░░██╗██████╗░

@@ -1,24 +1,21 @@
-import 'dart:ffi';
-
 import 'package:amala/constants/my_strings.dart';
+import 'package:amala/models/absen_model.dart';
 import 'package:amala/models/users_model.dart';
-import 'package:amala/models/yaumi_model.dart';
-import 'package:amala/pages/print_report/yaumi_report_tile.dart';
+import 'package:amala/pages/print_report/absen_report_tile.dart';
 import 'package:amala/services/database_service.dart';
-import 'package:amala/services/excelService.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../blocs/bloc_exports.dart';
 
-class YaumiPrintReportPage extends StatefulWidget {
-  const YaumiPrintReportPage({super.key});
+class AbsenPrintReportPage extends StatefulWidget {
+  const AbsenPrintReportPage({super.key});
 
   @override
-  State<YaumiPrintReportPage> createState() => _YaumiPrintReportPageState();
+  State<AbsenPrintReportPage> createState() => _AbsenPrintReportPageState();
 }
 
-class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
+class _AbsenPrintReportPageState extends State<AbsenPrintReportPage> {
   final _textController = TextEditingController();
   static var monthNow = DateTime.now();
   static var selectedMonth = DateTime(monthNow.year, monthNow.month);
@@ -33,45 +30,32 @@ class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
         return BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
             return StreamBuilder<List<UsersModel>>(
-                stream: DatabaseService().yaumiListModel,
+                stream: DatabaseService().absenListModel,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final userData = snapshot.data;
                     final userGroupData = userData!
                         .where((e) => e.uidGroup == state.uidGroup)
                         .toList();
-                    final yaumiData =
-                        userGroupData.map((e) => e.yaumi).toList();
+                    final absenData =
+                        userGroupData.map((e) => e.absen).toList();
                     final result = List.generate(
-                        yaumiData.length,
-                        (index) => yaumiData
+                        absenData.length,
+                        (index) => absenData
                             .map((e) => e!.values)
                             .toList()[index]
                             .toList()).expand((element) => element).toList();
                     final myResult = List.generate(
                         result.length,
-                        (index) => YaumiModel(
+                        (index) => AbsenModel(
                             date: result[index]['date'].toDate(),
+                            tanggal: result[index]['tanggal'],
                             nama: result[index]['nama'],
-                            id: result[index]['tanggal'],
-                            shubuh: result[index]['shubuh'],
-                            dhuhur: result[index]['dhuhur'],
-                            ashar: result[index]['ashar'],
-                            maghrib: result[index]['maghrib'],
-                            isya: result[index]['isya'],
-                            tahajud: result[index]['tahajud'],
-                            rawatib: result[index]['rawatib'],
-                            dhuha: result[index]['dhuha'],
-                            tilawah: result[index]['tilawah'],
-                            shaum: result[index]['shaum'],
-                            sedekah: result[index]['sedekah'],
-                            dzikirPagi: result[index]['dzikirPagi'],
-                            dzikirPetang: result[index]['dzikirPetang'],
-                            taklim: result[index]['taklim'],
-                            istighfar: result[index]['istighfar'],
-                            shalawat: result[index]['shalawat'],
-                            poinHariIni: result[index]['point'],
-                            isSubmitted: result[index]['isSaved']));
+                            waktu: result[index]['waktu'],
+                            lokasi: result[index]['lokasi'],
+                            kehadiran: result[index]['kehadiran'],
+                            tanggalIjin: result[index]['tanggalIjin'],
+                            keperluan: result[index]['keperluan']));
                     return Scaffold(
                       backgroundColor: Colors.indigo[50],
                       body: SafeArea(
@@ -82,7 +66,7 @@ class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'Laporan Ibadah Harian Group',
+                                'Laporan Absen Online Group',
                                 style: TextStyle(
                                     color: Colors.blueGrey[700],
                                     fontSize: 20,
@@ -239,7 +223,7 @@ class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Laporan Bulanan Yaumi ${settingsState.namaLembaga}',
+                                            'Laporan Bulanan Absen Online ${settingsState.namaLembaga}',
                                             style: TextStyle(
                                                 color: Colors.blueGrey[800],
                                                 fontWeight: FontWeight.bold,
@@ -262,7 +246,7 @@ class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
                                 ),
                               ),
                             ),
-                            YaumiReportTile(
+                            AbsenReportTile(
                               prevMonth:
                                   '${settingsState.reportSelectedDate} ${DateFormat('MMMM yyyy', "id_ID").format(selectedMonth)}',
                               currentMonth:

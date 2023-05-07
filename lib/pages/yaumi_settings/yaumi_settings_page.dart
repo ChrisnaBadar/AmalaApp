@@ -1,10 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:amala/blocs/bloc_exports.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../constants/my_strings.dart';
+import '../../services/admob_service.dart';
 
-class YaumiSettings extends StatelessWidget {
+class YaumiSettings extends StatefulWidget {
   const YaumiSettings({super.key});
+
+  @override
+  State<YaumiSettings> createState() => _YaumiSettingsState();
+}
+
+class _YaumiSettingsState extends State<YaumiSettings> {
+  BannerAd? _bannerAd;
+  bool _bannerAdLoaded = false;
+  void loadAd() {
+    _bannerAd = BannerAd(
+      adUnitId: AdMobService.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+          setState(() {
+            _bannerAdLoaded = true;
+          });
+        },
+        // Called when an ad request failed.
+        onAdFailedToLoad: (ad, err) {
+          debugPrint('BannerAd failed to load: $err');
+          // Dispose the ad here to free resources.
+          ad.dispose();
+        },
+      ),
+    )..load();
+  }
+
+  _adWidget() {
+    return _bannerAdLoaded
+        ? SizedBox(
+            width: _bannerAd!.size.width.toDouble(),
+            height: _bannerAd!.size.height.toDouble(),
+            child: AdWidget(ad: _bannerAd!),
+          )
+        : const SizedBox();
+  }
+
+  @override
+  void initState() {
+    loadAd();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +118,7 @@ class YaumiSettings extends StatelessWidget {
             MyStrings.absenIconColor
           ];
           return Scaffold(
+            bottomNavigationBar: _adWidget(),
             appBar: AppBar(
               title: const Text('Settings'),
             ),

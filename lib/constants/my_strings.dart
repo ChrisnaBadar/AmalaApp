@@ -23,6 +23,7 @@ class MyStrings {
   static const String muslimPray = 'assets/muslim-pray.png';
   static const String personSit = 'assets/person_sit.png';
   static const String sampleSheet = 'assets/sampleSheet.png';
+  static const String fillYaumi = 'assets/fill_yaumi.png';
 
   //iconsString
   static const String calenderIconColor = 'assets/icons/calendar.png';
@@ -53,6 +54,7 @@ class MyStrings {
   static const String feverIconColor = 'assets/icons/fever.png';
   static const String leaveIconColor = 'assets/icons/leave.png';
   static const String plusIconColor = 'assets/icons/plus.png';
+  static const String reportIconColor = 'assets/icons/report.png';
 
   //welcomePage
   static const String page1Title = 'Selamat datang di aplikasi Amala';
@@ -64,4 +66,7 @@ class MyStrings {
   static const String page3Title = 'Ayo Kita Mulai';
   static const String page3Subtitle =
       'lakukan dari hal yang terkecil, lakukan perlahan dan lakukan dari sekarang.';
+
+  //soundPath
+  static const String adhanSound = 'assets/adhan.mp3';
 }

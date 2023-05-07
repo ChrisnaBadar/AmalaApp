@@ -6,7 +6,7 @@ class AdMobService {
     if (CoreData.isTestMode) {
       return 'ca-app-pub-3940256099942544/6300978111';
     } else {
-      return 'ca-app-pub-6705737681125281/3673076537';
+      return 'ca-app-pub-6705737681125281/1977614190';
     }
   }
 
@@ -15,22 +15,6 @@ class AdMobService {
       return 'ca-app-pub-3940256099942544/3419835294';
     } else {
       return 'ca-app-pub-6705737681125281/9992176528';
-    }
-  }
-
-  // static String get interstitialAdUnitId {
-  //   if (CoreData.isTestMode) {
-  //     return 'ca-app-pub-3940256099942544/1033173712';
-  //   } else {
-  //     return 'ca-app-pub-6705737681125281/5784234556';
-  //   }
-  // }
-
-  static String get nativeAdUnitId {
-    if (CoreData.isTestMode) {
-      return 'ca-app-pub-3940256099942544/2247696110';
-    } else {
-      return 'ca-app-pub-6705737681125281/9577243556';
     }
   }
 

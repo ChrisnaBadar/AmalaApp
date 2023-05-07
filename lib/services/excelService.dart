@@ -151,8 +151,14 @@ class ExcelService {
     final String path = (await getApplicationSupportDirectory()).path;
     final String fileName = '$path/AbsenOnline.xlsx';
     final File file = File(fileName);
+    final XFile xFile = XFile(fileName);
     await file.writeAsBytes(bytes, flush: true);
+    // .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //       content: Text('File Yaumi.xlsx telah disimpan di $value'),
+    //       duration: const Duration(seconds: 10),
+    //     )));
     //OpenFile.open(fileName);
+    Share.shareXFiles([xFile]);
   }
 
   //DATABASE===================================================================================================
@@ -163,8 +169,7 @@ class ExcelService {
       return ExcelDataRow(cells: [
         ExcelDataCell(columnHeader: 'helper', value: '${e.nama}${e.tanggal}'),
         ExcelDataCell(columnHeader: 'nama', value: e.nama),
-        ExcelDataCell(
-            columnHeader: 'tanggal', value: DateTime.parse(e.tanggal)),
+        ExcelDataCell(columnHeader: 'tanggal', value: e.tanggal),
         ExcelDataCell(columnHeader: 'status', value: e.kehadiran)
       ]);
     }).toList();
@@ -287,8 +292,7 @@ class ExcelService {
   Future<void> generateYaumiSheet(
       {required List<YaumiModel> yaumiModel,
       required DateTime myDate,
-      required String lembaga,
-      required BuildContext context}) async {
+      required String lembaga}) async {
     //Variables=================================
     final Worksheet sheet1 = workbook.worksheets[0];
     final Worksheet sheet2 = workbook.worksheets.addWithName('Sheet2');
@@ -339,6 +343,7 @@ class ExcelService {
         .toList();
     final sortedItem = finalAbsen
       ..sort((item1, item2) => item2.nama.compareTo(item1.nama));
+    final intColAfterTable = listNama.length + 9;
 
     //Creating a new style with all properties.
     final Style headerStyle = workbook.styles.add('headerStyle');
@@ -403,6 +408,7 @@ class ExcelService {
         tanggalHeaderStyle,
         tanggalHeaderFormatStyle,
         tableStyle);
+    afterTableYaumi(sheet1, intColAfterTable);
 
     // (await getApplicationSupportDirectory()).path;
     // Directory('/storage/emulated/0/Download').path;
@@ -530,7 +536,7 @@ class ExcelService {
           List.generate(listNama.length, //reference data anggota
               (index) {
             return sheet1.getRangeByName('${colls[i + 2]}${index + 6}').setFormula(
-                'VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length + 1},4,FALSE)');
+                'IFERROR(VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length + 1},4,FALSE),"")');
 
             //old formula
             // 'IFERROR(ROUNDUP(ARRAYFORMULA(VLOOKUP(A${index + 6}&" "&${colls[i + 2]}5,{Sheet2!A2:A${sortedItem.length}&" "&Sheet2!B2:B${sortedItem.length},Sheet2!C2:C${sortedItem.length}},2,FALSE))),"")'
@@ -546,6 +552,21 @@ class ExcelService {
     sheet1.getRangeByName('A5:A${listNama.length + 6}').autoFitColumns();
     sheet1.getRangeByName('B5:AF5').columnWidth = 3.5;
     sheet1.getRangeByName('A6:AF${listNama.length + 5}').cellStyle = tableStyle;
+    return sheet1;
+  }
+
+  //AFTER TABLE===================================================================================================
+  Worksheet afterTableYaumi(Worksheet sheet1, int intColAfterTable) {
+    //After table param
+    sheet1.getRangeByIndex(intColAfterTable - 1, 2).setValue('Keterangan: ');
+    sheet1.getRangeByIndex(intColAfterTable, 2).setValue(
+        '1. Jika angka tidak muncul atau error di Sheet1 maka highlight seluruh kolom C di Sheet 2.');
+    sheet1.getRangeByIndex(intColAfterTable + 1, 2).setValue(
+        '2. Pilih "Format" - "Number" - "Date" untuk merubah tipe data di kolom C menjadi tanggal.');
+    sheet1.getRangeByIndex(intColAfterTable + 2, 2).setValue(
+        '3. Jika masih error kemungkinan formula GSheet telah terupdate.');
+    sheet1.getRangeByIndex(intColAfterTable + 3, 2).setValue(
+        '4. Jika itu terjadi silahkan mengacu pada nilai angka anggota di Sheet2 untuk membuat formula baru.');
     return sheet1;
   }
 }

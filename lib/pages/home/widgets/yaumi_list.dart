@@ -1,9 +1,11 @@
+import 'package:amala/constants/my_strings.dart';
 import 'package:amala/models/yaumi_model.dart';
 import 'package:amala/pages/home/widgets/poin_hari_ini_tile.dart';
 import 'package:amala/pages/home/widgets/tilawah_tile.dart';
 import 'package:amala/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 import '../../../blocs/bloc_exports.dart';
 
 class YaumiList extends StatefulWidget {
@@ -32,12 +34,46 @@ class _YaumiListState extends State<YaumiList> {
                     var selectedYaumi =
                         yaumi.where((e) => e.date == selectedDate).toList();
                     if (selectedYaumi.isEmpty) {
-                      context.read<YaumiBloc>().add(AddYaumiEvent(
-                          yaumi: YaumiModel(
-                              id: selectedDate.toString(),
-                              date: selectedDate,
-                              nama: userState.nama)));
-                      return Container();
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                MyStrings.reportIconColor,
+                              ),
+                              const SizedBox(
+                                height: 8.0,
+                              ),
+                              Text(
+                                'Isi Yaumi ${DateFormat('EEEE, dd MMM yyyy', "ID_id").format(selectedDate)}?',
+                                style: TextStyle(
+                                    fontFamily: 'Raleway',
+                                    color: Colors.indigo[800],
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                height: 8.0,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    context.read<YaumiBloc>().add(AddYaumiEvent(
+                                        yaumi: YaumiModel(
+                                            id: selectedDate.toString(),
+                                            date: selectedDate,
+                                            nama: userState.nama)));
+                                  },
+                                  child: Container(
+                                      alignment: Alignment.center,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: const Text(
+                                        'ISI YAUMI',
+                                        style: TextStyle(
+                                            fontFamily: 'Raleway',
+                                            fontWeight: FontWeight.bold),
+                                      ))),
+                            ]),
+                      );
                     } else {
                       var todayYaumi = selectedYaumi.first;
                       return loading
@@ -52,32 +88,21 @@ class _YaumiListState extends State<YaumiList> {
                                         horizontal: 8.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const Text(
-                                          'Jika checkbox bermasalah silahkan tekan: >> ',
-                                          style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: Colors.blueGrey),
-                                        ),
+                                        Text(' Jumlah Model: ${yaumi.length}',
+                                            style: const TextStyle(
+                                                fontSize: 12.0,
+                                                color: Colors.blueGrey)),
                                         TextButton(
                                             onPressed: () {
                                               context.read<YaumiBloc>().add(
                                                   DeleteYaumiEvent(
                                                       yaumi: todayYaumi));
                                             },
-                                            child: const Text('Reset')),
+                                            child: const Text('Hapus')),
                                       ],
                                     ),
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: const Text(
-                                        ' atau tutup dulu aplikasi lalu buka kembali',
-                                        style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: Colors.blueGrey)),
                                   ),
                                   settingsState.fardhu
                                       ? ListTile(
@@ -94,12 +119,12 @@ class _YaumiListState extends State<YaumiList> {
                                                         yaumi: todayYaumi,
                                                         poinHariIni: 1.0));
                                               }),
-                                          onTap: () => context
-                                              .read<YaumiBloc>()
-                                              .add(UpdateShubuhEvent(
-                                                  yaumi: todayYaumi,
-                                                  poinHariIni: 1.0)),
-                                        )
+                                          onTap: () {
+                                            context.read<YaumiBloc>().add(
+                                                UpdateShubuhEvent(
+                                                    yaumi: todayYaumi,
+                                                    poinHariIni: 1.0));
+                                          })
                                       : Container(),
                                   settingsState.fardhu
                                       ? ListTile(
@@ -486,6 +511,20 @@ class _YaumiListState extends State<YaumiList> {
         );
       },
     );
+  }
+
+  Future _createYaumiData(
+      String id, DateTime selectedDate, String name, int modelNumbers) async {
+    Future.delayed(
+        Duration.zero,
+        () => context.read<YaumiBloc>().add(AddYaumiEvent(
+            yaumi: YaumiModel(id: id, date: selectedDate, nama: name))));
+    if (modelNumbers == (modelNumbers + 1)) {
+      return;
+    } else {
+      context.read<YaumiBloc>().add(DeleteYaumiEvent(
+          yaumi: YaumiModel(id: id, date: selectedDate, nama: name)));
+    }
   }
 
   Color _submitColor(bool isSubmitted) {

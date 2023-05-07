@@ -37,34 +37,13 @@ class YaumiPage extends StatelessWidget {
                           icon: const Icon(Icons.list_alt),
                           label: const Text('Log'))
                       : Container(),
-                  BlocBuilder<SelectedDateBloc, SelectedDateState>(
-                    builder: (context, selectedDateState) {
-                      final selectedDate = selectedDateState.selectedDate;
-                      return BlocBuilder<YaumiBloc, YaumiState>(
-                        builder: (context, yaumiState) {
-                          final yaumi = yaumiState.allYaumis;
-                          var selectedYaumi = yaumi
-                              .where((e) => e.date == selectedDate)
-                              .toList();
-                          if (selectedYaumi.isEmpty) {
-                            return Container();
-                          } else {
-                            var todayYaumi = selectedYaumi.first;
-                            return TextButton.icon(
-                                onPressed: () {
-                                  context
-                                      .read<YaumiBloc>()
-                                      .add(DeleteYaumiEvent(yaumi: todayYaumi));
-                                  Navigator.pushReplacementNamed(
-                                      context, '/yaumiSettings');
-                                },
-                                icon: const Icon(Icons.settings),
-                                label: const Text('Settings'));
-                          }
-                        },
-                      );
-                    },
-                  )
+                  TextButton.icon(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, '/yaumiSettings');
+                      },
+                      icon: const Icon(Icons.settings),
+                      label: const Text('Settings'))
                 ],
               ),
             ),
