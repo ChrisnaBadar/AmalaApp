@@ -36,6 +36,7 @@ class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
                 stream: DatabaseService().yaumiListModel,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    //TODO: Buat list data untuk tanggal sekarang dan sebelum.....
                     final userData = snapshot.data;
                     final userGroupData = userData!
                         .where((e) => e.uidGroup == state.uidGroup)

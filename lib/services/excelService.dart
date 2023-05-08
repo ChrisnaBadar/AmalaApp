@@ -382,6 +382,10 @@ class ExcelService {
     tanggalHeaderStyle.borders.all.lineStyle = LineStyle.thick;
     tanggalHeaderStyle.borders.all.color = "#ffffff";
 
+    final Style databaseTanggalStyle =
+        workbook.styles.add('databaseTanggalStyle');
+    databaseTanggalStyle.numberFormat = 'dd/MM/yyyy';
+
     final Style tanggalHeaderFormatStyle =
         workbook.styles.add('tanggalHeaderFormatStyle');
     tanggalHeaderFormatStyle.hAlign = HAlignType.center;
@@ -408,7 +412,7 @@ class ExcelService {
     afterTable2.fontColor = "#333333";
 
     //Worksheets Design and Data
-    databaseSheetYaumi(sheet2, sortedItem);
+    databaseSheetYaumi(sheet2, sortedItem, databaseTanggalStyle);
     //mainSheet
     headerDesignYaumi(sheet1, lembaga, bulan1, bulan2,
         DateFormat.y().format(DateTime.now()), headerStyle);
@@ -443,7 +447,8 @@ class ExcelService {
   }
 
   //DATABASE=====YAUMI===================================================================================================
-  Worksheet databaseSheetYaumi(Worksheet sheet2, List<YaumiModel> sortedItem) {
+  Worksheet databaseSheetYaumi(Worksheet sheet2, List<YaumiModel> sortedItem,
+      Style databaseTanggalStyle) {
     //Set Database Sheet (Sheet2)================
     // List<ExcelDataRow> excelDataRows = [];
     // excelDataRows = sortedItem.map<ExcelDataRow>((e) {
@@ -474,6 +479,8 @@ class ExcelService {
     sheet2.importList(sortedItem.map((e) => e.nama).toList(), 2, 2, true);
     sheet2.importList(
         sortedItem.map((e) => julianDayNumber(e.date)).toList(), 2, 3, true);
+    sheet2.getRangeByName('C2:C${sortedItem.length}').cellStyle =
+        databaseTanggalStyle;
     sheet2.importList(
         sortedItem.map((e) => e.poinHariIni).toList(), 2, 4, true);
     // for (var i = 0; i < sortedItem.length; i++) {
@@ -535,7 +542,8 @@ class ExcelService {
     sheet1.importList(listNama, 6, 1, true);
     //import tanggal dari 21 bulanSebelum - 20 bulanBerjalan
     sheet1.importList(
-        List.generate(31, (index) => myDate.add(Duration(days: index))),
+        List.generate(
+            31, (index) => julianDayNumber(myDate.add(Duration(days: index)))),
         5,
         2,
         false);
@@ -547,7 +555,7 @@ class ExcelService {
           List.generate(listNama.length, //reference data anggota
               (index) {
             return sheet1.getRangeByName('${colls[i + 2]}${index + 6}').setFormula(
-                'IFERROR(VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length + 1},4,FALSE),"")');
+                'IFERROR(VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length + 1},4,FALSE),0)');
 
             //old formula
             // 'IFERROR(ROUNDUP(ARRAYFORMULA(VLOOKUP(A${index + 6}&" "&${colls[i + 2]}5,{Sheet2!A2:A${sortedItem.length}&" "&Sheet2!B2:B${sortedItem.length},Sheet2!C2:C${sortedItem.length}},2,FALSE))),"")'
