@@ -169,7 +169,8 @@ class ExcelService {
       return ExcelDataRow(cells: [
         ExcelDataCell(columnHeader: 'helper', value: '${e.nama}${e.tanggal}'),
         ExcelDataCell(columnHeader: 'nama', value: e.nama),
-        ExcelDataCell(columnHeader: 'tanggal', value: e.tanggal),
+        ExcelDataCell(
+            columnHeader: 'tanggal', value: DateFormat.yMd().format(e.date)),
         ExcelDataCell(columnHeader: 'status', value: e.kehadiran)
       ]);
     }).toList();
