@@ -11,6 +11,7 @@ import '../models/yaumi_model.dart';
 
 class ExcelService {
   final Workbook workbook = new Workbook();
+  var epoch = new DateTime(1899, 12, 30);
 
   Future<void> generateAbsenSheet(
       {required List<AbsenModel> absenModel,
@@ -161,16 +162,19 @@ class ExcelService {
     Share.shareXFiles([xFile]);
   }
 
+  int julianDayNumber(DateTime date) => date.difference(epoch).inDays;
+
   //DATABASE===================================================================================================
   Worksheet databaseSheetAbsen(Worksheet sheet2, List<AbsenModel> sortedItem) {
     //Set Database Sheet (Sheet2)================
     List<ExcelDataRow> excelDataRows = [];
     excelDataRows = sortedItem.map<ExcelDataRow>((e) {
       return ExcelDataRow(cells: [
-        ExcelDataCell(columnHeader: 'helper', value: '${e.nama}${e.tanggal}'),
-        ExcelDataCell(columnHeader: 'nama', value: e.nama),
         ExcelDataCell(
-            columnHeader: 'tanggal', value: DateFormat.yMd().format(e.date)),
+            columnHeader: 'helper',
+            value: '${e.nama}${julianDayNumber(e.date)}'),
+        ExcelDataCell(columnHeader: 'nama', value: e.nama),
+        ExcelDataCell(columnHeader: 'tanggal', value: julianDayNumber(e.date)),
         ExcelDataCell(columnHeader: 'status', value: e.kehadiran)
       ]);
     }).toList();
@@ -283,6 +287,15 @@ class ExcelService {
     sheet1
         .getRangeByIndex(intColAfterTable, 2, intColAfterTable + 4, 16)
         .cellStyle = afterTable2;
+
+    sheet1.getRangeByIndex(intColAfterTable + 6, 2).setValue(
+        '1. Jika angka tidak muncul atau error di Sheet1 maka highlight seluruh kolom C di Sheet 2.');
+    sheet1.getRangeByIndex(intColAfterTable + 7, 2).setValue(
+        '2. Pilih "Format" - "Number" - "Date" untuk merubah tipe data di kolom C menjadi tanggal.');
+    sheet1.getRangeByIndex(intColAfterTable + 8, 2).setValue(
+        '3. Jika masih error kemungkinan formula GSheet telah terupdate.');
+    sheet1.getRangeByIndex(intColAfterTable + 9, 2).setValue(
+        '4. Jika itu terjadi silahkan mengacu pada nilai angka anggota di Sheet2 untuk membuat formula baru.');
 
     return sheet1;
   }
@@ -460,10 +473,7 @@ class ExcelService {
         true);
     sheet2.importList(sortedItem.map((e) => e.nama).toList(), 2, 2, true);
     sheet2.importList(
-        sortedItem.map((e) => DateFormat('dd/MM/yyyy').format(e.date)).toList(),
-        2,
-        3,
-        true);
+        sortedItem.map((e) => julianDayNumber(e.date)).toList(), 2, 3, true);
     sheet2.importList(
         sortedItem.map((e) => e.poinHariIni).toList(), 2, 4, true);
     // for (var i = 0; i < sortedItem.length; i++) {
