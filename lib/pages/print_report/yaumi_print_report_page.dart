@@ -49,7 +49,7 @@ class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
                             .map((e) => e!.values)
                             .toList()[index]
                             .toList()).expand((element) => element).toList();
-                    final myResult = List.generate(
+                    final yaumiList = List.generate(
                         result.length,
                         (index) => YaumiModel(
                             date: result[index]['date'].toDate(),
@@ -270,7 +270,7 @@ class _YaumiPrintReportPageState extends State<YaumiPrintReportPage> {
                                   '${settingsState.reportSelectedDate + 1} ${DateFormat('MMMM yyyy', "id_ID").format(DateTime(selectedMonth.year, selectedMonth.month + 1))}',
                               month: DateFormat('MMMM yyyy', "id_ID")
                                   .format(selectedMonth),
-                              myResult: myResult,
+                              myResult: yaumiList,
                               namaLembaga: settingsState.namaLembaga,
                               myDate: DateTime(
                                   selectedMonth.year,

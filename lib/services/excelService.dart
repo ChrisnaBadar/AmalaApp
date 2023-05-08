@@ -244,8 +244,9 @@ class ExcelService {
           List.generate(listNama.length, //reference data anggota
               (index) {
             return sheet1.getRangeByName('${colls[i + 2]}${index + 6}').setFormula(
-                'IFERROR(IF(ARRAYFORMULA(VLOOKUP(A${index + 6}&" "&${colls[i + 2]}5,{Sheet2!A2:A${sortedItem.length}&" "&Sheet2!B2:B${sortedItem.length},Sheet2!C2:C${sortedItem.length}},2,FALSE))=$wfo;"O";IF(ARRAYFORMULA(VLOOKUP(A${index + 6}&" "&${colls[i + 2]}5,{Sheet2!A2:A${sortedItem.length}&" "&Sheet2!B2:B${sortedItem.length},Sheet2!C2:C${sortedItem.length}},2,FALSE))=$ijin;"I";IF(ARRAYFORMULA(VLOOKUP(A${index + 6}&" "&${colls[i + 2]}5,{Sheet2!A2:A${sortedItem.length}&" "&Sheet2!B2:B${sortedItem.length},Sheet2!C2:C${sortedItem.length}},2,FALSE))=$sakit;"S";IF(ARRAYFORMULA(VLOOKUP(A${index + 6}&" "&${colls[i + 2]}5,{Sheet2!A2:A${sortedItem.length}&" "&Sheet2!B2:B${sortedItem.length},Sheet2!C2:C${sortedItem.length}},2,FALSE))=$wfh;"H";"X"))));"")');
+                'IFERROR(VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE),0)');
 
+            //'VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE)'
             //Formula Excel
             // sheet1.getRangeByName('${colls[i+2]}${index+6}').setFormula('IFERROR(IF(LOOKUP(2;1/(Sheet2!A2:A134=Sheet1!A${index+6})/(Sheet2!B2:B134=Sheet1!${colls[i+2]}5);(Sheet2!C2:C134))=$wfo;"O";IF(LOOKUP(2;1/(Sheet2!A2:A134=Sheet1!A${index+6})/(Sheet2!B2:B134=Sheet1!${colls[i+2]}5);(Sheet2!C2:C134))=$ijin;"I";IF(LOOKUP(2;1/(Sheet2!A2:A134=Sheet1!A${index+6})/(Sheet2!B2:B134=Sheet1!${colls[i+2]}5);(Sheet2!C2:C134))=$sakit;"S";"X")));"")');
           }),
