@@ -1,13 +1,13 @@
 class MyStrings {
   MyStrings._();
 
-  static const String appVersion = '1.0.0';
+  static const String appVersion = '1.1.0';
   static const String appName = 'Amala';
   static const String allRights = 'all rights reserved';
   static const String checkingVersion = 'Checking Version';
   static const String salamShort = 'Assalamu\'alaikum, ';
   static const String loginNote =
-      'Selamat datang di aplikasi Yaumi. Silahkan melakukan login atau registrasi menggunakan akun Google melalui tombol di bawah ini.';
+      'Selamat datang di aplikasi Amala. Silahkan melakukan login atau registrasi menggunakan akun Google melalui tombol di bawah ini.';
   static const String google = 'Google';
 
   //universal Strings

@@ -90,7 +90,8 @@ class _YaumiListState extends State<YaumiList> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(' Jumlah Model: ${yaumi.length}',
+                                        Text(
+                                            ' Data yaumi lokal: ${yaumi.length}',
                                             style: const TextStyle(
                                                 fontSize: 12.0,
                                                 color: Colors.blueGrey)),
@@ -107,8 +108,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.fardhu
                                       ? ListTile(
                                           title: const Text('Shalat Shubuh'),
-                                          subtitle: const Text(
-                                              'Sub Title Shalat Fardhu'),
+                                          subtitle: Text(
+                                            'Shalat fardhu berjama\'ah di masjid.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -129,8 +134,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.fardhu
                                       ? ListTile(
                                           title: const Text('Shalat Dhuhur'),
-                                          subtitle: const Text(
-                                              'Sub Title Shalat Dhuhur'),
+                                          subtitle: Text(
+                                            'Shalat fardhu berjama\'ah di masjid.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -152,7 +161,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.fardhu
                                       ? ListTile(
                                           title: const Text('Shalat Ashar'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Shalat fardhu berjama\'ah di masjid.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -174,7 +188,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.fardhu
                                       ? ListTile(
                                           title: const Text('Shalat Maghrib'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Shalat fardhu berjama\'ah di masjid.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -196,7 +215,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.fardhu
                                       ? ListTile(
                                           title: const Text('Shalat Isya'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Shalat fardhu berjama\'ah di masjid.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -218,7 +242,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.tahajud
                                       ? ListTile(
                                           title: const Text('Shalat Tahajud'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Shalat di sepertiga malam terakhir.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -240,7 +269,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.rawatib
                                       ? ListTile(
                                           title: const Text('Shalat Rawatib'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Shalat sunnah qobliah / ba\'diah.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -262,7 +296,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.dhuha
                                       ? ListTile(
                                           title: const Text('Shalat Dhuha'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Shalat Dhuha di waktu pagi.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -291,7 +330,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.shaum
                                       ? ListTile(
                                           title: const Text('Shaum Sunnah'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Senin - Kamis / Daud / Ayyamul Bid.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -313,7 +357,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.sedekah
                                       ? ListTile(
                                           title: const Text('Sedekah Harian'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Sedekah maal harian.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -335,7 +384,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.dzikir
                                       ? ListTile(
                                           title: const Text('Dzikir Pagi'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Dzikir pagi & petang.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -357,7 +411,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.dzikir
                                       ? ListTile(
                                           title: const Text('Dzikir Petang'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Dzikir pagi & petang.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -379,7 +438,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.taklim
                                       ? ListTile(
                                           title: const Text('Taklim'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Mencari ilmu setiap hari.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -401,7 +465,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.istighfar
                                       ? ListTile(
                                           title: const Text('Istighfar'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Istighfar harian 100 x sehari.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),
@@ -423,7 +492,12 @@ class _YaumiListState extends State<YaumiList> {
                                   settingsState.shalawat
                                       ? ListTile(
                                           title: const Text('Shalawat'),
-                                          subtitle: const Text('Poin Yaumi'),
+                                          subtitle: Text(
+                                            'Shalawat harian.',
+                                            style: TextStyle(
+                                                color: Colors.blueGrey[600],
+                                                fontSize: 12),
+                                          ),
                                           trailing: Checkbox(
                                               activeColor: _submitColor(
                                                   todayYaumi.isSubmitted!),

@@ -8,6 +8,7 @@ import 'package:amala/pages/home/widgets/yaumi_page.dart';
 import 'package:amala/services/admob_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:upgrader/upgrader.dart';
@@ -136,7 +137,11 @@ class _HomepageState extends State<Homepage>
     return AlertDialog(
       content: const Text('Keluar Aplikasi?'),
       actions: [
-        TextButton(onPressed: () {}, child: const Text('Yes')),
+        TextButton(
+            onPressed: () {
+              SystemNavigator.pop();
+            },
+            child: const Text('Yes')),
         TextButton(
             onPressed: () => Navigator.pop(context), child: const Text('No')),
       ],
