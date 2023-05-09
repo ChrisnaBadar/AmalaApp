@@ -1,5 +1,4 @@
 import 'package:amala/constants/my_strings.dart';
-import 'package:bloc/bloc.dart';
 import 'package:amala/blocs/bloc_exports.dart';
 import 'package:equatable/equatable.dart';
 

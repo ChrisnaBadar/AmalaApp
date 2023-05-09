@@ -513,19 +513,19 @@ class _YaumiListState extends State<YaumiList> {
     );
   }
 
-  Future _createYaumiData(
-      String id, DateTime selectedDate, String name, int modelNumbers) async {
-    Future.delayed(
-        Duration.zero,
-        () => context.read<YaumiBloc>().add(AddYaumiEvent(
-            yaumi: YaumiModel(id: id, date: selectedDate, nama: name))));
-    if (modelNumbers == (modelNumbers + 1)) {
-      return;
-    } else {
-      context.read<YaumiBloc>().add(DeleteYaumiEvent(
-          yaumi: YaumiModel(id: id, date: selectedDate, nama: name)));
-    }
-  }
+  // Future _createYaumiData(
+  //     String id, DateTime selectedDate, String name, int modelNumbers) async {
+  //   Future.delayed(
+  //       Duration.zero,
+  //       () => context.read<YaumiBloc>().add(AddYaumiEvent(
+  //           yaumi: YaumiModel(id: id, date: selectedDate, nama: name))));
+  //   if (modelNumbers == (modelNumbers + 1)) {
+  //     return;
+  //   } else {
+  //     context.read<YaumiBloc>().add(DeleteYaumiEvent(
+  //         yaumi: YaumiModel(id: id, date: selectedDate, nama: name)));
+  //   }
+  // }
 
   Color _submitColor(bool isSubmitted) {
     return isSubmitted ? Colors.green : Colors.blue;

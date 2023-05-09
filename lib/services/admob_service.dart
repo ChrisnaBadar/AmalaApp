@@ -87,12 +87,13 @@ class AdMobService {
 
   //BANNER Ad
   static final BannerAdListener bannerListener = BannerAdListener(
-      onAdLoaded: (ad) => print('adLoaded'),
-      onAdFailedToLoad: (ad, error) {
-        ad.dispose();
-      },
-      onAdOpened: (ad) => print('ad opened'),
-      onAdClosed: (ad) => print('ad closed'));
+    //onAdLoaded: (ad) => print('adLoaded'),
+    onAdFailedToLoad: (ad, error) {
+      ad.dispose();
+    },
+    //onAdOpened: (ad) => print('ad opened'),
+    //onAdClosed: (ad) => print('ad closed')
+  );
 }
 
 class AppLifecycleReactor {

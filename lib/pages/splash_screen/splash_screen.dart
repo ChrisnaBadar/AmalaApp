@@ -1,14 +1,9 @@
 import 'package:amala/blocs/bloc_exports.dart';
 import 'package:amala/constants/core_data.dart';
 import 'package:amala/constants/my_strings.dart';
-import 'package:amala/models/users_model.dart';
 import 'package:amala/pages/splash_screen/controller/splash_controller.dart';
-import 'package:amala/services/database_service.dart';
-import 'package:amala/services/location_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,7 +15,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   final _splashController = SplashController();
-  final User? _user = FirebaseAuth.instance.currentUser;
   AnimationController? _animationController;
   @override
   void initState() {
@@ -43,22 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
     var appVersion = CoreData.appVersion;
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        final uid = state.uid;
-        final nama = state.nama;
-        final email = state.email;
-        final profilePicUrl = state.photoUrl;
-        return StreamBuilder<UsersModel>(
-          stream: DatabaseService(uid: uid == '' ? '-' : uid).userData,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              print('has data');
-              final userModel = snapshot.data;
-            } else {
-              print('no data');
-            }
-            return _mainBody(appVersion);
-          },
-        );
+        return _mainBody(appVersion);
       },
     );
   }

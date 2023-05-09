@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class YaumiModel extends Equatable {
   final String id;
   final DateTime date;

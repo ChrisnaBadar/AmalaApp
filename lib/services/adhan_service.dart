@@ -1,8 +1,6 @@
 import 'package:adhan/adhan.dart';
 import 'package:alarm/alarm.dart';
-import 'package:alarm/model/alarm_settings.dart';
 import 'package:intl/intl.dart';
-
 import '../constants/core_data.dart';
 import '../constants/my_strings.dart';
 
@@ -49,73 +47,77 @@ class AdhanService {
   }
 
   Future<void> setAdhanAlarm(bool activated) async {
-    final AlarmSettings dhuhurAlarmSettings = AlarmSettings(
-      id: 2,
-      dateTime: prayerTimes!.dhuhr,
-      assetAudioPath: MyStrings.adhanSound,
-      loopAudio: false,
-      vibrate: true,
-      fadeDuration: 3.0,
-      notificationTitle: 'Shalat Dhuhur',
-      notificationBody: 'Saatnya berangkat ke Masjid',
-      enableNotificationOnKill: true,
-    );
-    final AlarmSettings shubuhAlarmSettings = AlarmSettings(
-      id: 1,
-      dateTime: prayerTimes!.fajr,
-      assetAudioPath: MyStrings.adhanSound,
-      loopAudio: false,
-      vibrate: true,
-      fadeDuration: 3.0,
-      notificationTitle: 'Shalat Shubuh',
-      notificationBody: 'Saatnya berangkat ke Masjid',
-      enableNotificationOnKill: true,
-    );
-    final AlarmSettings asharAlarmSettings = AlarmSettings(
-      id: 3,
-      dateTime: prayerTimes!.asr,
-      assetAudioPath: MyStrings.adhanSound,
-      loopAudio: false,
-      vibrate: true,
-      fadeDuration: 3.0,
-      notificationTitle: 'Shalat Ashar',
-      notificationBody: 'Saatnya berangkat ke Masjid',
-      enableNotificationOnKill: true,
-    );
-    final AlarmSettings maghribAlarmSettings = AlarmSettings(
-      id: 4,
-      dateTime: prayerTimes!.maghrib,
-      assetAudioPath: MyStrings.adhanSound,
-      loopAudio: false,
-      vibrate: true,
-      fadeDuration: 3.0,
-      notificationTitle: 'Shalat Maghrib',
-      notificationBody: 'Saatnya berangkat ke Masjid',
-      enableNotificationOnKill: true,
-    );
-    final AlarmSettings isyaAlarmSettings = AlarmSettings(
-      id: 5,
-      dateTime: prayerTimes!.isha,
-      assetAudioPath: MyStrings.adhanSound,
-      loopAudio: false,
-      vibrate: true,
-      fadeDuration: 3.0,
-      notificationTitle: 'Shalat Isya',
-      notificationBody: 'Saatnya berangkat ke Masjid',
-      enableNotificationOnKill: true,
-    );
-    if (activated) {
-      await Alarm.set(alarmSettings: shubuhAlarmSettings);
-      await Alarm.set(alarmSettings: dhuhurAlarmSettings);
-      await Alarm.set(alarmSettings: asharAlarmSettings);
-      await Alarm.set(alarmSettings: maghribAlarmSettings);
-      await Alarm.set(alarmSettings: isyaAlarmSettings);
-    } else {
-      await Alarm.stop(1);
-      await Alarm.stop(2);
-      await Alarm.stop(3);
-      await Alarm.stop(4);
-      await Alarm.stop(5);
+    if (shubuh != null) {
+      final AlarmSettings shubuhAlarmSettings = AlarmSettings(
+        id: 1,
+        dateTime: shubuh!,
+        assetAudioPath: MyStrings.adhanSound,
+        loopAudio: false,
+        vibrate: true,
+        fadeDuration: 3.0,
+        notificationTitle: 'Shalat Shubuh',
+        notificationBody: 'Saatnya berangkat ke Masjid',
+        enableNotificationOnKill: true,
+      );
+      activated ? Alarm.set(alarmSettings: shubuhAlarmSettings) : Alarm.stop(1);
+    }
+    if (dhuhur != null) {
+      final AlarmSettings dhuhurAlarmSettings = AlarmSettings(
+        id: 2,
+        dateTime: dhuhur!,
+        assetAudioPath: MyStrings.adhanSound,
+        loopAudio: false,
+        vibrate: true,
+        fadeDuration: 3.0,
+        notificationTitle: 'Shalat Dhuhur',
+        notificationBody: 'Saatnya berangkat ke Masjid',
+        enableNotificationOnKill: true,
+      );
+      activated ? Alarm.set(alarmSettings: dhuhurAlarmSettings) : Alarm.stop(2);
+    }
+    if (ashar != null) {
+      final AlarmSettings asharAlarmSettings = AlarmSettings(
+        id: 3,
+        dateTime: ashar!,
+        assetAudioPath: MyStrings.adhanSound,
+        loopAudio: false,
+        vibrate: true,
+        fadeDuration: 3.0,
+        notificationTitle: 'Shalat Ashar',
+        notificationBody: 'Saatnya berangkat ke Masjid',
+        enableNotificationOnKill: true,
+      );
+      activated ? Alarm.set(alarmSettings: asharAlarmSettings) : Alarm.stop(3);
+    }
+    if (maghrib != null) {
+      final AlarmSettings maghribAlarmSettings = AlarmSettings(
+        id: 4,
+        dateTime: maghrib!,
+        assetAudioPath: MyStrings.adhanSound,
+        loopAudio: false,
+        vibrate: true,
+        fadeDuration: 3.0,
+        notificationTitle: 'Shalat Maghrib',
+        notificationBody: 'Saatnya berangkat ke Masjid',
+        enableNotificationOnKill: true,
+      );
+      activated
+          ? Alarm.set(alarmSettings: maghribAlarmSettings)
+          : Alarm.stop(4);
+    }
+    if (isya != null) {
+      final AlarmSettings isyaAlarmSettings = AlarmSettings(
+        id: 5,
+        dateTime: prayerTimes!.isha,
+        assetAudioPath: MyStrings.adhanSound,
+        loopAudio: false,
+        vibrate: true,
+        fadeDuration: 3.0,
+        notificationTitle: 'Shalat Isya',
+        notificationBody: 'Saatnya berangkat ke Masjid',
+        enableNotificationOnKill: true,
+      );
+      activated ? Alarm.set(alarmSettings: isyaAlarmSettings) : Alarm.stop(5);
     }
   }
 }

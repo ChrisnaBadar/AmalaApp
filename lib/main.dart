@@ -5,8 +5,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:upgrader/upgrader.dart';
-
 import 'blocs/bloc_exports.dart';
 import 'constants/my_routes.dart';
 

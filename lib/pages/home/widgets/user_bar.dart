@@ -25,7 +25,6 @@ class _UserbarState extends State<Userbar> {
       builder: (context, settingsState) {
         return BlocBuilder<UserBloc, UserState>(
           builder: (context, userStata) {
-            final uid = userStata.uid;
             final nama = userStata.nama;
             final uidGroup = userStata.uidGroup;
             return Padding(

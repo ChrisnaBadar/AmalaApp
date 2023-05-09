@@ -1,7 +1,6 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:amala/constants/core_data.dart';
 import 'package:intl/intl.dart';
-import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
@@ -10,8 +9,8 @@ import '../models/absen_model.dart';
 import '../models/yaumi_model.dart';
 
 class ExcelService {
-  final Workbook workbook = new Workbook();
-  var epoch = new DateTime(1899, 12, 30);
+  final Workbook workbook = Workbook();
+  var epoch = DateTime(1899, 12, 30);
 
   Future<void> generateAbsenSheet(
       {required List<AbsenModel> absenModel,
@@ -20,10 +19,10 @@ class ExcelService {
     //Variables=================================
     final Worksheet sheet1 = workbook.worksheets[0];
     final Worksheet sheet2 = workbook.worksheets.addWithName('Sheet2');
-    final wfo = '"*Work Form Office / Field* (WFO)"';
-    final wfh = '"*Work From Home* (WFH)"';
-    final ijin = '"*Ijin*"';
-    final sakit = '"*Sakit*"';
+    final wfo = CoreData.list[0];
+    final wfh = CoreData.list[3];
+    final ijin = CoreData.list[2];
+    final sakit = CoreData.list[2];
     final colls = [
       "#",
       "A",
@@ -62,8 +61,8 @@ class ExcelService {
     ];
     final listNama = absenModel.map((e) => e.nama).toSet().toList();
     final bulan1 = DateFormat("MMMM", "id_ID").format(myDate);
-    final bulan2 =
-        DateFormat("MMMM", "id_ID").format(myDate.add(Duration(days: 30)));
+    final bulan2 = DateFormat("MMMM", "id_ID")
+        .format(myDate.add(const Duration(days: 30)));
     final tahunBerjalan = DateFormat("yyyy", "id_ID").format(myDate);
     final finalAbsen = absenModel
         .where((element) =>
@@ -142,7 +141,8 @@ class ExcelService {
         namaHeaderStyle,
         tanggalHeaderStyle,
         tanggalHeaderFormatStyle,
-        tableStyle);
+        tableStyle,
+        intColAfterTable);
     afterTableAbsen(sheet1, intColAfterTable, wfo, wfh, ijin, sakit,
         afterTable1, afterTable2);
 
@@ -218,7 +218,8 @@ class ExcelService {
       Style namaHeaderStyle,
       tanggalHeaderStyle,
       tanggalHeaderFormatStyle,
-      tableStyle) {
+      tableStyle,
+      int intColAfterTable) {
     //Table Design
     sheet1.getRangeByName('A5').setText('Nama');
     sheet1.getRangeByName('A4:A5').merge();
@@ -244,7 +245,9 @@ class ExcelService {
           List.generate(listNama.length, //reference data anggota
               (index) {
             return sheet1.getRangeByName('${colls[i + 2]}${index + 6}').setFormula(
-                'IFERROR(VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE),0)');
+                'IFERROR(IF(VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE)=C$intColAfterTable,B$intColAfterTable,IF(VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE)=C${intColAfterTable + 1},B${intColAfterTable + 1},IF(VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE)=C${intColAfterTable + 2},B${intColAfterTable + 2},IF(VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE)=C${intColAfterTable + 3},B${intColAfterTable + 3},B${intColAfterTable + 4})))),0)');
+
+            // 'IFERROR(IF(VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE)=C$intColAfterTable,B$intColAfterTable,VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE)=C${intColAfterTable + 1},B${intColAfterTable + 1},VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE)=C${intColAfterTable + 2},B${intColAfterTable + 2},VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE)=C${intColAfterTable + 3},B${intColAfterTable + 3},B${intColAfterTable + 4}),0)'
 
             //'VLOOKUP(A${index + 6}&${colls[i + 2]}5,Sheet2!A2:D${sortedItem.length},4,FALSE)'
             //Formula Excel
@@ -266,20 +269,20 @@ class ExcelService {
       wfh, ijin, sakit, Style afterTable1, afterTable2) {
     //After table param
     sheet1.getRangeByIndex(intColAfterTable - 1, 2).setValue('Keterangan: ');
-    sheet1.getRangeByIndex(intColAfterTable, 2).setValue('O');
+    sheet1.getRangeByIndex(intColAfterTable, 2).setValue('W');
     sheet1.getRangeByIndex(intColAfterTable + 1, 2).setValue('H');
     sheet1.getRangeByIndex(intColAfterTable + 2, 2).setValue('I');
     sheet1.getRangeByIndex(intColAfterTable + 3, 2).setValue('S');
-    sheet1.getRangeByIndex(intColAfterTable + 4, 2).setValue('X');
+    sheet1.getRangeByIndex(intColAfterTable + 4, 2).setValue('0');
 
     //after table info
-    sheet1.getRangeByIndex(intColAfterTable, 3).setValue(': $wfo');
-    sheet1.getRangeByIndex(intColAfterTable + 1, 3).setValue(': $wfh');
-    sheet1.getRangeByIndex(intColAfterTable + 2, 3).setValue(': $ijin');
-    sheet1.getRangeByIndex(intColAfterTable + 3, 3).setValue(': $sakit');
+    sheet1.getRangeByIndex(intColAfterTable, 3).setValue(wfo);
+    sheet1.getRangeByIndex(intColAfterTable + 1, 3).setValue(wfh);
+    sheet1.getRangeByIndex(intColAfterTable + 2, 3).setValue(ijin);
+    sheet1.getRangeByIndex(intColAfterTable + 3, 3).setValue(sakit);
     sheet1
         .getRangeByIndex(intColAfterTable + 4, 3)
-        .setValue(': Tidak Mengisi Absen');
+        .setValue('Tidak Mengisi Absen');
 
     sheet1
         .getRangeByIndex(intColAfterTable - 1, 2, intColAfterTable - 1, 16)
@@ -349,8 +352,8 @@ class ExcelService {
     ];
     final listNama = yaumiModel.map((e) => e.nama).toSet().toList();
     final bulan1 = DateFormat("MMMM", "id_ID").format(myDate);
-    final bulan2 =
-        DateFormat("MMMM", "id_ID").format(myDate.add(Duration(days: 30)));
+    final bulan2 = DateFormat("MMMM", "id_ID")
+        .format(myDate.add(const Duration(days: 30)));
     final finalAbsen = yaumiModel
         .where((element) =>
             DateFormat("MMMM", "id_ID").format(element.date) == bulan1 ||

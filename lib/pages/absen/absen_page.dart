@@ -300,7 +300,6 @@ class _AbsenPageState extends State<AbsenPage> {
   }
 
   Widget _absenList(List<AbsenModel> allAbsen) {
-    print('object: $allAbsen');
     if (allAbsen.isEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,

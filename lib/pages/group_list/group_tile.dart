@@ -1,13 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:amala/constants/my_strings.dart';
 import 'package:amala/models/groups_model.dart';
 import 'package:amala/services/database_service.dart';
-
 import '../../blocs/bloc_exports.dart';
-import '../../constants/core_data.dart';
 
 class GroupTile extends StatefulWidget {
   final GroupsModel groupsModel;
@@ -67,7 +63,6 @@ class _GroupTileState extends State<GroupTile> {
   Widget _buildSheet(GroupsModel groupModel, List members) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        print('uid: ${state.uid}, uidGroup: ${state.uidGroup}');
         return SizedBox(
           height: 315.0,
           child: Column(
