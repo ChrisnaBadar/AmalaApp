@@ -55,7 +55,7 @@ class Amala extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        debugShowCheckedModeBanner: !CoreData.isTestMode,
+        debugShowCheckedModeBanner: CoreData.isTestMode,
         routes: MyRoutes().routes,
       ),
     );
